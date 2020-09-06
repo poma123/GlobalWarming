@@ -21,16 +21,15 @@ public class GlobalWarming extends JavaPlugin implements SlimefunAddon {
     @Override
     public void onEnable() {
         // Read something from your config.yml
-        Config cfg = new Config(this);
+        //Config cfg = new Config(this);
 
-        if (cfg.getBoolean("options.auto-update")) {
+        //if (cfg.getBoolean("options.auto-update")) {
             // You could start an Auto-Updater for example
-        }
+        //}
 
         category = new Category(new NamespacedKey(this, "global_warming"), new CustomItem(Material.GLASS, "&2Global Warming"));
 
-        SlimefunItemStack thermometerItem = new SlimefunItemStack("THERMOMETER", Material.PLAYER_HEAD, "&eThermometer");
-        new Thermometer(category, thermometerItem, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
+        new Thermometer(category, Items.THERMOMETER, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
                 null, null, null,
                 null, null, null,
                 null, null, null
