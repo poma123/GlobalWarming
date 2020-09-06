@@ -1,20 +1,13 @@
-# Slimefun4 Addon
-This is an example Repository for a generic Slimefun4 Addon.
-In the top left is a button "Use this template", click this to create your own Addon for Slimefun4 using this basic template.
+# GlobalWarming (WIP)
+This Slimefun addon adds climate change mechanics to the game.
 
-## How to create your own addon.
-This is a template repository that you can use to create your own Slimefun4 Addon.<br>
-We have also written an extensive step-by-step tutorial which you can find here:<br>
-https://github.com/TheBusyBiscuit/Slimefun4/wiki/Developer-Guide
+## Planned mechanics
+- Per world temperature rising: When using generators and such the temperature in the world will rise because of the CO2 pollution. Each biome has a unique default temperature. When the temperature rises in a world, the biome temperatures will rise equally. (For example: Icy biomes has -5°C and deserts has 30°C. When the temp. rising is +10°C, the temp. will be 5°C in icy biomes and 40°C in deserts)
 
-## Changing some important things
-Navigate to `src/main/java` and rename the package and the .java File to your liking.<br>
-Suggestion: "me.yourname.yourproject" (all lower case) and "ProjectName.java"<br>
-Example: "me.thebusybiscuit.cooladdon" and "CoolAddon.java"
+- Forest fires
+- Ice melting
+- Slowness in extreme temperatures
+- Thirstiness in hot temperatures (like 40°C or so in the desert)
 
-Navigate to `src/main/resources/plugin.yml` and change the "author" and "main" attributes.
-You may also want to change the description to something meaningful.
-
-Navigate to `pom.xml` and change the group id to "me.%Your name%" and change the artifact id to the name of your Project.
-
-After that you are good to go, you can now start developing your own Addon for Slimefun4.
+## Items
+- Thermometer: A placeable block which indicates the current temperature in that biome. (You can change the temperature scale with a right click. Available types: Celsius, Fahrenheit, Kelvin)
