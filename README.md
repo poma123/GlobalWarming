@@ -10,4 +10,4 @@ This Slimefun addon adds climate change mechanics to the game.
 - Thirstiness in hot temperatures (like 40°C or so in the desert)
 
 ## Items
-- Thermometer
+- Thermometer: A placeable block which indicates the current temperature in that biome. (You can change the temperature scale with a right click. Available types: Celsius, Fahrenheit, Kelvin)
