@@ -14,7 +14,7 @@ public class TemperatureUtils {
     }
 
     public static String getTemperatureString(Block b, TemperatureType tempType) {
-        Temperature temp = new Temperature(10);
+        Temperature temp = new Temperature(10, tempType);
         double celsiusValue = temp.getCelsiusValue();
         String prefix;
 
@@ -28,6 +28,6 @@ public class TemperatureUtils {
             prefix = "&c" + HOT;
         }
 
-        return prefix + " " + (tempType == TemperatureType.CELSIUS ? celsiusValue + " &7°C" : temp.getFahrenheitValue() + " &7°F");
+        return prefix + " " + temp.getConvertedValue() + " &7" + temp.getTemperatureType().getSuffix();
     }
 }

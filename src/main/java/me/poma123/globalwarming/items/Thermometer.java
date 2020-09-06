@@ -67,6 +67,8 @@ public class Thermometer extends SlimefunItem {
 
                 if (saved == TemperatureType.CELSIUS) {
                     saved = TemperatureType.FAHRENHEIT;
+                } else if (saved == TemperatureType.FAHRENHEIT) {
+                    saved = TemperatureType.KELVIN;
                 } else {
                     saved = TemperatureType.CELSIUS;
                 }
