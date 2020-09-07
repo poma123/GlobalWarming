@@ -73,6 +73,8 @@ public class Thermometer extends SlimefunItem {
             else {
                 SlimefunPlugin.getLocalization().sendMessage(p, "inventory.no-access", true);
             }
+            
+            e.cancel();
         };
     }
 
