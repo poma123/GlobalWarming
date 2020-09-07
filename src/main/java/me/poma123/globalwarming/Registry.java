@@ -7,17 +7,15 @@ import java.util.EnumMap;
 import java.util.Map;
 
 public class Registry {
-
-    private final Map<Biome, Double> biomeTemperatures = new EnumMap<>(Biome.class);
+    private final Map<Biome, Double> defaultBiomeTemperatures = new EnumMap<>(Biome.class);
 
     public void load(Config cfg) {
-
         for (String biome : cfg.getKeys("default-biome-temperatures")) {
-            biomeTemperatures.put(Biome.valueOf(biome), 2.0);
+            defaultBiomeTemperatures.put(Biome.valueOf(biome), cfg.getDouble("default-biome-temperatures." + biome));
         }
     }
 
     public Map<Biome, Double> getDefaultBiomeTemperatures() {
-        return biomeTemperatures;
+        return defaultBiomeTemperatures;
     }
 }

@@ -12,12 +12,8 @@ import java.util.EnumMap;
 import java.util.Map;
 
 public class TemperatureUtils {
-
     public static final String COLD = "❄";
     public static final String HOT = "☀";
-
-    private TemperatureUtils() {
-    }
 
     public static String getTemperatureString(Location loc, TemperatureType tempType) {
         Temperature temp = getTemperatureAtLocation(loc);

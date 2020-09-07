@@ -33,11 +33,6 @@ public class GlobalWarming extends JavaPlugin implements SlimefunAddon {
         // Read something from your config.yml
         Config cfg = new Config(this);
 
-
-        //if (cfg.getBoolean("options.auto-update")) {
-            // You could start an Auto-Updater for example
-        //}
-
         // Add missing biomes to the config
         for (Biome biome : Biome.values()) {
             if (cfg.getValue("default-biome-temperatures." + biome.name()) == null) {

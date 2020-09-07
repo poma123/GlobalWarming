@@ -20,7 +20,7 @@ public class Temperature {
     }
 
     public double getFahrenheitValue() {
-        return celsiusValue*1.8+32;
+        return celsiusValue * 1.8 + 32;
     }
 
     public double getKelvinValue() {

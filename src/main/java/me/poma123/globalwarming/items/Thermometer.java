@@ -2,6 +2,7 @@ package me.poma123.globalwarming.items;
 
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -67,9 +68,11 @@ public class Thermometer extends SlimefunItem {
                 }
 
                 BlockStorage.addBlockInfo(b,"type", saved.name());
-                e.getPlayer().sendMessage("§7Temperature type: §e" + saved.toString());
+                p.sendMessage("§7Temperature type: §e" + saved.toString());
             }
-
+            else {
+                SlimefunPlugin.getLocalization().sendMessage(p, "inventory.no-access", true);
+            }
         };
     }
 
