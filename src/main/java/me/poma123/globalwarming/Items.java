@@ -1,8 +1,6 @@
 package me.poma123.globalwarming;
 
-import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import org.bukkit.Material;
 
 public class Items {
 

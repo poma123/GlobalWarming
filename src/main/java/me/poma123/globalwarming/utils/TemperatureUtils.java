@@ -1,14 +1,11 @@
 package me.poma123.globalwarming.utils;
 
 import me.poma123.globalwarming.GlobalWarming;
-import me.poma123.globalwarming.Registry;
 import me.poma123.globalwarming.objects.Temperature;
 import me.poma123.globalwarming.objects.TemperatureType;
 import org.bukkit.Location;
 import org.bukkit.block.Biome;
-import org.bukkit.block.Block;
 
-import java.util.EnumMap;
 import java.util.Map;
 
 public class TemperatureUtils {
