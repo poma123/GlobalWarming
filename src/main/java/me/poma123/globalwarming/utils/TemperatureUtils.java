@@ -1,8 +1,15 @@
 package me.poma123.globalwarming.utils;
 
+import me.poma123.globalwarming.GlobalWarming;
+import me.poma123.globalwarming.Registry;
 import me.poma123.globalwarming.objects.Temperature;
 import me.poma123.globalwarming.objects.TemperatureType;
+import org.bukkit.Location;
+import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
+
+import java.util.EnumMap;
+import java.util.Map;
 
 public class TemperatureUtils {
 
@@ -12,8 +19,8 @@ public class TemperatureUtils {
     private TemperatureUtils() {
     }
 
-    public static String getTemperatureString(Block b, TemperatureType tempType) {
-        Temperature temp = new Temperature(10, tempType);
+    public static String getTemperatureString(Location loc, TemperatureType tempType) {
+        Temperature temp = getTemperatureAtLocation(loc);
         double celsiusValue = temp.getCelsiusValue();
         String prefix;
 
@@ -27,6 +34,20 @@ public class TemperatureUtils {
             prefix = "&c" + HOT;
         }
 
+        temp.setTemperatureType(tempType);
+
         return prefix + " " + temp.getConvertedValue() + " &7" + temp.getTemperatureType().getSuffix();
+    }
+
+    public static Temperature getTemperatureAtLocation(Location loc) {
+        Biome b = loc.getBlock().getBiome();
+        Map<Biome, Double> tempMap = GlobalWarming.getRegistry().getDefaultBiomeTemperatures();
+        double celsiusValue = 15;
+
+        if (tempMap.containsKey(b)) {
+            celsiusValue = tempMap.get(b);
+        }
+
+        return new Temperature(celsiusValue);
     }
 }

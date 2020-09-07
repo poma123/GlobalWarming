@@ -41,4 +41,8 @@ public class Temperature {
     public TemperatureType getTemperatureType() {
         return tempType;
     }
+
+    public void setTemperatureType(TemperatureType tempType) {
+        this.tempType = tempType;
+    }
 }

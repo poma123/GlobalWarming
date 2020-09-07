@@ -92,6 +92,6 @@ public class Thermometer extends SlimefunItem {
     }
 
     private void tick(@Nonnull Block b) {
-        SimpleHologram.update(b, TemperatureUtils.getTemperatureString(b, TemperatureType.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "type"))));
+        SimpleHologram.update(b, TemperatureUtils.getTemperatureString(b.getLocation(), TemperatureType.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "type"))));
     }
 }
