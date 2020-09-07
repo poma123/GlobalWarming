@@ -11,6 +11,6 @@ This Slimefun addon adds climate change mechanics to the game.
 - Burning in very hot temperatures*
 - And config options to configure default biome temperatures & enable/disable these mechanics
 
-\* configurable in the config. There will be also an option to enable these mechanics only for players, who have a specific research. (For example the knowledge of Energy regulator.)
+\* There will be also a config option to enable these mechanics only for players, who have a specific research. (For example the knowledge of Energy regulator.)
 ## Items
 - Thermometer: A placeable block which indicates the current temperature in that biome. (You can change the temperature scale with a right click. Available types: Celsius, Fahrenheit, Kelvin)
