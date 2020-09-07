@@ -1,7 +1,6 @@
-package me.poma123.globalwarming;
+package me.poma123.globalwarming.objects;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public class Temperature {
     private static double celsiusValue;

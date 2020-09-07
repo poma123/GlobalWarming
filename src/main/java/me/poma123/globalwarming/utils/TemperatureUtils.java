@@ -1,8 +1,7 @@
 package me.poma123.globalwarming.utils;
 
-import me.poma123.globalwarming.Temperature;
-import me.poma123.globalwarming.TemperatureType;
-import net.md_5.bungee.api.ChatColor;
+import me.poma123.globalwarming.objects.Temperature;
+import me.poma123.globalwarming.objects.TemperatureType;
 import org.bukkit.block.Block;
 
 public class TemperatureUtils {
