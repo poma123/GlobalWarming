@@ -11,6 +11,7 @@ This Slimefun addon adds climate change mechanics to the game.
 - Thirstiness in hot temperatures* (like 40°C or so in the desert/nether)
 - Burning in very hot temperatures*
 - And config options to configure default biome temperatures & enable/disable these mechanics
+- Maybe some integration with EcoPower addon?
 
 \* There will be also a config option to enable these mechanics only for players, who have a specific research. (For example the knowledge of Energy regulator.)
 ## Items
