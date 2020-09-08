@@ -37,19 +37,21 @@ public class TemperatureUtils {
     }
 
     public static Temperature getTemperatureAtLocation(Location loc) {
-        World w = loc.getWorld();
-        Biome b = loc.getBlock().getBiome();
+        World world = loc.getWorld();
+        Biome biome = loc.getBlock().getBiome();
         Map<Biome, Double> tempMap = GlobalWarming.getRegistry().getDefaultBiomeTemperatures();
         double celsiusValue = 15;
 
-        if (tempMap.containsKey(b)) {
-            celsiusValue = tempMap.get(b);
+        if (tempMap.containsKey(biome)) {
+            celsiusValue = tempMap.get(biome);
         }
 
-        if (!isDaytime(w)) {
-            celsiusValue = celsiusValue - NIGHT_TEMPERATURE_DROP;
-        } else if (w.hasStorm()) {
-            celsiusValue = celsiusValue - STORM_TEMPERATURE_DROP;
+        if (world.getEnvironment() == World.Environment.NORMAL) {
+            if (!isDaytime(world)) {
+                celsiusValue = celsiusValue - NIGHT_TEMPERATURE_DROP;
+            } else if (world.hasStorm()) {
+                celsiusValue = celsiusValue - STORM_TEMPERATURE_DROP;
+            }
         }
 
         return new Temperature(celsiusValue);
