@@ -28,15 +28,15 @@ public class GlobalWarming extends JavaPlugin implements SlimefunAddon {
 
         // Add missing biomes to the config
         for (Biome biome : Biome.values()) {
-            if (cfg.getValue("default-biome-temperatures." + biome.name()) == null) {
-                cfg.setValue("default-biome-temperatures." + biome.name(), 15);
+            if (cfg.getValue("options.default-biome-temperatures." + biome.name()) == null) {
+                cfg.setValue("options.default-biome-temperatures." + biome.name(), 15);
             }
         }
 
         cfg.save();
         registry.load(cfg);
 
-        category = new Category(new NamespacedKey(this, "global_warming"), new CustomItem(Material.GLASS, "&2Global Warming"));
+        category = new Category(new NamespacedKey(this, "global_warming"), new CustomItem(Items.THERMOMETER, "&2Global Warming"));
 
         // Empty craft for now...
         new Thermometer(category, Items.THERMOMETER, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {

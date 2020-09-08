@@ -10,10 +10,10 @@ import org.bukkit.block.Biome;
 import java.util.Map;
 
 public class TemperatureUtils {
-    public static final String COLD = "❄";
     public static final String HOT = "☀";
-    private static final int NIGHT_TEMPERATURE_DROP = 10;
-    private static final int STORM_TEMPERATURE_DROP = 5;
+    public static final String COLD = "❄";
+    public static final int NIGHT_TEMPERATURE_DROP = 10;
+    public static final int STORM_TEMPERATURE_DROP = 5;
 
     public static String getTemperatureString(Location loc, TemperatureType tempType) {
         Temperature temp = getTemperatureAtLocation(loc);
@@ -29,7 +29,6 @@ public class TemperatureUtils {
         } else {
             prefix = "&c" + HOT;
         }
-
         temp.setTemperatureType(tempType);
 
         return prefix + " " + temp.getConvertedValue() + " &7" + temp.getTemperatureType().getSuffix();
@@ -47,7 +46,7 @@ public class TemperatureUtils {
 
         if (!isDaytime(w)) {
             celsiusValue = celsiusValue - NIGHT_TEMPERATURE_DROP;
-        } else if (isStorming(w)) {
+        } else if (w.hasStorm()) {
             celsiusValue = celsiusValue - STORM_TEMPERATURE_DROP;
         }
 
@@ -57,9 +56,5 @@ public class TemperatureUtils {
     public static boolean isDaytime(World world) {
         long time = world.getTime();
         return (time < 12300 || time > 23850);
-    }
-
-    public static boolean isStorming(World world) {
-        return world.hasStorm();
     }
 }

@@ -11,8 +11,8 @@ public class Registry {
     private final Map<Biome, Double> defaultBiomeTemperatures = new EnumMap<>(Biome.class);
 
     public void load(Config cfg) {
-        for (String biome : cfg.getKeys("default-biome-temperatures")) {
-            double celsiusValue = cfg.getDouble("default-biome-temperatures." + biome);
+        for (String biome : cfg.getKeys("options.default-biome-temperatures")) {
+            double celsiusValue = cfg.getDouble("options.default-biome-temperatures." + biome);
 
             try {
                 defaultBiomeTemperatures.put(Biome.valueOf(biome), celsiusValue);
