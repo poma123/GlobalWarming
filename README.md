@@ -16,3 +16,4 @@ This Slimefun addon adds climate change mechanics to the game.
 \* There will be also a config option to enable these mechanics only for players, who have a specific research. (For example the knowledge of Energy regulator.)
 ## Items
 - Thermometer: A placeable block which indicates the current temperature in that biome. (You can change the temperature scale with a right click. Available types: Celsius, Fahrenheit, Kelvin)
+![image](https://user-images.githubusercontent.com/25465545/92529279-83ae2e00-f22a-11ea-9dbd-2934e9d4f740.png)
