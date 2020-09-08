@@ -3,7 +3,8 @@ This Slimefun addon adds climate change mechanics to the game.
 
 ## Planned mechanics
 - Per world temperature rising: When using generators and such the temperature in the world will rise because of the air pollution. Each biome has a unique default temperature. When the temperature rises in a world, the biome temperatures will rise equally. (For example: Icy biomes has -5°C and deserts has 30°C. When the temp. rising is +10°C, the temp. will be 5°C in icy biomes and 40°C in deserts)
-- At night, the temperature will descend by ~10°C
+- At night, the temperature will drop 10°C by default
+- When it's raining, the temperature will descend 5°C by default
 - Forest fires (near to players)
 - Ice melting (near to players)
 - Slowness in extreme temperatures*
