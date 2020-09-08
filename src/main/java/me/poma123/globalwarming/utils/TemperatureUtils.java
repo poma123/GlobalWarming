@@ -60,6 +60,6 @@ public class TemperatureUtils {
     }
 
     public static boolean isStorming(World world) {
-        return !world.hasStorm() && !world.isThundering();
+        return world.hasStorm();
     }
 }
