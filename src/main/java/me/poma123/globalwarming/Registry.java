@@ -17,7 +17,7 @@ public class Registry {
             try {
                 defaultBiomeTemperatures.put(Biome.valueOf(biome), celsiusValue);
             } catch (IllegalArgumentException ex) {
-                GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load temperature of the invalid Biome \"{0}\"", new Object[] { biome });
+                GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load temperature \"{0}\" of the invalid Biome \"{1}\"", new Object[] { celsiusValue, biome });
             }
         }
     }

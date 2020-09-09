@@ -66,7 +66,7 @@ public class Thermometer extends SlimefunItem {
                 }
 
                 BlockStorage.addBlockInfo(b,"type", saved.name());
-                p.sendMessage("§7Temperature type: §e" + saved.toString());
+                p.sendMessage("§7Temperature type: §e" + saved.getName());
             }
             else {
                 SlimefunPlugin.getLocalization().sendMessage(p, "inventory.no-access", true);

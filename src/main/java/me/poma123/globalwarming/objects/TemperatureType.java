@@ -16,7 +16,7 @@ public enum TemperatureType {
         this.suffix = suffix;
     }
 
-    public String toString() {
+    public String getName() {
         return this.name;
     }
 
