@@ -25,11 +25,15 @@ public class TemperatureUtils {
         if (celsiusValue <= 18) {
             prefix = "&b" + COLD;
         } else if (celsiusValue <= 24) {
+            prefix = "&a" + HOT;
+        } else if (celsiusValue <= 28) {
             prefix = "&e" + HOT;
         } else if (celsiusValue <= 36) {
             prefix = "&6" + HOT;
-        } else {
+        } else if (celsiusValue <= 45) {
             prefix = "&c" + HOT;
+        } else {
+            prefix = "&4" + HOT;
         }
         temp.setTemperatureType(tempType);
 

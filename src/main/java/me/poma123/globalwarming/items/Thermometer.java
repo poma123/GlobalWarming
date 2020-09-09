@@ -13,6 +13,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.poma123.globalwarming.objects.TemperatureType;
 import me.poma123.globalwarming.utils.TemperatureUtils;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -22,8 +23,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 public class Thermometer extends SlimefunItem {
-
-    private static TemperatureType temperatureType = TemperatureType.CELSIUS;
 
     @ParametersAreNonnullByDefault
     public Thermometer(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -42,11 +41,10 @@ public class Thermometer extends SlimefunItem {
             @Override
             public void onPlayerPlace(BlockPlaceEvent e) {
                 Block b = e.getBlockPlaced();
-                BlockStorage.addBlockInfo(b,"type", temperatureType.name());
+                BlockStorage.addBlockInfo(b,"type", TemperatureType.CELSIUS.name());
                 BlockStorage.addBlockInfo(b, "owner", e.getPlayer().getUniqueId().toString());
-                SimpleHologram.update(e.getBlock(), "&7Calculating...");
+                SimpleHologram.update(e.getBlock(), "&7Measuring...");
             }
-
         };
     }
 
@@ -97,6 +95,7 @@ public class Thermometer extends SlimefunItem {
     }
 
     private void tick(@Nonnull Block b) {
-        SimpleHologram.update(b, TemperatureUtils.getTemperatureString(b.getLocation(), TemperatureType.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "type"))));
+        Location loc = b.getLocation();
+        SimpleHologram.update(b, TemperatureUtils.getTemperatureString(loc, TemperatureType.valueOf(BlockStorage.getLocationInfo(loc, "type"))));
     }
 }
