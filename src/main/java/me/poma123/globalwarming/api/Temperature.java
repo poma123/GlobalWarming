@@ -1,4 +1,4 @@
-package me.poma123.globalwarming.objects;
+package me.poma123.globalwarming.api;
 
 import javax.annotation.Nonnull;
 
