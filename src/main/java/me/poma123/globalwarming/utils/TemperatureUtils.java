@@ -79,7 +79,8 @@ public class TemperatureUtils {
             }
         }
 
-        // celsiusValue = celsiusValue + GlobalWarming.getInstance().POLLUTION;
+        // Multiply by 0.5 for test porpuses only, will be configurable
+        celsiusValue = celsiusValue + (PollutionUtils.getPollutionInWorld(world) * 0.5);
 
         return new Temperature(celsiusValue);
     }

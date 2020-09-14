@@ -7,6 +7,10 @@ import me.mrCookieSlime.Slimefun.cscorelib2.config.Config;
 import me.mrCookieSlime.Slimefun.cscorelib2.item.CustomItem;
 import me.poma123.globalwarming.items.AirQualityMeter;
 import me.poma123.globalwarming.items.Thermometer;
+import me.poma123.globalwarming.listeners.PollutionListener;
+import me.poma123.globalwarming.tasks.FireTask;
+import me.poma123.globalwarming.tasks.MeltTask;
+import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -14,6 +18,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
 
 public class GlobalWarming extends JavaPlugin implements SlimefunAddon {
@@ -23,10 +28,12 @@ public class GlobalWarming extends JavaPlugin implements SlimefunAddon {
     private static GlobalWarming instance;
     private static final Registry registry = new Registry();
     private Category category;
+    private ThreadLocalRandom random;
 
     @Override
     public void onEnable() {
         instance = this;
+        random = ThreadLocalRandom.current();
 
         // Create configuration files
         cfg = new Config(this);
@@ -57,6 +64,11 @@ public class GlobalWarming extends JavaPlugin implements SlimefunAddon {
                 null, null, null,
                 null, null, null
         }).register(this);
+
+        new FireTask().scheduleRepeating(0, 20);
+        new MeltTask().scheduleRepeating(0, 20);
+
+        Bukkit.getPluginManager().registerEvents(new PollutionListener(), this);
     }
 
     public static Registry getRegistry() {
@@ -77,4 +89,7 @@ public class GlobalWarming extends JavaPlugin implements SlimefunAddon {
         return this;
     }
 
+    public ThreadLocalRandom getRandom() {
+        return random;
+    }
 }
