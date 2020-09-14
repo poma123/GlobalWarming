@@ -8,7 +8,6 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.BlockFadeEvent;
 
 import java.util.concurrent.ThreadLocalRandom;
 

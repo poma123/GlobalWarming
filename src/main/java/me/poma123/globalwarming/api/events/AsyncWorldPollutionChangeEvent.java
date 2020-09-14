@@ -1,7 +1,6 @@
 package me.poma123.globalwarming.api.events;
 
 import org.bukkit.World;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
