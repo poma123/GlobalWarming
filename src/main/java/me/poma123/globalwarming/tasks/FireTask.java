@@ -9,11 +9,11 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class FireTask extends MechanicTask {
 
-    private static final int MAX_BLOCKS_PER_CHUNK = 16;
     private static ThreadLocalRandom rnd;
 
     public FireTask() {
@@ -28,13 +28,12 @@ public class FireTask extends MechanicTask {
             for (int i = 0; i < 10; i++) {
                 int index = rnd.nextInt(count);
                 Chunk chunk = loadedChunks[index];
-                int x = (chunk.getX() << 4) + rnd.nextInt(MAX_BLOCKS_PER_CHUNK);
-                int z = (chunk.getZ() << 4) + rnd.nextInt(MAX_BLOCKS_PER_CHUNK);
+                int x = (chunk.getX() << 4) + rnd.nextInt(16);
+                int z = (chunk.getZ() << 4) + rnd.nextInt(16);
 
-                Block block = world.getHighestBlockAt(x, z).getRelative(BlockFace.UP);
-
-                if (TemperatureUtils.getTemperatureAtLocation(block.getLocation()).getCelsiusValue() >= 40) {
-                    block.setType(Material.FIRE);
+                Block current = world.getHighestBlockAt(x, z).getRelative(BlockFace.UP);
+                if (TemperatureUtils.getTemperatureAtLocation(current.getLocation()).getCelsiusValue() >= 40) {
+                    current.setType(Material.FIRE);
                 }
             }
         }
@@ -42,8 +41,12 @@ public class FireTask extends MechanicTask {
 
     @Override
     public void run() {
-        for (World w : Bukkit.getWorlds()) {
-            if (GlobalWarming.getRegistry().isWorldEnabled(w.getName()) && !(w.hasStorm() || w.isThundering()) && w.getLoadedChunks().length > 0) {
+        Set<String> enabledWorlds = GlobalWarming.getRegistry().getEnabledWorlds();
+
+        for (String worldName : enabledWorlds) {
+            World w = Bukkit.getWorld(worldName);
+
+            if (w != null && GlobalWarming.getRegistry().isWorldEnabled(w.getName()) && !(w.hasStorm() || w.isThundering()) && w.getLoadedChunks().length > 0) {
                 int rndInt = rnd.nextInt(10);
 
                 if (rndInt < 3) {

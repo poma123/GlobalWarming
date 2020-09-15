@@ -1,3 +1,20 @@
 options:
   auto-update: true
-disabled-worlds: []
+
+disabled-worlds:
+- disabled_world
+
+mechanics:
+  FOREST_FIRES:
+    enabled: true
+    chance: 0.3
+    fires-per-second: 10
+    min-temperature-in-celsius: 40
+  ICE_MELTING:
+    enabled: true
+    chance: 0.5
+    melting-per-second: 10
+    min-temperature-in-celsius: 2
+  SLOWNESS:
+    enabled: true
+    chance: 0.8

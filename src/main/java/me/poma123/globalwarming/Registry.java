@@ -10,13 +10,14 @@ import javax.annotation.Nullable;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 
 public class Registry {
     private final Map<Biome, Double> defaultBiomeTemperatures = new EnumMap<>(Biome.class);
-    private final Set<String> disabledWorlds = new HashSet<>();
+    private final Set<String> enabledWorlds = new HashSet<>();
     private Map<String, Config> worldConfigs = new HashMap<>();
 
     public void load(Config cfg, Config biomes) {
@@ -42,11 +43,15 @@ public class Registry {
             }
         }
 
-        disabledWorlds.addAll(cfg.getStringList("disabled-worlds"));
+        List<String> disabledWorlds = cfg.getStringList("disabled-worlds");
 
         // Creating world configs
         for (World w : Bukkit.getWorlds()) {
-            getWorldConfig(w);
+            if (!disabledWorlds.contains(w.getName())) {
+                enabledWorlds.add(w.getName());
+
+                getWorldConfig(w);
+            }
         }
     }
 
@@ -55,7 +60,11 @@ public class Registry {
     }
 
     public boolean isWorldEnabled(@Nonnull String worldName) {
-        return !disabledWorlds.contains(worldName);
+        return enabledWorlds.contains(worldName);
+    }
+
+    public Set<String> getEnabledWorlds() {
+        return enabledWorlds;
     }
 
     @Nullable

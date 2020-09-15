@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class SlownessTask extends MechanicTask {
@@ -25,8 +26,12 @@ public class SlownessTask extends MechanicTask {
 
     @Override
     public void run() {
-        for (World w : Bukkit.getWorlds()) {
-            if (GlobalWarming.getRegistry().isWorldEnabled(w.getName()) && w.getPlayers().size() > 0) {
+        Set<String> enabledWorlds = GlobalWarming.getRegistry().getEnabledWorlds();
+
+        for (String worldName : enabledWorlds) {
+            World w = Bukkit.getWorld(worldName);
+
+            if (w != null && GlobalWarming.getRegistry().isWorldEnabled(w.getName()) && w.getPlayers().size() > 0) {
                 for (Player p : w.getPlayers()) {
                     if (p.hasPotionEffect(PotionEffectType.SLOW)) {
                         continue;
@@ -37,16 +42,16 @@ public class SlownessTask extends MechanicTask {
                     if (rndInt < 8) {
                         Temperature temp = TemperatureUtils.getTemperatureAtLocation(p.getLocation());
                         Double celsiusValue = temp.getCelsiusValue();
-                        int amplifier = 0;
+                        int amplifier;
 
                         if (celsiusValue <= -30 || celsiusValue >= 50) {
-                            amplifier = 3;
-                        }
-                        else if (celsiusValue <= -20 || celsiusValue >= 40) {
                             amplifier = 2;
                         }
-                        else if (celsiusValue <= -10 || celsiusValue >= 36) {
+                        else if (celsiusValue <= -20 || celsiusValue >= 40) {
                             amplifier = 1;
+                        }
+                        else if (celsiusValue <= -10 || celsiusValue >= 36) {
+                            amplifier = 0;
                         }
                         else {
                             continue;
