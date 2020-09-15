@@ -24,15 +24,20 @@ public class TemperatureUtils {
 
         if (celsiusValue <= 18) {
             prefix = "&b" + COLD;
-        } else if (celsiusValue <= 24) {
+        }
+        else if (celsiusValue <= 24) {
             prefix = "&a" + HOT;
-        } else if (celsiusValue <= 28) {
+        }
+        else if (celsiusValue <= 28) {
             prefix = "&e" + HOT;
-        } else if (celsiusValue <= 36) {
+        }
+        else if (celsiusValue <= 36) {
             prefix = "&6" + HOT;
-        } else if (celsiusValue <= 45) {
+        }
+        else if (celsiusValue <= 45) {
             prefix = "&c" + HOT;
-        } else {
+        }
+        else {
             prefix = "&4" + HOT;
         }
         temp.setTemperatureType(tempType);
@@ -74,7 +79,8 @@ public class TemperatureUtils {
         if (world.getEnvironment() == World.Environment.NORMAL) {
             if (!isDaytime(world)) {
                 celsiusValue = celsiusValue - NIGHT_TEMPERATURE_DROP;
-            } else if (world.hasStorm()) {
+            }
+            else if (world.hasStorm()) {
                 celsiusValue = celsiusValue - STORM_TEMPERATURE_DROP;
             }
         }

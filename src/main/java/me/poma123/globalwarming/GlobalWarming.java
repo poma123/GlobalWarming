@@ -40,7 +40,8 @@ public class GlobalWarming extends JavaPlugin implements SlimefunAddon {
         if (!biomesFile.exists()) {
             try {
                 Files.copy(this.getClass().getResourceAsStream("/biomes.yml"), biomesFile.toPath());
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
                 getLogger().log(Level.SEVERE, "Failed to create default biomes.yml file", e);
             }
         }

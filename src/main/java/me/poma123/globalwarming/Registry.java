@@ -36,15 +36,17 @@ public class Registry {
 
             try {
                 defaultBiomeTemperatures.put(Biome.valueOf(biome), celsiusValue);
-            } catch (IllegalArgumentException ex) {
+            }
+            catch (IllegalArgumentException ex) {
                 GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load temperature \"{0}\" of the invalid biome \"{1}\"", new Object[] { celsiusValue, biome });
             }
         }
 
         disabledWorlds.addAll(cfg.getStringList("disabled-worlds"));
 
+        // Creating world configs
         for (World w : Bukkit.getWorlds()) {
-            worldConfigs.put(w.getName(), getNewWorldConfig(w));
+            getWorldConfig(w);
         }
     }
 

@@ -23,12 +23,11 @@ public class FireTask extends MechanicTask {
     private void fire(World world) {
         if (world != null) {
             Chunk[] loadedChunks = world.getLoadedChunks();
-
             int count = loadedChunks.length;
+
             for (int i = 0; i < 10; i++) {
                 int index = rnd.nextInt(count);
                 Chunk chunk = loadedChunks[index];
-
                 int x = (chunk.getX() * MAX_BLOCKS_PER_CHUNK) + rnd.nextInt(MAX_BLOCKS_PER_CHUNK);
                 int z = (chunk.getZ() * MAX_BLOCKS_PER_CHUNK) + rnd.nextInt(MAX_BLOCKS_PER_CHUNK);
 
