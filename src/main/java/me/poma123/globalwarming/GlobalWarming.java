@@ -28,12 +28,10 @@ public class GlobalWarming extends JavaPlugin implements SlimefunAddon {
     private static GlobalWarming instance;
     private static final Registry registry = new Registry();
     private Category category;
-    private ThreadLocalRandom random;
 
     @Override
     public void onEnable() {
         instance = this;
-        random = ThreadLocalRandom.current();
 
         // Create configuration files
         cfg = new Config(this);
@@ -87,9 +85,5 @@ public class GlobalWarming extends JavaPlugin implements SlimefunAddon {
     @Override
     public JavaPlugin getJavaPlugin() {
         return this;
-    }
-
-    public ThreadLocalRandom getRandom() {
-        return random;
     }
 }

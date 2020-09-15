@@ -13,7 +13,11 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class SlownessTask extends MechanicTask {
 
-    private static final ThreadLocalRandom rnd = GlobalWarming.getInstance().getRandom();
+    private static ThreadLocalRandom rnd;
+
+    public SlownessTask() {
+        rnd = ThreadLocalRandom.current();
+    }
 
     private void applyEffect(Player p, int amplifier) {
         p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20, amplifier));

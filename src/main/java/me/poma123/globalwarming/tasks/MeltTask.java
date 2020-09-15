@@ -16,7 +16,11 @@ import java.util.concurrent.ThreadLocalRandom;
 public class MeltTask extends MechanicTask {
 
     private static final int MAX_BLOCKS_PER_CHUNK = 16;
-    private static final ThreadLocalRandom rnd = GlobalWarming.getInstance().getRandom();
+    private static ThreadLocalRandom rnd;
+
+    public MeltTask() {
+        rnd = ThreadLocalRandom.current();
+    }
 
     private void melt(World world) {
         if (world != null) {

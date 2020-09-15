@@ -14,7 +14,11 @@ import java.util.concurrent.ThreadLocalRandom;
 public class FireTask extends MechanicTask {
 
     private static final int MAX_BLOCKS_PER_CHUNK = 16;
-    private static final ThreadLocalRandom rnd = GlobalWarming.getInstance().getRandom();
+    private static ThreadLocalRandom rnd;
+
+    public FireTask() {
+        rnd = ThreadLocalRandom.current();
+    }
 
     private void fire(World world) {
         if (world != null) {
