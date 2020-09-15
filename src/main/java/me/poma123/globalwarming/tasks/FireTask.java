@@ -16,9 +16,6 @@ public class FireTask extends MechanicTask {
     private static final int MAX_BLOCKS_PER_CHUNK = 16;
     private static ThreadLocalRandom rnd;
 
-    public FireTask() {
-        rnd = ThreadLocalRandom.current();
-    }
 
     private void fire(World world) {
         if (world != null) {
@@ -42,6 +39,8 @@ public class FireTask extends MechanicTask {
 
     @Override
     public void run() {
+        rnd = ThreadLocalRandom.current();
+
         for (World w : Bukkit.getWorlds()) {
             if (GlobalWarming.getRegistry().isWorldEnabled(w.getName()) && !(w.hasStorm() || w.isThundering()) && w.getLoadedChunks().length > 0) {
                 int rndInt = rnd.nextInt(10);
