@@ -28,8 +28,8 @@ public class FireTask extends MechanicTask {
             for (int i = 0; i < 10; i++) {
                 int index = rnd.nextInt(count);
                 Chunk chunk = loadedChunks[index];
-                int x = (chunk.getX() * MAX_BLOCKS_PER_CHUNK) + rnd.nextInt(MAX_BLOCKS_PER_CHUNK);
-                int z = (chunk.getZ() * MAX_BLOCKS_PER_CHUNK) + rnd.nextInt(MAX_BLOCKS_PER_CHUNK);
+                int x = (chunk.getX() << 4) + rnd.nextInt(MAX_BLOCKS_PER_CHUNK);
+                int z = (chunk.getZ() << 4) + rnd.nextInt(MAX_BLOCKS_PER_CHUNK);
 
                 Block block = world.getHighestBlockAt(x, z).getRelative(BlockFace.UP);
 
