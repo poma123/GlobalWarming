@@ -15,14 +15,16 @@ public class SlownessTask extends MechanicTask {
 
     private static ThreadLocalRandom rnd;
 
+    public SlownessTask() {
+        rnd = ThreadLocalRandom.current();
+    }
+
     private void applyEffect(Player p, int amplifier) {
         p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20, amplifier));
     }
 
     @Override
     public void run() {
-        rnd = ThreadLocalRandom.current();
-
         for (World w : Bukkit.getWorlds()) {
             if (GlobalWarming.getRegistry().isWorldEnabled(w.getName()) && w.getPlayers().size() > 0) {
                 for (Player p : w.getPlayers()) {
