@@ -1,13 +1,17 @@
 package me.poma123.globalwarming.utils;
 
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.cscorelib2.config.Config;
 import me.poma123.globalwarming.GlobalWarming;
 import me.poma123.globalwarming.api.events.AsyncWorldPollutionChangeEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
+import java.util.Map;
 
 public class PollutionUtils {
 
@@ -80,5 +84,21 @@ public class PollutionUtils {
             }
         }
         return false;
+    }
+
+    public static double isPolluted(ItemStack item) {
+        SlimefunItem sfItem = SlimefunItem.getByItem(item);
+        Map<String, Double> pollutedSlimefunItems = GlobalWarming.getRegistry().getPollutedSlimefunItems();
+        Map<Material, Double> pollutedVanillaItems = GlobalWarming.getRegistry().getPollutedVanillaItems();
+
+        if (sfItem != null && pollutedSlimefunItems.containsKey(sfItem.getID())) {
+            return pollutedSlimefunItems.get(sfItem.getID());
+        }
+
+        if (pollutedVanillaItems.containsKey(item.getType())) {
+            return pollutedVanillaItems.get(item.getType());
+        }
+
+        return 0.0;
     }
 }

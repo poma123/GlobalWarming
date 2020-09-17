@@ -1,6 +1,7 @@
 package me.poma123.globalwarming.utils;
 
 import me.poma123.globalwarming.GlobalWarming;
+import me.poma123.globalwarming.Registry;
 import me.poma123.globalwarming.api.Temperature;
 import me.poma123.globalwarming.api.TemperatureType;
 import org.bukkit.Location;
@@ -86,7 +87,7 @@ public class TemperatureUtils {
         }
 
         // Multiply by 0.5 for test porpuses only, will be configurable
-        celsiusValue = celsiusValue + (PollutionUtils.getPollutionInWorld(world) * 0.5);
+        celsiusValue = celsiusValue + (PollutionUtils.getPollutionInWorld(world) * Registry.POLLUTION_MULTIPLY);
 
         return new Temperature(celsiusValue);
     }

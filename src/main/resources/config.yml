@@ -18,3 +18,18 @@ mechanics:
   SLOWNESS:
     enabled: true
     chance: 0.8
+
+pollution:
+  items:
+    COAL: 0.01
+    CARBON: 0.01
+    COMPRESSED_CARBON: 0.01
+    CARBON_CHUNK: 0.01
+    SYNTHETIC_DIAMOND: 0.01
+    RAW_CARBONADO: 0.01
+    BUCKET_OF_OIL: 0.01
+    NETHER_ICE: 0.01
+    URANIUM: 0.01
+    BLISTERING_INGOT: 0.01
+    BLISTERING_INGOT_2: 0.01
+    BLISTERING_INGOT_3: 0.01

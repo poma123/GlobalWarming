@@ -3,13 +3,10 @@ package me.poma123.globalwarming.listeners;
 import io.github.thebusybiscuit.slimefun4.api.events.AsyncMachineProcessCompleteEvent;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.poma123.globalwarming.utils.PollutionUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-
-import java.util.Arrays;
+import org.bukkit.inventory.ItemStack;
 
 public class PollutionListener implements Listener {
 
@@ -18,9 +15,13 @@ public class PollutionListener implements Listener {
         Block b = e.getMachine();
         MachineRecipe machineRecipe = e.getMachineRecipe();
 
-        PollutionUtils.risePollutionInWorld(b.getLocation().getWorld(), 0.1);
-        /*if (Arrays.stream(machineRecipe.getInput()).anyMatch(i -> (i.getType().equals(Material.COAL)))) {
 
-        }*/
+        for (ItemStack item : machineRecipe.getInput()) {
+            double value = PollutionUtils.isPolluted(item);
+
+            if (value > 0.0) {
+                PollutionUtils.risePollutionInWorld(b.getLocation().getWorld(), value);
+            }
+        }
     }
 }

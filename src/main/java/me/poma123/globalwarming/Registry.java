@@ -1,7 +1,9 @@
 package me.poma123.globalwarming;
 
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.cscorelib2.config.Config;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
 
@@ -16,9 +18,13 @@ import java.util.Set;
 import java.util.logging.Level;
 
 public class Registry {
+    public static final Double POLLUTION_MULTIPLY = 0.002;
+
     private final Map<Biome, Double> defaultBiomeTemperatures = new EnumMap<>(Biome.class);
     private final Set<String> enabledWorlds = new HashSet<>();
-    private Map<String, Config> worldConfigs = new HashMap<>();
+    private final Map<String, Config> worldConfigs = new HashMap<>();
+    private final Map<Material, Double> pollutedVanillaItems = new EnumMap<>(Material.class);
+    private final Map<String, Double> pollutedSlimefunItems = new HashMap<>();
 
     public void load(Config cfg, Config biomes) {
         // Add missing biomes to the config
@@ -51,6 +57,25 @@ public class Registry {
                 enabledWorlds.add(w.getName());
 
                 getWorldConfig(w);
+            }
+        }
+
+
+        // Registering polluted items
+        for (String id : cfg.getKeys("pollution.items")) {
+            double value = cfg.getDouble("pollution.items." + id);
+
+            if (value <= 0.0) {
+                GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load polluted item \"{0}\" with an invalid pollution value of \"{1}\"", new Object[] { id, value });
+                continue;
+            }
+
+            if (Material.getMaterial(id) != null) {
+                pollutedVanillaItems.put(Material.getMaterial(id), value);
+            } else if (SlimefunItem.getByID(id) != null) {
+                pollutedSlimefunItems.put(id, value);
+            } else {
+                GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load polluted item \"{0}\" with a pollution value of \"{1}\"", new Object[] { id, value });
             }
         }
     }
@@ -86,5 +111,13 @@ public class Registry {
         }
 
         return config;
+    }
+
+    public Map<String, Double> getPollutedSlimefunItems() {
+        return pollutedSlimefunItems;
+    }
+
+    public Map<Material, Double> getPollutedVanillaItems() {
+        return pollutedVanillaItems;
     }
 }
