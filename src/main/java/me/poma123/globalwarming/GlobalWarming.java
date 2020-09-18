@@ -63,8 +63,13 @@ public class GlobalWarming extends JavaPlugin implements SlimefunAddon {
                 null, null, null
         }).register(this);
 
-        new FireTask().scheduleRepeating(0, 20);
-        new MeltTask().scheduleRepeating(0, 20);
+        if (cfg.getBoolean("mechanics.FOREST_FIRES.enabled")) {
+            new FireTask(cfg.getOrSetDefault("mechanics.FOREST_FIRES.min-temperature-in-celsius", 40.0), cfg.getOrSetDefault("mechanics.FOREST_FIRES.chance", 0.3), cfg.getOrSetDefault("mechanics.FOREST_FIRES.fire-per-second", 10)).scheduleRepeating(0, 20);
+        }
+
+        if (cfg.getBoolean("mechanics.ICE_MELTING.enabled")) {
+            new MeltTask().scheduleRepeating(0, 20);
+        }
 
         Bukkit.getPluginManager().registerEvents(new PollutionListener(), this);
     }

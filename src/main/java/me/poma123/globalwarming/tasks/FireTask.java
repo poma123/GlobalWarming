@@ -9,15 +9,23 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class FireTask extends MechanicTask {
 
     private static ThreadLocalRandom rnd;
+    private static double minimumTemperature;
+    private static double chance;
+    private static int fireAmount;
 
-    public FireTask() {
+    @ParametersAreNonnullByDefault
+    public FireTask(double minimumTemperature, double chance, int fireAmount) {
         rnd = ThreadLocalRandom.current();
+        this.minimumTemperature = minimumTemperature;
+        this.chance = chance;
+        this.fireAmount = fireAmount;
     }
 
     private void fire(World world) {
@@ -32,7 +40,7 @@ public class FireTask extends MechanicTask {
                 int z = (chunk.getZ() << 4) + rnd.nextInt(16);
 
                 Block current = world.getHighestBlockAt(x, z).getRelative(BlockFace.UP);
-                if (TemperatureUtils.getTemperatureAtLocation(current.getLocation()).getCelsiusValue() >= 40) {
+                if (TemperatureUtils.getTemperatureAtLocation(current.getLocation()).getCelsiusValue() >= minimumTemperature) {
                     current.setType(Material.FIRE);
                 }
             }
@@ -47,9 +55,9 @@ public class FireTask extends MechanicTask {
             World w = Bukkit.getWorld(worldName);
 
             if (w != null && GlobalWarming.getRegistry().isWorldEnabled(w.getName()) && !(w.hasStorm() || w.isThundering()) && w.getLoadedChunks().length > 0) {
-                int rndInt = rnd.nextInt(10);
+                double random = rnd.nextDouble();
 
-                if (rndInt < 3) {
+                if (random < chance) {
                     fire(w);
                 }
             }

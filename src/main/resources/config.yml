@@ -8,28 +8,29 @@ mechanics:
   FOREST_FIRES:
     enabled: true
     chance: 0.3
-    fires-per-second: 10
-    min-temperature-in-celsius: 40
+    fire-per-second: 10
+    min-temperature-in-celsius: 40.0
   ICE_MELTING:
     enabled: true
     chance: 0.5
     melting-per-second: 10
-    min-temperature-in-celsius: 2
+    min-temperature-in-celsius: 2.0
   SLOWNESS:
     enabled: true
     chance: 0.8
 
 pollution:
   items:
-    COAL: 0.01
+    COAL: 0.005
     CARBON: 0.01
-    COMPRESSED_CARBON: 0.01
-    CARBON_CHUNK: 0.01
-    SYNTHETIC_DIAMOND: 0.01
-    RAW_CARBONADO: 0.01
-    BUCKET_OF_OIL: 0.01
-    NETHER_ICE: 0.01
-    URANIUM: 0.01
-    BLISTERING_INGOT: 0.01
-    BLISTERING_INGOT_2: 0.01
-    BLISTERING_INGOT_3: 0.01
+    COMPRESSED_CARBON: 0.013
+    CARBON_CHUNK: 0.015
+    SYNTHETIC_DIAMOND: 0.015
+    RAW_CARBONADO: 0.017
+    CARBONADO: 0.02
+    BUCKET_OF_OIL: 0.015
+    NETHER_ICE: 0.02
+    URANIUM: 0.02
+    BLISTERING_INGOT: 0.025
+    BLISTERING_INGOT_2: 0.027
+    BLISTERING_INGOT_3: 0.03
