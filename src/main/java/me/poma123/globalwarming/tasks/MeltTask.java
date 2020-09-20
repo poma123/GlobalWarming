@@ -1,7 +1,9 @@
 package me.poma123.globalwarming.tasks;
 
-import me.poma123.globalwarming.GlobalWarming;
-import me.poma123.globalwarming.utils.TemperatureUtils;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
@@ -11,15 +13,23 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.event.block.BlockFadeEvent;
 
-import java.util.Set;
-import java.util.concurrent.ThreadLocalRandom;
+import me.poma123.globalwarming.GlobalWarming;
+import me.poma123.globalwarming.utils.TemperatureUtils;
+
 
 public class MeltTask extends MechanicTask {
 
-    private static ThreadLocalRandom rnd;
+    private final ThreadLocalRandom rnd;
+    private final double minimumTemperature;
+    private final double chance;
+    private final int meltAmount;
 
-    public MeltTask() {
+    @ParametersAreNonnullByDefault
+    public MeltTask(double minimumTemperature, double chance, int meltAmount) {
         rnd = ThreadLocalRandom.current();
+        this.minimumTemperature = minimumTemperature;
+        this.chance = chance;
+        this.meltAmount = meltAmount;
     }
 
     private void melt(World world) {
@@ -27,16 +37,21 @@ public class MeltTask extends MechanicTask {
             Chunk[] loadedChunks = world.getLoadedChunks();
             int count = loadedChunks.length;
 
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < meltAmount; i++) {
                 int index = rnd.nextInt(count);
                 Chunk chunk = loadedChunks[index];
                 int x = (chunk.getX() << 4) + rnd.nextInt(16);
                 int z = (chunk.getZ() << 4) + rnd.nextInt(16);
 
                 Block current = world.getHighestBlockAt(x, z);
-                if (Tag.ICE.isTagged(current.getType()) && TemperatureUtils.getTemperatureAtLocation(current.getLocation()).getCelsiusValue() >= 2) {
+                if (Tag.ICE.isTagged(current.getType()) && TemperatureUtils.getTemperatureAtLocation(current.getLocation()).getCelsiusValue() >= minimumTemperature) {
                     BlockState state = current.getState();
-                    state.setType(Material.WATER);
+
+                    if (current.getType() == Material.ICE) {
+                        state.setType(Material.WATER);
+                    } else {
+                        state.setType(Material.AIR);
+                    }
 
                     GlobalWarming.getInstance().getServer().getPluginManager().callEvent(new BlockFadeEvent(current, state));
                 }
@@ -52,9 +67,9 @@ public class MeltTask extends MechanicTask {
             World w = Bukkit.getWorld(worldName);
 
             if (w != null && GlobalWarming.getRegistry().isWorldEnabled(w.getName()) && w.getLoadedChunks().length > 0) {
-                int rndInt = rnd.nextInt(10);
+                double random = rnd.nextDouble();
 
-                if (rndInt < 3) {
+                if (random < chance) {
                     melt(w);
                 }
             }

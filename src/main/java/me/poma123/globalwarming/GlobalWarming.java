@@ -1,5 +1,15 @@
 package me.poma123.globalwarming;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.logging.Level;
+
+import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.java.JavaPlugin;
+
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -10,15 +20,7 @@ import me.poma123.globalwarming.items.Thermometer;
 import me.poma123.globalwarming.listeners.PollutionListener;
 import me.poma123.globalwarming.tasks.FireTask;
 import me.poma123.globalwarming.tasks.MeltTask;
-import org.bukkit.Bukkit;
-import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.logging.Level;
+import me.poma123.globalwarming.tasks.SlownessTask;
 
 public class GlobalWarming extends JavaPlugin implements SlimefunAddon {
 
@@ -48,6 +50,13 @@ public class GlobalWarming extends JavaPlugin implements SlimefunAddon {
 
         registry.load(cfg, biomes);
 
+        registerItems();
+        scheduleTasks();
+
+        Bukkit.getPluginManager().registerEvents(new PollutionListener(), this);
+    }
+
+    private void registerItems() {
         category = new Category(new NamespacedKey(this, "global_warming"), new CustomItem(Items.THERMOMETER, "&2Global Warming"));
 
         // Empty craft for now...
@@ -62,16 +71,20 @@ public class GlobalWarming extends JavaPlugin implements SlimefunAddon {
                 null, null, null,
                 null, null, null
         }).register(this);
+    }
 
+    private void scheduleTasks() {
         if (cfg.getBoolean("mechanics.FOREST_FIRES.enabled")) {
             new FireTask(cfg.getOrSetDefault("mechanics.FOREST_FIRES.min-temperature-in-celsius", 40.0), cfg.getOrSetDefault("mechanics.FOREST_FIRES.chance", 0.3), cfg.getOrSetDefault("mechanics.FOREST_FIRES.fire-per-second", 10)).scheduleRepeating(0, 20);
         }
 
         if (cfg.getBoolean("mechanics.ICE_MELTING.enabled")) {
-            new MeltTask().scheduleRepeating(0, 20);
+            new MeltTask(cfg.getOrSetDefault("mechanics.ICE_MELTING.min-temperature-in-celsius", 2.0), cfg.getOrSetDefault("mechanics.ICE_MELTING.chance", 0.5), cfg.getOrSetDefault("mechanics.ICE_MELTING.melt-per-second", 10)).scheduleRepeating(0, 20);
         }
 
-        Bukkit.getPluginManager().registerEvents(new PollutionListener(), this);
+        if (cfg.getBoolean("mechanics.SLOWNESS.enabled")) {
+            new SlownessTask(cfg.getOrSetDefault("mechanics.SLOWNESS.chance", 0.8)).scheduleRepeating(0, 200);
+        }
     }
 
     public static Registry getRegistry() {

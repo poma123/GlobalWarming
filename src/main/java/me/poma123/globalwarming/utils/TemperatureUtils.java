@@ -1,17 +1,19 @@
 package me.poma123.globalwarming.utils;
 
-import me.poma123.globalwarming.GlobalWarming;
-import me.poma123.globalwarming.Registry;
-import me.poma123.globalwarming.api.Temperature;
-import me.poma123.globalwarming.api.TemperatureType;
+import java.text.DecimalFormat;
+import java.util.Map;
+
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
 
-import java.text.DecimalFormat;
-import java.util.Map;
+import me.poma123.globalwarming.GlobalWarming;
+import me.poma123.globalwarming.Registry;
+import me.poma123.globalwarming.api.Temperature;
+import me.poma123.globalwarming.api.TemperatureType;
 
 public class TemperatureUtils {
+
     public static final String HOT = "☀";
     public static final String COLD = "❄";
     public static final int NIGHT_TEMPERATURE_DROP = 10;

@@ -1,27 +1,32 @@
 package me.poma123.globalwarming.tasks;
 
-import me.poma123.globalwarming.GlobalWarming;
-import me.poma123.globalwarming.api.Temperature;
-import me.poma123.globalwarming.utils.TemperatureUtils;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
+
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.Set;
-import java.util.concurrent.ThreadLocalRandom;
+import me.poma123.globalwarming.GlobalWarming;
+import me.poma123.globalwarming.api.Temperature;
+import me.poma123.globalwarming.utils.TemperatureUtils;
 
 public class SlownessTask extends MechanicTask {
 
-    private static ThreadLocalRandom rnd;
+    private final ThreadLocalRandom rnd;
+    private final double chance;
 
-    public SlownessTask() {
+    @ParametersAreNonnullByDefault
+    public SlownessTask(double chance) {
         rnd = ThreadLocalRandom.current();
+        this.chance = chance;
     }
 
-    private void applyEffect(Player p, int amplifier) {
-        p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20, amplifier));
+    private void applyEffect(Player p, int duration, int amplifier) {
+        p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, duration, amplifier));
     }
 
     @Override
@@ -37,27 +42,31 @@ public class SlownessTask extends MechanicTask {
                         continue;
                     }
 
-                    int rndInt = rnd.nextInt(10);
+                    double random = rnd.nextDouble();
 
-                    if (rndInt < 8) {
+                    if (random < chance) {
                         Temperature temp = TemperatureUtils.getTemperatureAtLocation(p.getLocation());
-                        Double celsiusValue = temp.getCelsiusValue();
+                        double celsiusValue = temp.getCelsiusValue();
                         int amplifier;
+                        int duration;
 
                         if (celsiusValue <= -30 || celsiusValue >= 50) {
                             amplifier = 2;
+                            duration = 100;
                         }
                         else if (celsiusValue <= -20 || celsiusValue >= 40) {
                             amplifier = 1;
+                            duration = 60;
                         }
                         else if (celsiusValue <= -10 || celsiusValue >= 36) {
                             amplifier = 0;
+                            duration = 40;
                         }
                         else {
                             continue;
                         }
 
-                        applyEffect(p, amplifier);
+                        applyEffect(p, duration, amplifier);
                     }
                 }
             }

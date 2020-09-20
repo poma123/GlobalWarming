@@ -13,7 +13,7 @@ mechanics:
   ICE_MELTING:
     enabled: true
     chance: 0.5
-    melting-per-second: 10
+    melt-per-second: 10
     min-temperature-in-celsius: 2.0
   SLOWNESS:
     enabled: true
@@ -34,3 +34,4 @@ pollution:
     BLISTERING_INGOT: 0.025
     BLISTERING_INGOT_2: 0.027
     BLISTERING_INGOT_3: 0.03
+  machines: []

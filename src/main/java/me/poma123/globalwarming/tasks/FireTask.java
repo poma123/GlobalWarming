@@ -1,7 +1,9 @@
 package me.poma123.globalwarming.tasks;
 
-import me.poma123.globalwarming.GlobalWarming;
-import me.poma123.globalwarming.utils.TemperatureUtils;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
@@ -9,16 +11,15 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Set;
-import java.util.concurrent.ThreadLocalRandom;
+import me.poma123.globalwarming.GlobalWarming;
+import me.poma123.globalwarming.utils.TemperatureUtils;
 
 public class FireTask extends MechanicTask {
 
-    private static ThreadLocalRandom rnd;
-    private static double minimumTemperature;
-    private static double chance;
-    private static int fireAmount;
+    private final ThreadLocalRandom rnd;
+    private final double minimumTemperature;
+    private final double chance;
+    private final int fireAmount;
 
     @ParametersAreNonnullByDefault
     public FireTask(double minimumTemperature, double chance, int fireAmount) {
@@ -33,7 +34,7 @@ public class FireTask extends MechanicTask {
             Chunk[] loadedChunks = world.getLoadedChunks();
             int count = loadedChunks.length;
 
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < fireAmount; i++) {
                 int index = rnd.nextInt(count);
                 Chunk chunk = loadedChunks[index];
                 int x = (chunk.getX() << 4) + rnd.nextInt(16);
