@@ -3,6 +3,7 @@ package me.poma123.globalwarming.utils;
 import java.text.DecimalFormat;
 import java.util.Map;
 
+import me.mrCookieSlime.Slimefun.cscorelib2.math.DoubleHandler;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
@@ -18,7 +19,6 @@ public class TemperatureUtils {
     public static final String COLD = "❄";
     public static final int NIGHT_TEMPERATURE_DROP = 10;
     public static final int STORM_TEMPERATURE_DROP = 5;
-    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.0#");
 
     public static String getTemperatureString(Location loc, TemperatureType tempType) {
         Temperature temp = getTemperatureAtLocation(loc);
@@ -45,7 +45,7 @@ public class TemperatureUtils {
         }
         temp.setTemperatureType(tempType);
 
-        return prefix + " " + DECIMAL_FORMAT.format(temp.getConvertedValue()) + " &7" + tempType.getSuffix();
+        return prefix + " " + DoubleHandler.fixDouble(temp.getConvertedValue()) + " &7" + tempType.getSuffix();
     }
 
    /* public static String getAirQualityString(TemperatureType tempType) {

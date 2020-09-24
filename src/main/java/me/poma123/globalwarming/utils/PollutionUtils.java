@@ -31,12 +31,12 @@ public class PollutionUtils {
         return 0.0;
     }
 
-    public static boolean risePollutionInWorld(@Nonnull World world, Double value) {
+    public static boolean risePollutionInWorld(@Nonnull World world, double value) {
         if (GlobalWarming.getRegistry().isWorldEnabled(world.getName())) {
             Config config = GlobalWarming.getRegistry().getWorldConfig(world);
 
             if (config != null) {
-                Double oldValue = config.getDouble("data.pollution");
+                double oldValue = config.getDouble("data.pollution");
                 value = oldValue + value;
 
                 AsyncWorldPollutionChangeEvent event = new AsyncWorldPollutionChangeEvent(world, oldValue, value);
@@ -50,12 +50,12 @@ public class PollutionUtils {
         return false;
     }
 
-    public static boolean descendPollutionInWorld(@Nonnull World world, Double value) {
+    public static boolean descendPollutionInWorld(@Nonnull World world, double value) {
         if (GlobalWarming.getRegistry().isWorldEnabled(world.getName())) {
             Config config = GlobalWarming.getRegistry().getWorldConfig(world);
 
             if (config != null) {
-                Double oldValue = config.getDouble("data.pollution");
+                double oldValue = config.getDouble("data.pollution");
                 value = Math.max(oldValue - value, 0.0);
 
                 AsyncWorldPollutionChangeEvent event = new AsyncWorldPollutionChangeEvent(world, oldValue, value);
@@ -69,12 +69,12 @@ public class PollutionUtils {
         return false;
     }
 
-    public static boolean setPollutionInWorld(@Nonnull World world, Double newValue) {
+    public static boolean setPollutionInWorld(@Nonnull World world, double newValue) {
         if (GlobalWarming.getRegistry().isWorldEnabled(world.getName())) {
             Config config = GlobalWarming.getRegistry().getWorldConfig(world);
 
             if (config != null) {
-                Double oldValue = config.getDouble("data.pollution");
+                double oldValue = config.getDouble("data.pollution");
 
                 AsyncWorldPollutionChangeEvent event = new AsyncWorldPollutionChangeEvent(world, oldValue, newValue);
                 Bukkit.getPluginManager().callEvent(event);
@@ -98,6 +98,17 @@ public class PollutionUtils {
 
         if (pollutedVanillaItems.containsKey(item.getType())) {
             return pollutedVanillaItems.get(item.getType());
+        }
+
+        return 0.0;
+    }
+
+    public static double isPollutedMachine(String ID) {
+        SlimefunItem sfItem = SlimefunItem.getByID(ID);
+        Map<String, Double> pollutedSlimefunMachines = GlobalWarming.getRegistry().getPollutedSlimefunMachines();
+
+        if (sfItem != null && pollutedSlimefunMachines.containsKey(sfItem.getID())) {
+            return pollutedSlimefunMachines.get(sfItem.getID());
         }
 
         return 0.0;

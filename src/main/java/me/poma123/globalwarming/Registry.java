@@ -19,13 +19,14 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.cscorelib2.config.Config;
 
 public class Registry {
-    public static final Double POLLUTION_MULTIPLY = 0.002;
+    public static final double POLLUTION_MULTIPLY = 0.002;
 
     private final Map<Biome, Double> defaultBiomeTemperatures = new EnumMap<>(Biome.class);
     private final Set<String> enabledWorlds = new HashSet<>();
     private final Map<String, Config> worldConfigs = new HashMap<>();
     private final Map<Material, Double> pollutedVanillaItems = new EnumMap<>(Material.class);
     private final Map<String, Double> pollutedSlimefunItems = new HashMap<>();
+    private final Map<String, Double> pollutedSlimefunMachines = new HashMap<>();
 
     public void load(Config cfg, Config biomes) {
         // Add missing biomes to the config
@@ -62,7 +63,7 @@ public class Registry {
         }
 
 
-        // Registering polluted items
+        // Registering polluting items
         for (String id : cfg.getKeys("pollution.items")) {
             double value = cfg.getDouble("pollution.items." + id);
 
@@ -77,6 +78,22 @@ public class Registry {
                 pollutedSlimefunItems.put(id, value);
             } else {
                 GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load polluted item \"{0}\" with a pollution value of \"{1}\"", new Object[] { id, value });
+            }
+        }
+
+        // Registering polluting machines
+        for (String id : cfg.getKeys("pollution.machines")) {
+            double value = cfg.getDouble("pollution.machines." + id);
+
+            if (value <= 0.0) {
+                GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load polluted machine \"{0}\" with an invalid pollution value of \"{1}\"", new Object[] { id, value });
+                continue;
+            }
+
+            if (SlimefunItem.getByID(id) != null) {
+                pollutedSlimefunMachines.put(id, value);
+            } else {
+                GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load polluted machine \"{0}\" with a pollution value of \"{1}\"", new Object[] { id, value });
             }
         }
     }
@@ -116,6 +133,10 @@ public class Registry {
 
     public Map<String, Double> getPollutedSlimefunItems() {
         return pollutedSlimefunItems;
+    }
+
+    public Map<String, Double> getPollutedSlimefunMachines() {
+        return pollutedSlimefunMachines;
     }
 
     public Map<Material, Double> getPollutedVanillaItems() {
