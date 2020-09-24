@@ -14,9 +14,14 @@ public class PollutionListener implements Listener {
 
     @EventHandler
     public void onMachineProcessComplete(AsyncMachineProcessCompleteEvent e) {
-        World world = e.getMachine().getWorld();
+        World world = e.getLocation().getWorld();
         MachineRecipe machineRecipe = e.getMachineRecipe();
         double pollutionValue = 0.0;
+
+        // We don't care about generator and reactor events for now
+        if (machineRecipe == null) {
+            return;
+        }
 
         if (!GlobalWarming.getRegistry().isWorldEnabled(world.getName())) {
             return;
