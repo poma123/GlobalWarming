@@ -3,7 +3,13 @@ package me.poma123.globalwarming.items;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.poma123.globalwarming.api.TemperatureType;
+import me.poma123.globalwarming.utils.TemperatureUtils;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -34,14 +40,42 @@ public class AirQualityMeter extends SlimefunItem {
 
             @Override
             public void onPlayerPlace(BlockPlaceEvent e) {
+                Block b = e.getBlockPlaced();
+                BlockStorage.addBlockInfo(b,"type", TemperatureType.CELSIUS.name());
                 SimpleHologram.update(e.getBlock(), "&7Measuring...");
             }
+        };
+    }
+
+    @Nonnull
+    private BlockUseHandler onRightClick() {
+        return (e) -> {
+            Player p = e.getPlayer();
+            Block b = e.getClickedBlock().get();
+
+            TemperatureType saved = TemperatureType.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "type"));
+
+            if (saved == TemperatureType.CELSIUS) {
+                saved = TemperatureType.FAHRENHEIT;
+            }
+            else if (saved == TemperatureType.FAHRENHEIT) {
+                saved = TemperatureType.KELVIN;
+            }
+            else {
+                saved = TemperatureType.CELSIUS;
+            }
+
+            BlockStorage.addBlockInfo(b, "type", saved.name());
+            p.sendMessage("§7Temperature type: §e" + saved.getName());
+
+            e.cancel();
         };
     }
 
     @Override
     public void preRegister() {
         addItemHandler(onPlace());
+        addItemHandler(onRightClick());
         addItemHandler(new BlockTicker() {
 
             @Override
@@ -57,7 +91,7 @@ public class AirQualityMeter extends SlimefunItem {
     }
 
     private void tick(@Nonnull Block b) {
-        //SimpleHologram.update(b, TemperatureUtils.getAirQualityString(TemperatureType.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "type"))));
-        SimpleHologram.update(b, "&cNot finished yet.");
+        Location loc = b.getLocation();
+        SimpleHologram.update(b, TemperatureUtils.getAirQualityString(loc, TemperatureType.valueOf(BlockStorage.getLocationInfo(loc, "type"))));
     }
 }

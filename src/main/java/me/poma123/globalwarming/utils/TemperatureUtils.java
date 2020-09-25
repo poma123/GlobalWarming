@@ -3,6 +3,7 @@ package me.poma123.globalwarming.utils;
 import java.text.DecimalFormat;
 import java.util.Map;
 
+import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import me.mrCookieSlime.Slimefun.cscorelib2.math.DoubleHandler;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -48,28 +49,41 @@ public class TemperatureUtils {
         return prefix + " " + DoubleHandler.fixDouble(temp.getConvertedValue()) + " &7" + tempType.getSuffix();
     }
 
-   /* public static String getAirQualityString(TemperatureType tempType) {
-        Temperature temp = new Temperature(0.1, tempType);
-        double celsiusValue = temp.getCelsiusValue();
-        String prefix;
-        //(celsiusValue > 0 ? "&7+" : "&7-")
+      public static String getAirQualityString(Location loc, TemperatureType tempType) {
+        Temperature temp = getTemperatureAtLocation(loc);
 
-        if (celsiusValue <= -1.5 || celsiusValue >= 1.5) {
+        double currentValue = temp.getCelsiusValue();
+        double defaultValue = getDefaultBiomeTemperatureAtLocation(loc).getCelsiusValue();
+        double celsiusDifference = getDifference(currentValue, defaultValue, TemperatureType.CELSIUS);
+        String prefix;
+
+        if (celsiusDifference <= -1.5 || celsiusDifference >= 1.5) {
             prefix = "&c";
-        } else if (celsiusValue <= -0.5 || celsiusValue >= 0.5) {
+        } else if (celsiusDifference <= -0.5 || celsiusDifference >= 0.5) {
             prefix = "&e";
-        } else if (celsiusValue < 0 || celsiusValue > 0) {
+        } else if (celsiusDifference < 0 || celsiusDifference > 0) {
             prefix = "&a";
         } else {
             prefix = "&f";
         }
 
-        prefix = (celsiusValue > 0 ? "&7+" : "") + prefix;
+        double difference = getDifference(currentValue, defaultValue, tempType);
+        
+        prefix = prefix + (difference > 0 ? "+" : "");
 
-        return prefix + DECIMAL_FORMAT.format(temp.getCelsiusValue()) + " &7" + TemperatureType.CELSIUS.getSuffix();
-    }*/
+        return "&7Climate change: " + prefix + DoubleHandler.fixDouble(difference) + " &7" + tempType.getSuffix();
+    }
 
     public static Temperature getTemperatureAtLocation(Location loc) {
+        World world = loc.getWorld();
+        double celsiusValue = getDefaultBiomeTemperatureAtLocation(loc).getCelsiusValue();
+        
+        celsiusValue = celsiusValue + (PollutionUtils.getPollutionInWorld(world) * Registry.POLLUTION_MULTIPLY);
+
+        return new Temperature(celsiusValue);
+    }
+
+    public static Temperature getDefaultBiomeTemperatureAtLocation(Location loc) {
         World world = loc.getWorld();
         Biome biome = loc.getBlock().getBiome();
         Map<Biome, Double> tempMap = GlobalWarming.getRegistry().getDefaultBiomeTemperatures();
@@ -88,10 +102,21 @@ public class TemperatureUtils {
             }
         }
 
-        // Multiply by 0.5 for test porpuses only, will be configurable
-        celsiusValue = celsiusValue + (PollutionUtils.getPollutionInWorld(world) * Registry.POLLUTION_MULTIPLY);
-
         return new Temperature(celsiusValue);
+    }
+
+    public static double getDifference(double currentValue, double defaultValue, TemperatureType type) {
+
+        double convertedCurrent = new Temperature(currentValue, type).getConvertedValue();
+        double convertedDefault = new Temperature(defaultValue, type).getConvertedValue();
+
+        double difference = Math.abs(convertedCurrent - convertedDefault);
+
+        if (convertedCurrent < convertedDefault) {
+            difference = difference*-1;
+        }
+
+        return difference;
     }
 
     public static boolean isDaytime(World world) {
