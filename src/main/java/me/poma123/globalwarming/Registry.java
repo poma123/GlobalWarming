@@ -19,7 +19,9 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.cscorelib2.config.Config;
 
 public class Registry {
-    public static final double POLLUTION_MULTIPLY = 0.002;
+    private double pollutionMultiply;
+    private double treeGrowthAbsorbtion;
+    private double animalBreedPollution;
 
     private final Map<Biome, Double> defaultBiomeTemperatures = new EnumMap<>(Biome.class);
     private final Set<String> enabledWorlds = new HashSet<>();
@@ -64,8 +66,8 @@ public class Registry {
 
 
         // Registering polluting items
-        for (String id : cfg.getKeys("pollution.items")) {
-            double value = cfg.getDouble("pollution.items." + id);
+        for (String id : cfg.getKeys("pollution.production.machine-recipe-input-items")) {
+            double value = cfg.getDouble("pollution.production.machine-recipe-input-items." + id);
 
             if (value <= 0.0) {
                 GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load polluted item \"{0}\" with an invalid pollution value of \"{1}\"", new Object[] { id, value });
@@ -82,8 +84,8 @@ public class Registry {
         }
 
         // Registering polluting machines
-        for (String id : cfg.getKeys("pollution.machines")) {
-            double value = cfg.getDouble("pollution.machines." + id);
+        for (String id : cfg.getKeys("pollution.production.machines")) {
+            double value = cfg.getDouble("pollution.production.machines." + id);
 
             if (value <= 0.0) {
                 GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load polluted machine \"{0}\" with an invalid pollution value of \"{1}\"", new Object[] { id, value });
@@ -96,6 +98,10 @@ public class Registry {
                 GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load polluted machine \"{0}\" with a pollution value of \"{1}\"", new Object[] { id, value });
             }
         }
+
+        pollutionMultiply = cfg.getOrSetDefault("pollution.options.pollution-multiply", 0.002);
+        treeGrowthAbsorbtion = cfg.getOrSetDefault("pollution.absorbtion.tree-growth", 0.01);
+        animalBreedPollution = cfg.getOrSetDefault("pollution.production.animal-breed", 0.007);
     }
 
     public Map<Biome, Double> getDefaultBiomeTemperatures() {
@@ -141,5 +147,17 @@ public class Registry {
 
     public Map<Material, Double> getPollutedVanillaItems() {
         return pollutedVanillaItems;
+    }
+
+    public double getPollutionMultiply() {
+        return pollutionMultiply;
+    }
+
+    public double getTreeGrowthAbsorbtion() {
+        return treeGrowthAbsorbtion;
+    }
+
+    public double getAnimalBreedPollution() {
+        return animalBreedPollution;
     }
 }

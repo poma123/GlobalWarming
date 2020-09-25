@@ -78,7 +78,7 @@ public class TemperatureUtils {
         World world = loc.getWorld();
         double celsiusValue = getDefaultBiomeTemperatureAtLocation(loc).getCelsiusValue();
         
-        celsiusValue = celsiusValue + (PollutionUtils.getPollutionInWorld(world) * Registry.POLLUTION_MULTIPLY);
+        celsiusValue = celsiusValue + (PollutionUtils.getPollutionInWorld(world) * GlobalWarming.getRegistry().getPollutionMultiply());
 
         return new Temperature(celsiusValue);
     }

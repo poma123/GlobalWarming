@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.logging.Level;
 
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.poma123.globalwarming.items.AirCompressor;
+import me.poma123.globalwarming.tasks.BurnTask;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -60,6 +63,12 @@ public class GlobalWarming extends JavaPlugin implements SlimefunAddon {
         category = new Category(new NamespacedKey(this, "global_warming"), new CustomItem(Items.THERMOMETER, "&2Global Warming"));
 
         // Empty craft for now...
+        new SlimefunItem(category, Items.EMPTY_CANISTER, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
+                null, null, null,
+                null, null, null,
+                null, null, null
+        }).register(this);
+
         new Thermometer(category, Items.THERMOMETER, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
                 null, null, null,
                 null, null, null,
@@ -71,6 +80,27 @@ public class GlobalWarming extends JavaPlugin implements SlimefunAddon {
                 null, null, null,
                 null, null, null
         }).register(this);
+
+        new AirCompressor(category, Items.AIR_COMPRESSOR, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
+                null, null, null,
+                null, null, null,
+                null, null, null
+        }) {
+            @Override
+            public int getEnergyConsumption() {
+                return 8;
+            }
+
+            @Override
+            public int getCapacity() {
+                return 256;
+            }
+
+            @Override
+            public int getSpeed() {
+                return 1;
+            }
+        }.register(this);
     }
 
     private void scheduleTasks() {
@@ -84,6 +114,10 @@ public class GlobalWarming extends JavaPlugin implements SlimefunAddon {
 
         if (cfg.getBoolean("mechanics.SLOWNESS.enabled")) {
             new SlownessTask(cfg.getOrSetDefault("mechanics.SLOWNESS.chance", 0.8)).scheduleRepeating(0, 200);
+        }
+
+        if (cfg.getBoolean("mechanics.BURNING.enabled")) {
+            new BurnTask(cfg.getOrSetDefault("mechanics.BURNING.chance", 0.8)).scheduleRepeating(0, 200);
         }
     }
 

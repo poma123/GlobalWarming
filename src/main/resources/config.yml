@@ -18,24 +18,32 @@ mechanics:
   SLOWNESS:
     enabled: true
     chance: 0.8
-
+  BURN:
+    enabled: true
+    chance: 0.8
 pollution:
-  items:
-    COAL: 0.005
-    CARBON: 0.01
-    COMPRESSED_CARBON: 0.013
-    CARBON_CHUNK: 0.015
-    SYNTHETIC_DIAMOND: 0.015
-    RAW_CARBONADO: 0.017
-    CARBONADO: 0.02
-    BUCKET_OF_OIL: 0.015
-    NETHER_ICE: 0.02
-    URANIUM: 0.02
-    BLISTERING_INGOT: 0.025
-    BLISTERING_INGOT_2: 0.027
-    BLISTERING_INGOT_3: 0.03
-  machines:
-    COAL_GENERATOR: 0.01
-    COAL_GENERATOR_2: 0.01
-    NUCLEAR_REACTOR: 0.01
-    COMBUSTION_REACTOR: 0.01
+  production:
+    machine-recipe-input-items:
+      COAL: 0.005
+      CARBON: 0.01
+      COMPRESSED_CARBON: 0.013
+      CARBON_CHUNK: 0.015
+      SYNTHETIC_DIAMOND: 0.015
+      RAW_CARBONADO: 0.017
+      CARBONADO: 0.02
+      BUCKET_OF_OIL: 0.015
+      NETHER_ICE: 0.02
+      URANIUM: 0.02
+      BLISTERING_INGOT: 0.025
+      BLISTERING_INGOT_2: 0.027
+      BLISTERING_INGOT_3: 0.03
+    machines:
+      COAL_GENERATOR: 0.01
+      COAL_GENERATOR_2: 0.01
+      NUCLEAR_REACTOR: 0.01
+      COMBUSTION_REACTOR: 0.01
+    animal-breed: 0.007
+  absorbtion:
+    tree-growth: 0.01
+  options:
+    pollution-multiply: 0.002
