@@ -92,6 +92,11 @@ public class PollutionListener implements Listener {
         }
     }
 
+    @EventHandler
+    public void onPollutionChange(AsyncWorldPollutionChangeEvent e) {
+        Bukkit.broadcast("Pollution changed in world '" + e.getWorld().getName() + "'. oldValue=" + e.getOldValue() + " newValue=" + e.getNewValue() + " ACTUAL CHANGE=" + (e.getNewValue()-e.getOldValue()), "");
+    }
+
     private double calculatePollutionValue(String ID, ItemStack[] recipeInput) {
         double pollutionValue = 0.0;
         
