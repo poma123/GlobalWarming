@@ -4,8 +4,15 @@ import org.bukkit.World;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+/**
+ * This {@link Event} is fired whenever the pollution level has changed in a {@link World}.
+ *
+ * @author poma123
+ *
+ */
 public class AsyncWorldPollutionChangeEvent extends Event {
     public static final HandlerList handlerList = new HandlerList();
 
@@ -22,24 +29,27 @@ public class AsyncWorldPollutionChangeEvent extends Event {
         this.newValue = newValue;
     }
 
-    @Override
-    public HandlerList getHandlers() {
-        return handlerList;
+    @Nonnull
+    public World getWorld() {
+        return world;
+    }
+
+    @Nonnull
+    public double getOldValue() {
+        return oldValue;
+    }
+
+    @Nonnull
+    public double getNewValue() {
+        return newValue;
     }
 
     public static HandlerList getHandlerList() {
         return handlerList;
     }
 
-    public World getWorld() {
-        return world;
-    }
-
-    public double getOldValue() {
-        return oldValue;
-    }
-
-    public double getNewValue() {
-        return newValue;
+    @Override
+    public HandlerList getHandlers() {
+        return getHandlerList();
     }
 }

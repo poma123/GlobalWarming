@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.events.AsyncMachineProcessCompleteEvent;
 import me.poma123.globalwarming.GlobalWarming;
-import me.poma123.globalwarming.utils.PollutionUtils;
+import me.poma123.globalwarming.api.PollutionManager;
 
 public class PollutionListener implements Listener {
 
@@ -28,7 +28,7 @@ public class PollutionListener implements Listener {
         double pollutionValue = calculatePollutionValue(e.getMachine().getID(), e.getMachineRecipe().getInput());
 
         if (pollutionValue > 0.0) {
-            PollutionUtils.risePollutionInWorld(world, pollutionValue);
+            PollutionManager.risePollutionInWorld(world, pollutionValue);
         }
     }
 
@@ -43,7 +43,7 @@ public class PollutionListener implements Listener {
         double pollutionValue = calculatePollutionValue(e.getGenerator().getID(), new ItemStack[]{ e.getMachineFuel().getInput() });
 
         if (pollutionValue > 0.0) {
-            PollutionUtils.risePollutionInWorld(world, pollutionValue);
+            PollutionManager.risePollutionInWorld(world, pollutionValue);
         }
     }
 
@@ -58,7 +58,7 @@ public class PollutionListener implements Listener {
         double pollutionValue = calculatePollutionValue(e.getReactor().getID(), new ItemStack[]{ e.getMachineFuel().getInput() });
 
         if (pollutionValue > 0.0) {
-            PollutionUtils.risePollutionInWorld(world, pollutionValue);
+            PollutionManager.risePollutionInWorld(world, pollutionValue);
         }
     }
 
@@ -73,7 +73,7 @@ public class PollutionListener implements Listener {
         double pollutionValue = GlobalWarming.getRegistry().getAnimalBreedPollution();
 
         if (pollutionValue > 0.0) {
-            PollutionUtils.descendPollutionInWorld(world, pollutionValue);
+            PollutionManager.descendPollutionInWorld(world, pollutionValue);
         }
     }
 
@@ -88,7 +88,7 @@ public class PollutionListener implements Listener {
         double pollutionValue = GlobalWarming.getRegistry().getTreeGrowthAbsorbtion();
 
         if (pollutionValue > 0.0) {
-            PollutionUtils.descendPollutionInWorld(world, pollutionValue);
+            PollutionManager.descendPollutionInWorld(world, pollutionValue);
         }
     }
 
@@ -100,10 +100,10 @@ public class PollutionListener implements Listener {
     private double calculatePollutionValue(String ID, ItemStack[] recipeInput) {
         double pollutionValue = 0.0;
         
-        pollutionValue += PollutionUtils.isPollutedMachine(ID);
+        pollutionValue += PollutionManager.isPollutedMachine(ID);
 
         for (ItemStack item : recipeInput) {
-            pollutionValue += PollutionUtils.isPollutedItem(item);
+            pollutionValue += PollutionManager.isPollutedItem(item);
         }
         
         return pollutionValue;

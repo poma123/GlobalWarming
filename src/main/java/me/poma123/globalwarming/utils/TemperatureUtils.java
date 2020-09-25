@@ -1,18 +1,18 @@
 package me.poma123.globalwarming.utils;
 
-import java.text.DecimalFormat;
 import java.util.Map;
 
-import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import me.mrCookieSlime.Slimefun.cscorelib2.math.DoubleHandler;
+import me.poma123.globalwarming.api.PollutionManager;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
 
 import me.poma123.globalwarming.GlobalWarming;
-import me.poma123.globalwarming.Registry;
 import me.poma123.globalwarming.api.Temperature;
 import me.poma123.globalwarming.api.TemperatureType;
+
+import javax.annotation.Nonnull;
 
 public class TemperatureUtils {
 
@@ -21,7 +21,7 @@ public class TemperatureUtils {
     public static final int NIGHT_TEMPERATURE_DROP = 10;
     public static final int STORM_TEMPERATURE_DROP = 5;
 
-    public static String getTemperatureString(Location loc, TemperatureType tempType) {
+    public static String getTemperatureString(@Nonnull Location loc, @Nonnull TemperatureType tempType) {
         Temperature temp = getTemperatureAtLocation(loc);
         double celsiusValue = temp.getCelsiusValue();
         String prefix;
@@ -49,7 +49,7 @@ public class TemperatureUtils {
         return prefix + " " + DoubleHandler.fixDouble(temp.getConvertedValue()) + " &7" + tempType.getSuffix();
     }
 
-      public static String getAirQualityString(Location loc, TemperatureType tempType) {
+      public static String getAirQualityString(@Nonnull Location loc, @Nonnull TemperatureType tempType) {
         Temperature temp = getTemperatureAtLocation(loc);
 
         double currentValue = temp.getCelsiusValue();
@@ -74,16 +74,16 @@ public class TemperatureUtils {
         return "&7Climate change: " + prefix + DoubleHandler.fixDouble(difference) + " &7" + tempType.getSuffix();
     }
 
-    public static Temperature getTemperatureAtLocation(Location loc) {
+    public static Temperature getTemperatureAtLocation(@Nonnull Location loc) {
         World world = loc.getWorld();
         double celsiusValue = getDefaultBiomeTemperatureAtLocation(loc).getCelsiusValue();
         
-        celsiusValue = celsiusValue + (PollutionUtils.getPollutionInWorld(world) * GlobalWarming.getRegistry().getPollutionMultiply());
+        celsiusValue = celsiusValue + (PollutionManager.getPollutionInWorld(world) * GlobalWarming.getRegistry().getPollutionMultiply());
 
         return new Temperature(celsiusValue);
     }
 
-    public static Temperature getDefaultBiomeTemperatureAtLocation(Location loc) {
+    public static Temperature getDefaultBiomeTemperatureAtLocation(@Nonnull Location loc) {
         World world = loc.getWorld();
         Biome biome = loc.getBlock().getBiome();
         Map<Biome, Double> tempMap = GlobalWarming.getRegistry().getDefaultBiomeTemperatures();
@@ -105,7 +105,7 @@ public class TemperatureUtils {
         return new Temperature(celsiusValue);
     }
 
-    public static double getDifference(double currentValue, double defaultValue, TemperatureType type) {
+    public static double getDifference(@Nonnull double currentValue, @Nonnull double defaultValue, @Nonnull TemperatureType type) {
 
         double convertedCurrent = new Temperature(currentValue, type).getConvertedValue();
         double convertedDefault = new Temperature(defaultValue, type).getConvertedValue();
@@ -119,7 +119,7 @@ public class TemperatureUtils {
         return difference;
     }
 
-    public static boolean isDaytime(World world) {
+    public static boolean isDaytime(@Nonnull World world) {
         long time = world.getTime();
         return (time < 12300 || time > 23850);
     }

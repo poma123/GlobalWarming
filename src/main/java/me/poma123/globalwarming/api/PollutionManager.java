@@ -1,4 +1,4 @@
-package me.poma123.globalwarming.utils;
+package me.poma123.globalwarming.api;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
@@ -14,7 +14,7 @@ import me.mrCookieSlime.Slimefun.cscorelib2.config.Config;
 import me.poma123.globalwarming.GlobalWarming;
 import me.poma123.globalwarming.api.events.AsyncWorldPollutionChangeEvent;
 
-public class PollutionUtils {
+public class PollutionManager {
 
     public static double getPollutionAtLocation(@Nonnull Location loc) {
         return getPollutionInWorld(loc.getWorld());
@@ -31,7 +31,7 @@ public class PollutionUtils {
         return 0.0;
     }
 
-    public static boolean risePollutionInWorld(@Nonnull World world, double value) {
+    public static boolean risePollutionInWorld(@Nonnull World world, @Nonnull double value) {
         if (GlobalWarming.getRegistry().isWorldEnabled(world.getName())) {
             Config config = GlobalWarming.getRegistry().getWorldConfig(world);
 
@@ -50,7 +50,7 @@ public class PollutionUtils {
         return false;
     }
 
-    public static boolean descendPollutionInWorld(@Nonnull World world, double value) {
+    public static boolean descendPollutionInWorld(@Nonnull World world, @Nonnull double value) {
         if (GlobalWarming.getRegistry().isWorldEnabled(world.getName())) {
             Config config = GlobalWarming.getRegistry().getWorldConfig(world);
 
@@ -69,7 +69,7 @@ public class PollutionUtils {
         return false;
     }
 
-    public static boolean setPollutionInWorld(@Nonnull World world, double newValue) {
+    public static boolean setPollutionInWorld(@Nonnull World world, @Nonnull double newValue) {
         if (GlobalWarming.getRegistry().isWorldEnabled(world.getName())) {
             Config config = GlobalWarming.getRegistry().getWorldConfig(world);
 
@@ -87,7 +87,7 @@ public class PollutionUtils {
         return false;
     }
 
-    public static double isPollutedItem(ItemStack item) {
+    public static double isPollutedItem(@Nonnull ItemStack item) {
         SlimefunItem sfItem = SlimefunItem.getByItem(item);
         Map<String, Double> pollutedSlimefunItems = GlobalWarming.getRegistry().getPollutedSlimefunItems();
         Map<Material, Double> pollutedVanillaItems = GlobalWarming.getRegistry().getPollutedVanillaItems();
@@ -103,7 +103,7 @@ public class PollutionUtils {
         return 0.0;
     }
 
-    public static double isPollutedMachine(String ID) {
+    public static double isPollutedMachine(@Nonnull String ID) {
         SlimefunItem sfItem = SlimefunItem.getByID(ID);
         Map<String, Double> pollutedSlimefunMachines = GlobalWarming.getRegistry().getPollutedSlimefunMachines();
 

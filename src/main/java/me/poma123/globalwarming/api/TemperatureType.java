@@ -1,7 +1,13 @@
 package me.poma123.globalwarming.api;
 
-import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
+/**
+ * This enum holds the different scales of temperature.
+ *
+ * @author poma123
+ *
+ */
 public enum TemperatureType {
 
     CELSIUS("Celsius", "°C"),
@@ -11,7 +17,8 @@ public enum TemperatureType {
     private final String name;
     private final String suffix;
 
-    private TemperatureType(@Nonnull String name, @Nonnull String suffix) {
+    @ParametersAreNonnullByDefault
+    TemperatureType(String name, String suffix) {
         this.name = name;
         this.suffix = suffix;
     }
