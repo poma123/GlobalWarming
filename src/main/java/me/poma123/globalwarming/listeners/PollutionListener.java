@@ -16,38 +16,57 @@ public class PollutionListener implements Listener {
     @EventHandler
     public void onMachineProcessComplete(AsyncMachineProcessCompleteEvent e) {
         World world = e.getLocation().getWorld();
-        String ID;
-        ItemStack[] recipeInput;
-        double pollutionValue = 0.0;
 
         if (!GlobalWarming.getRegistry().isWorldEnabled(world.getName())) {
             return;
         }
 
-        if (e instanceof AsyncGeneratorProcessCompleteEvent) {
-            AsyncGeneratorProcessCompleteEvent event =  (AsyncGeneratorProcessCompleteEvent) e;
+        double pollutionValue = calculatePollutionValue(e.getMachine().getID(), e.getMachineRecipe().getInput());
 
-            ID = event.getGenerator().getID();
-            recipeInput = new ItemStack[]{ event.getMachineFuel().getInput() };
-        } else if (e instanceof AsyncReactorProcessCompleteEvent) {
-            AsyncReactorProcessCompleteEvent event =  (AsyncReactorProcessCompleteEvent) e;
+        if (pollutionValue > 0.0) {
+            PollutionUtils.risePollutionInWorld(world, pollutionValue);
+        }
+    }
 
-            ID = event.getReactor().getID();
-            recipeInput = new ItemStack[]{ event.getMachineFuel().getInput() };
-        } else {
+    @EventHandler
+    public void onGeneratorProcessComplete(AsyncGeneratorProcessCompleteEvent e) {
+        World world = e.getLocation().getWorld();
 
-            ID = e.getMachine().getID();
-            recipeInput = e.getMachineRecipe().getInput();
+        if (!GlobalWarming.getRegistry().isWorldEnabled(world.getName())) {
+            return;
         }
 
+        double pollutionValue = calculatePollutionValue(e.getGenerator().getID(), new ItemStack[]{ e.getMachineFuel().getInput() });
+
+        if (pollutionValue > 0.0) {
+            PollutionUtils.risePollutionInWorld(world, pollutionValue);
+        }
+    }
+
+    @EventHandler
+    public void onReactorProcessComplete(AsyncReactorProcessCompleteEvent e) {
+        World world = e.getLocation().getWorld();
+
+        if (!GlobalWarming.getRegistry().isWorldEnabled(world.getName())) {
+            return;
+        }
+
+        double pollutionValue = calculatePollutionValue(e.getReactor().getID(), new ItemStack[]{ e.getMachineFuel().getInput() });
+
+        if (pollutionValue > 0.0) {
+            PollutionUtils.risePollutionInWorld(world, pollutionValue);
+        }
+    }
+
+    private double calculatePollutionValue(String ID, ItemStack[] recipeInput) {
+        double pollutionValue = 0.0;
+        
         pollutionValue += PollutionUtils.isPollutedMachine(ID);
 
         for (ItemStack item : recipeInput) {
             pollutionValue += PollutionUtils.isPollutedItem(item);
         }
-
-        if (pollutionValue > 0.0) {
-            PollutionUtils.risePollutionInWorld(world, pollutionValue);
-        }
+        
+        return pollutionValue;
     }
 }
