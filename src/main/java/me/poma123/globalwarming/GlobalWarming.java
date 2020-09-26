@@ -5,9 +5,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.logging.Level;
 
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.poma123.globalwarming.items.AirCompressor;
-import me.poma123.globalwarming.tasks.BurnTask;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -24,6 +21,9 @@ import me.poma123.globalwarming.listeners.PollutionListener;
 import me.poma123.globalwarming.tasks.FireTask;
 import me.poma123.globalwarming.tasks.MeltTask;
 import me.poma123.globalwarming.tasks.SlownessTask;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.poma123.globalwarming.items.AirCompressor;
+import me.poma123.globalwarming.tasks.BurnTask;
 
 public class GlobalWarming extends JavaPlugin implements SlimefunAddon {
 
@@ -63,12 +63,6 @@ public class GlobalWarming extends JavaPlugin implements SlimefunAddon {
         category = new Category(new NamespacedKey(this, "global_warming"), new CustomItem(Items.THERMOMETER, "&2Global Warming"));
 
         // Empty craft for now...
-        new SlimefunItem(category, Items.EMPTY_CANISTER, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
-                null, null, null,
-                null, null, null,
-                null, null, null
-        }).register(this);
-
         new Thermometer(category, Items.THERMOMETER, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
                 null, null, null,
                 null, null, null,
@@ -88,7 +82,7 @@ public class GlobalWarming extends JavaPlugin implements SlimefunAddon {
         }) {
             @Override
             public int getEnergyConsumption() {
-                return 8;
+                return 16;
             }
 
             @Override
@@ -101,6 +95,20 @@ public class GlobalWarming extends JavaPlugin implements SlimefunAddon {
                 return 1;
             }
         }.register(this);
+
+
+
+        new SlimefunItem(category, Items.EMPTY_CANISTER, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
+                null, null, null,
+                null, null, null,
+                null, null, null
+        }).register(this);
+
+        new SlimefunItem(category, Items.CO2_CANISTER, AirCompressor.RECIPE_TYPE, new ItemStack[] {
+                null, null, null,
+                null, Items.EMPTY_CANISTER, null,
+                null, null, null
+        }).register(this);
     }
 
     private void scheduleTasks() {

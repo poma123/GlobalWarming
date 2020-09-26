@@ -1,8 +1,5 @@
 package me.poma123.globalwarming.listeners;
 
-import io.github.thebusybiscuit.slimefun4.api.events.AsyncGeneratorProcessCompleteEvent;
-import io.github.thebusybiscuit.slimefun4.api.events.AsyncReactorProcessCompleteEvent;
-import me.poma123.globalwarming.api.events.AsyncWorldPollutionChangeEvent;
 import org.bukkit.World;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -11,9 +8,12 @@ import org.bukkit.event.entity.EntityBreedEvent;
 import org.bukkit.event.world.StructureGrowEvent;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.api.events.AsyncGeneratorProcessCompleteEvent;
+import io.github.thebusybiscuit.slimefun4.api.events.AsyncReactorProcessCompleteEvent;
 import io.github.thebusybiscuit.slimefun4.api.events.AsyncMachineProcessCompleteEvent;
-import me.poma123.globalwarming.GlobalWarming;
+import me.poma123.globalwarming.api.events.AsyncWorldPollutionChangeEvent;
 import me.poma123.globalwarming.api.PollutionManager;
+import me.poma123.globalwarming.GlobalWarming;
 
 public class PollutionListener implements Listener {
 

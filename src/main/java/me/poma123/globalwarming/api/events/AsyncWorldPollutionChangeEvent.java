@@ -1,11 +1,11 @@
 package me.poma123.globalwarming.api.events;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.World;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * This {@link Event} is fired whenever the pollution level has changed in a {@link World}.
@@ -14,7 +14,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
  *
  */
 public class AsyncWorldPollutionChangeEvent extends Event {
-    public static final HandlerList handlerList = new HandlerList();
+    public static final HandlerList handlers = new HandlerList();
 
     private final World world;
     private final double oldValue;
@@ -29,25 +29,42 @@ public class AsyncWorldPollutionChangeEvent extends Event {
         this.newValue = newValue;
     }
 
+    /**
+     * This method returns the {@link World} where has the change happened
+     *
+     * @return the {@link World} where has the change happened
+     */
     @Nonnull
     public World getWorld() {
         return world;
     }
 
+    /**
+     * This method returns the pollution amount before the change
+     *
+     * @return the pollution amount before the change
+     */
     @Nonnull
     public double getOldValue() {
         return oldValue;
     }
 
+    /**
+     * This method returns the pollution amount after the change
+     *
+     * @return the pollution amount after the change
+     */
     @Nonnull
     public double getNewValue() {
         return newValue;
     }
 
+    @Nonnull
     public static HandlerList getHandlerList() {
-        return handlerList;
+        return handlers;
     }
 
+    @Nonnull
     @Override
     public HandlerList getHandlers() {
         return getHandlerList();

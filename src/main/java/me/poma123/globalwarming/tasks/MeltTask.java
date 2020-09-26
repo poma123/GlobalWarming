@@ -16,7 +16,6 @@ import org.bukkit.event.block.BlockFadeEvent;
 import me.poma123.globalwarming.GlobalWarming;
 import me.poma123.globalwarming.utils.TemperatureUtils;
 
-
 public class MeltTask extends MechanicTask {
 
     private final ThreadLocalRandom rnd;

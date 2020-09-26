@@ -14,12 +14,27 @@ import me.mrCookieSlime.Slimefun.cscorelib2.config.Config;
 import me.poma123.globalwarming.GlobalWarming;
 import me.poma123.globalwarming.api.events.AsyncWorldPollutionChangeEvent;
 
+/**
+ * A very useful API that handles the pollution amount in {@link World} instances
+ * and the pollution production of items and machines.
+ *
+ * @author poma123
+ *
+ */
 public class PollutionManager {
 
     public static double getPollutionAtLocation(@Nonnull Location loc) {
         return getPollutionInWorld(loc.getWorld());
     }
 
+    /**
+     * This returns the pollution amount in a {@link World}
+     *
+     * @param world
+     *            The {@link World} to get the pollution amount from
+     *
+     * @return the pollution amount in the given {@link World}
+     */
     public static double getPollutionInWorld(@Nonnull World world) {
         if (GlobalWarming.getRegistry().isWorldEnabled(world.getName())) {
             Config config = GlobalWarming.getRegistry().getWorldConfig(world);
@@ -31,6 +46,16 @@ public class PollutionManager {
         return 0.0;
     }
 
+    /**
+     * This increases the pollution amount in a {@link World}
+     *
+     * @param world
+     *            The {@link World} to set pollution amount
+     * @param value
+     *            The value to rise
+     *
+     * @return whether the change was successful
+     */
     public static boolean risePollutionInWorld(@Nonnull World world, @Nonnull double value) {
         if (GlobalWarming.getRegistry().isWorldEnabled(world.getName())) {
             Config config = GlobalWarming.getRegistry().getWorldConfig(world);
@@ -50,6 +75,16 @@ public class PollutionManager {
         return false;
     }
 
+    /**
+     * This decreases the pollution amount in a {@link World}
+     *
+     * @param world
+     *            The {@link World} to set pollution amount
+     * @param value
+     *            The value to descend
+     *
+     * @return whether the change was successful
+     */
     public static boolean descendPollutionInWorld(@Nonnull World world, @Nonnull double value) {
         if (GlobalWarming.getRegistry().isWorldEnabled(world.getName())) {
             Config config = GlobalWarming.getRegistry().getWorldConfig(world);
@@ -69,6 +104,16 @@ public class PollutionManager {
         return false;
     }
 
+    /**
+     * This sets the pollution amount in a {@link World}
+     *
+     * @param world
+     *            The {@link World} to set pollution amount
+     * @param newValue
+     *            The value to set
+     *
+     * @return whether the change was successful
+     */
     public static boolean setPollutionInWorld(@Nonnull World world, @Nonnull double newValue) {
         if (GlobalWarming.getRegistry().isWorldEnabled(world.getName())) {
             Config config = GlobalWarming.getRegistry().getWorldConfig(world);
@@ -87,6 +132,14 @@ public class PollutionManager {
         return false;
     }
 
+    /**
+     * This returns the pollution production of a {@link SlimefunItem}
+     *
+     * @param item
+     *            The {@link ItemStack} to check
+     *
+     * @return the pollution production of the {@link SlimefunItem}
+     */
     public static double isPollutedItem(@Nonnull ItemStack item) {
         SlimefunItem sfItem = SlimefunItem.getByItem(item);
         Map<String, Double> pollutedSlimefunItems = GlobalWarming.getRegistry().getPollutedSlimefunItems();
@@ -103,6 +156,14 @@ public class PollutionManager {
         return 0.0;
     }
 
+    /**
+     * This returns the pollution production of a {@link SlimefunItem} machine
+     *
+     * @param ID
+     *            The ID of the {@link SlimefunItem} machine
+     *
+     * @return the pollution production of the {@link SlimefunItem} machine
+     */
     public static double isPollutedMachine(@Nonnull String ID) {
         SlimefunItem sfItem = SlimefunItem.getByID(ID);
         Map<String, Double> pollutedSlimefunMachines = GlobalWarming.getRegistry().getPollutedSlimefunMachines();
