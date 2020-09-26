@@ -65,7 +65,7 @@ public class PollutionManager {
                 value = oldValue + value;
 
                 AsyncWorldPollutionChangeEvent event = new AsyncWorldPollutionChangeEvent(world, oldValue, value);
-                Bukkit.getPluginManager().callEvent(event);
+                Bukkit.getScheduler().runTaskAsynchronously(GlobalWarming.getInstance(), () -> Bukkit.getPluginManager().callEvent(event));
 
                 config.setValue("data.pollution", value);
                 config.save();
@@ -94,7 +94,7 @@ public class PollutionManager {
                 value = Math.max(oldValue - value, 0.0);
 
                 AsyncWorldPollutionChangeEvent event = new AsyncWorldPollutionChangeEvent(world, oldValue, value);
-                Bukkit.getPluginManager().callEvent(event);
+                Bukkit.getScheduler().runTaskAsynchronously(GlobalWarming.getInstance(), () -> Bukkit.getPluginManager().callEvent(event));
 
                 config.setValue("data.pollution", value);
                 config.save();
@@ -122,7 +122,7 @@ public class PollutionManager {
                 double oldValue = config.getDouble("data.pollution");
 
                 AsyncWorldPollutionChangeEvent event = new AsyncWorldPollutionChangeEvent(world, oldValue, newValue);
-                Bukkit.getPluginManager().callEvent(event);
+                Bukkit.getScheduler().runTaskAsynchronously(GlobalWarming.getInstance(), () -> Bukkit.getPluginManager().callEvent(event));
 
                 config.setValue("data.pollution", newValue);
                 config.save();

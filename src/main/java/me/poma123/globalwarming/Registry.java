@@ -29,6 +29,7 @@ public class Registry {
     private final Map<Material, Double> pollutedVanillaItems = new EnumMap<>(Material.class);
     private final Map<String, Double> pollutedSlimefunItems = new HashMap<>();
     private final Map<String, Double> pollutedSlimefunMachines = new HashMap<>();
+    private final Map<String, Double> absorbentSlimefunMachines = new HashMap<>();
 
     public void load(Config cfg, Config biomes) {
         // Add missing biomes to the config
@@ -64,40 +65,59 @@ public class Registry {
             }
         }
 
+        // Registering pollution productuon
 
-        // Registering polluting items
-        for (String id : cfg.getKeys("pollution.production.machine-recipe-input-items")) {
-            double value = cfg.getDouble("pollution.production.machine-recipe-input-items." + id);
+        Bukkit.getScheduler().runTaskLater(GlobalWarming.getInstance(), () -> {
+            // Registering polluting items
+            for (String id : cfg.getKeys("pollution.production.machine-recipe-input-items")) {
+                double value = cfg.getDouble("pollution.production.machine-recipe-input-items." + id);
 
-            if (value <= 0.0) {
-                GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load polluted item \"{0}\" with an invalid pollution value of \"{1}\"", new Object[] { id, value });
-                continue;
+                if (value <= 0.0) {
+                    GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load polluted item \"{0}\" with an invalid pollution value of \"{1}\"", new Object[] { id, value });
+                    continue;
+                }
+
+                if (Material.getMaterial(id) != null) {
+                    pollutedVanillaItems.put(Material.getMaterial(id), value);
+                } else if (SlimefunItem.getByID(id) != null) {
+                    pollutedSlimefunItems.put(id, value);
+                } else {
+                    GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load polluted item \"{0}\" with a pollution value of \"{1}\"", new Object[] { id, value });
+                }
             }
 
-            if (Material.getMaterial(id) != null) {
-                pollutedVanillaItems.put(Material.getMaterial(id), value);
-            } else if (SlimefunItem.getByID(id) != null) {
-                pollutedSlimefunItems.put(id, value);
-            } else {
-                GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load polluted item \"{0}\" with a pollution value of \"{1}\"", new Object[] { id, value });
-            }
-        }
+            // Registering polluting machines
+            for (String id : cfg.getKeys("pollution.production.machines")) {
+                double value = cfg.getDouble("pollution.production.machines." + id);
 
-        // Registering polluting machines
-        for (String id : cfg.getKeys("pollution.production.machines")) {
-            double value = cfg.getDouble("pollution.production.machines." + id);
+                if (value <= 0.0) {
+                    GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load polluted machine \"{0}\" with an invalid pollution value of \"{1}\"", new Object[] { id, value });
+                    continue;
+                }
 
-            if (value <= 0.0) {
-                GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load polluted machine \"{0}\" with an invalid pollution value of \"{1}\"", new Object[] { id, value });
-                continue;
+                if (SlimefunItem.getByID(id) != null) {
+                    pollutedSlimefunMachines.put(id, value);
+                } else {
+                    GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load polluted machine \"{0}\" with a pollution value of \"{1}\"", new Object[] { id, value });
+                }
             }
 
-            if (SlimefunItem.getByID(id) != null) {
-                pollutedSlimefunMachines.put(id, value);
-            } else {
-                GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load polluted machine \"{0}\" with a pollution value of \"{1}\"", new Object[] { id, value });
+            // Registering absorbent machines
+            for (String id : cfg.getKeys("pollution.absorbtion.machines")) {
+                double value = cfg.getDouble("pollution.absorbtion.machines." + id);
+
+                if (value <= 0.0) {
+                    GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load absorbent machine \"{0}\" with an invalid pollution value of \"{1}\"", new Object[] { id, value });
+                    continue;
+                }
+
+                if (SlimefunItem.getByID(id) != null) {
+                    absorbentSlimefunMachines.put(id, value);
+                } else {
+                    GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load absorbent machine \"{0}\" with a pollution value of \"{1}\"", new Object[] { id, value });
+                }
             }
-        }
+        }, 100);
 
         pollutionMultiply = cfg.getOrSetDefault("pollution.options.pollution-multiply", 0.002);
         treeGrowthAbsorbtion = cfg.getOrSetDefault("pollution.absorbtion.tree-growth", 0.01);
@@ -137,6 +157,10 @@ public class Registry {
         return config;
     }
 
+    public Map<Material, Double> getPollutedVanillaItems() {
+        return pollutedVanillaItems;
+    }
+
     public Map<String, Double> getPollutedSlimefunItems() {
         return pollutedSlimefunItems;
     }
@@ -145,8 +169,8 @@ public class Registry {
         return pollutedSlimefunMachines;
     }
 
-    public Map<Material, Double> getPollutedVanillaItems() {
-        return pollutedVanillaItems;
+    public Map<String, Double> getAbsorbentSlimefunMachines() {
+        return absorbentSlimefunMachines;
     }
 
     public double getPollutionMultiply() {

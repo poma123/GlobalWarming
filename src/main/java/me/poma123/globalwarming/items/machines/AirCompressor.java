@@ -1,5 +1,6 @@
-package me.poma123.globalwarming.items;
+package me.poma123.globalwarming.items.machines;
 
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -24,7 +25,8 @@ public abstract class AirCompressor extends AContainer implements RecipeDisplayI
 
     @Override
     protected void registerDefaultRecipes() {
-        addRecipe(10, Items.EMPTY_CANISTER, Items.CO2_CANISTER);
+        addRecipe(5, Items.EMPTY_CANISTER, Items.CO2_CANISTER);
+        addRecipe(5, Items.CO2_CANISTER, SlimefunItems.CARBON);
     }
 
     private void addRecipe(int seconds, ItemStack input, ItemStack output) {
