@@ -31,7 +31,7 @@ public class CinnabariteResource implements GEOResource {
     @Nonnull
     @Override
     public String getName() {
-        return "Thorium";
+        return "Cinnabarite";
     }
 
     @Nonnull
