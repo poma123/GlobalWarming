@@ -118,7 +118,7 @@ public class PollutionListener implements Listener {
             String difference = TemperatureUtils.getAirQualityString(world, TemperatureType.CELSIUS);
 
             for (Player p : world.getPlayers()) {
-                p.sendMessage(ChatColors.color("&c[GlobalWarming] &e&nBreaking news: &The global temperature rising value is now: " + difference));
+                p.sendMessage(ChatColors.color("&c[GlobalWarming] &e&nBreaking news:&3 The global temperature rising value is now: " + difference));
             }
 
         }, ThreadLocalRandom.current().nextInt(1, 20));
