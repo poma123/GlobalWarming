@@ -9,13 +9,14 @@ import org.bukkit.block.Biome;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class CinnabariteResource implements GEOResource {
     private final NamespacedKey key = new NamespacedKey(GlobalWarming.getInstance(), "cinnabarite");
 
     @Override
     public int getDefaultSupply(World.Environment environment, Biome biome) {
-        return 1;
+        return ThreadLocalRandom.current().nextInt(2) + 2;
     }
 
     @Override

@@ -46,7 +46,7 @@ pollution:
     animal-breed: 0.005
   absorbtion:
     machines:
-      AIR_COMPRESSOR: 0.005
+      AIR_COMPRESSOR: 0.05
     tree-growth: 0.005
   options:
     pollution-multiply: 0.002

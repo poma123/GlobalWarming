@@ -92,6 +92,6 @@ public class AirQualityMeter extends SlimefunItem {
 
     private void tick(@Nonnull Block b) {
         Location loc = b.getLocation();
-        SimpleHologram.update(b, TemperatureUtils.getAirQualityString(loc, TemperatureType.valueOf(BlockStorage.getLocationInfo(loc, "type"))));
+        SimpleHologram.update(b, "&7Climate change: " + TemperatureUtils.getAirQualityString(loc.getWorld(), TemperatureType.valueOf(BlockStorage.getLocationInfo(loc, "type"))));
     }
 }

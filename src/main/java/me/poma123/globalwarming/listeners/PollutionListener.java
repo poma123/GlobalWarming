@@ -1,7 +1,13 @@
 package me.poma123.globalwarming.listeners;
 
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import me.mrCookieSlime.Slimefun.cscorelib2.chat.ChatColors;
+import me.mrCookieSlime.Slimefun.cscorelib2.math.DoubleHandler;
+import me.poma123.globalwarming.api.TemperatureType;
+import me.poma123.globalwarming.utils.TemperatureUtils;
 import org.bukkit.World;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityBreedEvent;
@@ -15,7 +21,13 @@ import me.poma123.globalwarming.api.events.AsyncWorldPollutionChangeEvent;
 import me.poma123.globalwarming.api.PollutionManager;
 import me.poma123.globalwarming.GlobalWarming;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
+
 public class PollutionListener implements Listener {
+
+    private final Map<String, Double> tempPollutionValues = new HashMap<>();
 
     @EventHandler
     public void onMachineProcessComplete(AsyncMachineProcessCompleteEvent e) {
@@ -25,11 +37,9 @@ public class PollutionListener implements Listener {
             return;
         }
 
-        double pollutionValue = calculatePollutionValue(e.getMachine().getID(), e.getMachineRecipe().getInput());
+        risePollutionTry(world, e.getMachine().getID(), e.getMachineRecipe().getInput());
 
-        if (pollutionValue > 0.0) {
-            PollutionManager.risePollutionInWorld(world, pollutionValue);
-        }
+        descendPollutionTry(world, e.getMachine().getID());
     }
 
     @EventHandler
@@ -40,11 +50,9 @@ public class PollutionListener implements Listener {
             return;
         }
 
-        double pollutionValue = calculatePollutionValue(e.getGenerator().getID(), new ItemStack[]{ e.getMachineFuel().getInput() });
+        risePollutionTry(world, e.getGenerator().getID(), new ItemStack[]{ e.getMachineFuel().getInput() });
 
-        if (pollutionValue > 0.0) {
-            PollutionManager.risePollutionInWorld(world, pollutionValue);
-        }
+        descendPollutionTry(world, e.getGenerator().getID());
     }
 
     @EventHandler
@@ -55,11 +63,9 @@ public class PollutionListener implements Listener {
             return;
         }
 
-        double pollutionValue = calculatePollutionValue(e.getReactor().getID(), new ItemStack[]{ e.getMachineFuel().getInput() });
+        risePollutionTry(world, e.getReactor().getID(), new ItemStack[]{ e.getMachineFuel().getInput() });
 
-        if (pollutionValue > 0.0) {
-            PollutionManager.risePollutionInWorld(world, pollutionValue);
-        }
+        descendPollutionTry(world, e.getReactor().getID());
     }
 
     @EventHandler
@@ -94,7 +100,50 @@ public class PollutionListener implements Listener {
 
     @EventHandler
     public void onPollutionChange(AsyncWorldPollutionChangeEvent e) {
-        Bukkit.broadcast("Pollution changed in world '" + e.getWorld().getName() + "'. oldValue=" + e.getOldValue() + " newValue=" + e.getNewValue() + " ACTUAL CHANGE=" + (e.getNewValue()-e.getOldValue()), "");
+        Bukkit.getScheduler().runTaskLater(GlobalWarming.getInstance(), () -> {
+
+            World world = e.getWorld();
+            double amount = DoubleHandler.fixDouble(e.getNewValue() * GlobalWarming.getRegistry().getPollutionMultiply());
+
+            if (!tempPollutionValues.containsKey(world.getName())) {
+                tempPollutionValues.put(world.getName(), amount);
+            } else {
+                if (tempPollutionValues.get(world.getName()) >= amount) {
+                    return;
+                }
+            }
+
+            tempPollutionValues.replace(world.getName(), amount);
+
+            String difference = TemperatureUtils.getAirQualityString(world, TemperatureType.CELSIUS);
+
+            for (Player p : world.getPlayers()) {
+                p.sendMessage(ChatColors.color("&c[GlobalWarming] &e&nBreaking news: &The global temperature rising value is now: " + difference));
+            }
+
+        }, ThreadLocalRandom.current().nextInt(1, 20));
+    }
+
+    private boolean risePollutionTry(World world, String ID, ItemStack[] recipeInput) {
+        double pollutionValue = calculatePollutionValue(ID, recipeInput);
+
+        if (pollutionValue > 0.0) {
+            PollutionManager.risePollutionInWorld(world, pollutionValue);
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean descendPollutionTry(World world, String ID) {
+        double absorbtionValue = calculateAbsorbtionValue(ID);
+
+        if (absorbtionValue > 0.0) {
+            PollutionManager.descendPollutionInWorld(world, absorbtionValue);
+            return true;
+        }
+
+        return false;
     }
 
     private double calculatePollutionValue(String ID, ItemStack[] recipeInput) {
@@ -107,5 +156,13 @@ public class PollutionListener implements Listener {
         }
         
         return pollutionValue;
+    }
+
+    private double calculateAbsorbtionValue(String ID) {
+        double absorbtionValue = 0.0;
+
+        absorbtionValue += PollutionManager.isAbsorbentMachine(ID);
+
+        return absorbtionValue;
     }
 }

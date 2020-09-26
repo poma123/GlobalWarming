@@ -133,12 +133,12 @@ public class PollutionManager {
     }
 
     /**
-     * This returns the pollution production of a {@link SlimefunItem}
+     * This returns the pollution production of a {@link ItemStack}
      *
      * @param item
      *            The {@link ItemStack} to check
      *
-     * @return the pollution production of the {@link SlimefunItem}
+     * @return the pollution production of the {@link ItemStack}
      */
     public static double isPollutedItem(@Nonnull ItemStack item) {
         SlimefunItem sfItem = SlimefunItem.getByItem(item);
@@ -170,6 +170,25 @@ public class PollutionManager {
 
         if (sfItem != null && pollutedSlimefunMachines.containsKey(sfItem.getID())) {
             return pollutedSlimefunMachines.get(sfItem.getID());
+        }
+
+        return 0.0;
+    }
+
+    /**
+     * This returns the pollution absorbtion of a {@link SlimefunItem} machine
+     *
+     * @param ID
+     *            The ID of the {@link SlimefunItem} machine
+     *
+     * @return the pollution absorbtion of the {@link SlimefunItem} machine
+     */
+    public static double isAbsorbentMachine(@Nonnull String ID) {
+        SlimefunItem sfItem = SlimefunItem.getByID(ID);
+        Map<String, Double> absorbentSlimefunMachines = GlobalWarming.getRegistry().getAbsorbentSlimefunMachines();
+
+        if (sfItem != null && absorbentSlimefunMachines.containsKey(sfItem.getID())) {
+            return absorbentSlimefunMachines.get(sfItem.getID());
         }
 
         return 0.0;

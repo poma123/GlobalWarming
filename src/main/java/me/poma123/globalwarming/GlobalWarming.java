@@ -120,7 +120,7 @@ public class GlobalWarming extends JavaPlugin implements SlimefunAddon {
             }
         }.register(this);
 
-        new UnplaceableBlock(category, Items.CINNABARITE, RecipeType.GEO_MINER, new ItemStack[]{}).register(this);
+        new SlimefunItem(category, Items.CINNABARITE, RecipeType.GEO_MINER, new ItemStack[]{}).register(this);
         new CinnabariteResource().register();
 
         new SlimefunItem(category, Items.MERCURY, RecipeType.SMELTERY, new ItemStack[]{

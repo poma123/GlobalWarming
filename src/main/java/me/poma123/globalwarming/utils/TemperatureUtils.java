@@ -49,12 +49,13 @@ public class TemperatureUtils {
         return prefix + " " + DoubleHandler.fixDouble(temp.getConvertedValue()) + " &7" + tempType.getSuffix();
     }
 
-    public static String getAirQualityString(@Nonnull Location loc, @Nonnull TemperatureType tempType) {
-        Temperature temp = getTemperatureAtLocation(loc);
+    public static String getAirQualityString(@Nonnull World world, @Nonnull TemperatureType tempType) {
+        Temperature temp = new Temperature(15.0);
 
-        double currentValue = temp.getCelsiusValue();
-        double defaultValue = getDefaultBiomeTemperatureAtLocation(loc).getCelsiusValue();
-        double celsiusDifference = getDifference(currentValue, defaultValue, TemperatureType.CELSIUS);
+        double celsiusDifference = (PollutionManager.getPollutionInWorld(world) * GlobalWarming.getRegistry().getPollutionMultiply());
+        double currentValue = temp.getCelsiusValue() + celsiusDifference;
+        double defaultValue = temp.getCelsiusValue();
+        //double celsiusDifference = getDifference(currentValue, defaultValue, TemperatureType.CELSIUS);
         String prefix;
 
         if (celsiusDifference <= -1.5 || celsiusDifference >= 1.5) {
@@ -67,11 +68,15 @@ public class TemperatureUtils {
             prefix = "&f";
         }
 
-        double difference = getDifference(currentValue, defaultValue, tempType);
-        
+        double difference = celsiusDifference;
+
+        if (tempType != TemperatureType.CELSIUS) {
+            difference = getDifference(currentValue, defaultValue, tempType);
+        }
+
         prefix = prefix + (difference > 0 ? "+" : "");
 
-        return "&7Climate change: " + prefix + DoubleHandler.fixDouble(difference) + " &7" + tempType.getSuffix();
+        return prefix + DoubleHandler.fixDouble(difference) + " &7" + tempType.getSuffix();
     }
 
     public static Temperature getTemperatureAtLocation(@Nonnull Location loc) {
@@ -106,7 +111,6 @@ public class TemperatureUtils {
     }
 
     public static double getDifference(@Nonnull double currentValue, @Nonnull double defaultValue, @Nonnull TemperatureType type) {
-
         double convertedCurrent = new Temperature(currentValue, type).getConvertedValue();
         double convertedDefault = new Temperature(defaultValue, type).getConvertedValue();
 
