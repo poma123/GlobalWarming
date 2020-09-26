@@ -49,7 +49,7 @@ public class TemperatureUtils {
         return prefix + " " + DoubleHandler.fixDouble(temp.getConvertedValue()) + " &7" + tempType.getSuffix();
     }
 
-      public static String getAirQualityString(@Nonnull Location loc, @Nonnull TemperatureType tempType) {
+    public static String getAirQualityString(@Nonnull Location loc, @Nonnull TemperatureType tempType) {
         Temperature temp = getTemperatureAtLocation(loc);
 
         double currentValue = temp.getCelsiusValue();
