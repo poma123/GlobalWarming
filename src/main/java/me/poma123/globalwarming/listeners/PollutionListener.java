@@ -91,6 +91,8 @@ public class PollutionListener implements Listener {
             return;
         }
 
+        // TODO: Check if the block's type (which was sapling before) is a tagged Log material
+
         double pollutionValue = GlobalWarming.getRegistry().getTreeGrowthAbsorbtion();
 
         if (pollutionValue > 0.0) {
