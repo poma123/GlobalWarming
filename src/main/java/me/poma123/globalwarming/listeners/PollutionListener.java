@@ -130,6 +130,8 @@ public class PollutionListener implements Listener {
             }
 
         }, ThreadLocalRandom.current().nextInt(1, 20));
+
+        Bukkit.broadcastMessage("Pollution changed in world '" + e.getWorld().getName() + "'. oldValue=" + e.getOldValue() + " newValue=" + e.getNewValue() + " ACTUAL CHANGE=" + (e.getNewValue()-e.getOldValue()));
     }
 
     private boolean risePollutionTry(World world, String ID, ItemStack[] recipeInput) {
