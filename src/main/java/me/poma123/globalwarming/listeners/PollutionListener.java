@@ -5,6 +5,8 @@ import me.mrCookieSlime.Slimefun.cscorelib2.chat.ChatColors;
 import me.mrCookieSlime.Slimefun.cscorelib2.math.DoubleHandler;
 import me.poma123.globalwarming.api.TemperatureType;
 import me.poma123.globalwarming.utils.TemperatureUtils;
+import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.World;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -91,13 +93,17 @@ public class PollutionListener implements Listener {
             return;
         }
 
-        // TODO: Check if the block's type (which was sapling before) is a tagged Log material
+        Bukkit.getScheduler().runTaskLater(GlobalWarming.getInstance(), () -> {
+            Material type = e.getLocation().getBlock().getType();
 
-        double pollutionValue = GlobalWarming.getRegistry().getTreeGrowthAbsorbtion();
+            if (Tag.LOGS.isTagged(type)) {
+                double pollutionValue = GlobalWarming.getRegistry().getTreeGrowthAbsorbtion();
 
-        if (pollutionValue > 0.0) {
-            PollutionManager.descendPollutionInWorld(world, pollutionValue);
-        }
+                if (pollutionValue > 0.0) {
+                    PollutionManager.descendPollutionInWorld(world, pollutionValue);
+                }
+            }
+        }, 2);
     }
 
     @EventHandler
@@ -110,7 +116,7 @@ public class PollutionListener implements Listener {
             if (!tempPollutionValues.containsKey(world.getName())) {
                 tempPollutionValues.put(world.getName(), amount);
             } else {
-                if (tempPollutionValues.get(world.getName()) >= amount) {
+                if (tempPollutionValues.get(world.getName()) == amount) {
                     return;
                 }
             }
