@@ -1,3 +1,5 @@
+# Available values: CELSIUS, FAHRENHEIT, KELVIN
+temperature-scale: CELSIUS
 messages:
   climate-change: '&c[GlobalWarming] &eThe global temperature rising value is now: %value%'
   breaking-news: '&c[GlobalWarming] &e&nBreaking news:&3 %news%'

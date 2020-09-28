@@ -24,11 +24,16 @@ import me.poma123.globalwarming.api.PollutionManager;
 import me.poma123.globalwarming.GlobalWarming;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class PollutionListener implements Listener {
 
+    private static final int BROADCAST_COOLDOWN = 30000;
+
+    private final Map<String, Long> lastWorldBroadcasts = new HashMap<>();
     private final Map<String, Double> tempPollutionValues = new HashMap<>();
 
     @EventHandler
@@ -108,11 +113,20 @@ public class PollutionListener implements Listener {
 
     @EventHandler
     public void onPollutionChange(AsyncWorldPollutionChangeEvent e) {
+
+        // This delayed task is needed to prevent multiple broadcasts
         Bukkit.getScheduler().runTaskLater(GlobalWarming.getInstance(), () -> {
-
             World world = e.getWorld();
-            double amount = DoubleHandler.fixDouble(e.getNewValue() * GlobalWarming.getRegistry().getPollutionMultiply());
 
+            Long lastBroadcast = lastWorldBroadcasts.get(world.getName());
+            if (lastBroadcast != null) {
+                if ((System.currentTimeMillis() - lastBroadcast) < BROADCAST_COOLDOWN) {
+                    return;
+                }
+            }
+            lastWorldBroadcasts.put(world.getName(), System.currentTimeMillis());
+
+            double amount = DoubleHandler.fixDouble(e.getNewValue() * GlobalWarming.getRegistry().getPollutionMultiply());
             if (!tempPollutionValues.containsKey(world.getName())) {
                 tempPollutionValues.put(world.getName(), amount);
             } else {
@@ -123,10 +137,24 @@ public class PollutionListener implements Listener {
 
             tempPollutionValues.replace(world.getName(), amount);
 
-            String difference = TemperatureUtils.getAirQualityString(world, TemperatureType.CELSIUS);
+            TemperatureType messageTempType = TemperatureType.valueOf(GlobalWarming.getMessages().getString("temperature-scale"));
+            String difference = TemperatureUtils.getAirQualityString(world, messageTempType);
+
+            String news = "";
+            if (!GlobalWarming.getRegistry().getNews().isEmpty()) {
+                String base = GlobalWarming.getMessages().getString("messages.breaking-news");
+                List<String> newsList = GlobalWarming.getRegistry().getNews();
+                String random = newsList.get(ThreadLocalRandom.current().nextInt(newsList.size()));
+
+                news = ChatColors.color(base.replace("%news%", random));
+            }
 
             for (Player p : world.getPlayers()) {
-                p.sendMessage(ChatColors.color("&c[GlobalWarming] &e&nBreaking news:&3 The global temperature rising value is now: " + difference));
+                p.sendMessage(ChatColors.color(GlobalWarming.getMessages().getString("messages.climate-change").replace("%value%", difference)));
+
+                if (news.length() > 0) {
+                    p.sendMessage(news);
+                }
             }
 
         }, ThreadLocalRandom.current().nextInt(1, 20));

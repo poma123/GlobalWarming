@@ -34,7 +34,8 @@ import me.poma123.globalwarming.tasks.BurnTask;
 
 public class GlobalWarming extends JavaPlugin implements SlimefunAddon {
 
-    private Config cfg;
+    private static Config cfg;
+    private static Config messages;
     private Config biomes;
     private static GlobalWarming instance;
     private static final Registry registry = new Registry();
@@ -58,8 +59,19 @@ public class GlobalWarming extends JavaPlugin implements SlimefunAddon {
         }
         biomes = new Config(this, "biomes.yml");
 
+        final File messagesFile = new File(getDataFolder(), "messages.yml");
+        if (!messagesFile.exists()) {
+            try {
+                Files.copy(this.getClass().getResourceAsStream("/messages.yml"), messagesFile.toPath());
+            }
+            catch (IOException e) {
+                getLogger().log(Level.SEVERE, "Failed to create default messages.yml file", e);
+            }
+        }
+        messages = new Config(this, "messages.yml");
+
         registerItems();
-        registry.load(cfg, biomes);
+        registry.load(cfg, biomes, messages);
         scheduleTasks();
 
         Bukkit.getPluginManager().registerEvents(new PollutionListener(), this);
@@ -170,5 +182,13 @@ public class GlobalWarming extends JavaPlugin implements SlimefunAddon {
     @Override
     public JavaPlugin getJavaPlugin() {
         return this;
+    }
+
+    public static Config getCfg() {
+        return cfg;
+    }
+
+    public static Config getMessages() {
+        return messages;
     }
 }

@@ -2,6 +2,7 @@ package me.poma123.globalwarming;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -23,7 +24,7 @@ public class Registry {
     private double treeGrowthAbsorption;
     private double animalBreedPollution;
 
-    private final Set<String> news = new HashSet<>();
+    private final List<String> news = new ArrayList<>();
     private final Map<Biome, Double> defaultBiomeTemperatures = new EnumMap<>(Biome.class);
     private final Set<String> enabledWorlds = new HashSet<>();
     private final Map<String, Config> worldConfigs = new HashMap<>();
@@ -32,7 +33,7 @@ public class Registry {
     private final Map<String, Double> pollutedSlimefunMachines = new HashMap<>();
     private final Map<String, Double> absorbentSlimefunMachines = new HashMap<>();
 
-    public void load(Config cfg, Config biomes) {
+    public void load(Config cfg, Config biomes, Config messages) {
         // Add missing biomes to the config
         for (Biome biome : Biome.values()) {
             if (biomes.getValue("default-biome-temperatures." + biome.name()) == null) {
@@ -67,7 +68,6 @@ public class Registry {
         }
 
         // Registering pollution productuon
-
         Bukkit.getScheduler().runTaskLater(GlobalWarming.getInstance(), () -> {
             // Registering polluting items
             for (String id : cfg.getKeys("pollution.production.machine-recipe-input-items")) {
@@ -119,6 +119,8 @@ public class Registry {
                 }
             }
         }, 100);
+
+        news.addAll(messages.getStringList("messages.news"));
 
         pollutionMultiply = cfg.getOrSetDefault("pollution.options.pollution-multiply", 0.002);
         treeGrowthAbsorption = cfg.getOrSetDefault("pollution.absorption.tree-growth", 0.01);
@@ -172,6 +174,10 @@ public class Registry {
 
     public Map<String, Double> getAbsorbentSlimefunMachines() {
         return absorbentSlimefunMachines;
+    }
+
+    public List<String> getNews() {
+        return news;
     }
 
     public double getPollutionMultiply() {
