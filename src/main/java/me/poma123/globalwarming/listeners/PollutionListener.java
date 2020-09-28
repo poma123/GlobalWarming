@@ -97,7 +97,7 @@ public class PollutionListener implements Listener {
             Material type = e.getLocation().getBlock().getType();
 
             if (Tag.LOGS.isTagged(type)) {
-                double pollutionValue = GlobalWarming.getRegistry().getTreeGrowthAbsorbtion();
+                double pollutionValue = GlobalWarming.getRegistry().getTreeGrowthAbsorption();
 
                 if (pollutionValue > 0.0) {
                     PollutionManager.descendPollutionInWorld(world, pollutionValue);
@@ -146,10 +146,10 @@ public class PollutionListener implements Listener {
     }
 
     private boolean descendPollutionTry(World world, String ID) {
-        double absorbtionValue = calculateAbsorbtionValue(ID);
+        double absorptionValue = calculateAbsorptionValue(ID);
 
-        if (absorbtionValue > 0.0) {
-            PollutionManager.descendPollutionInWorld(world, absorbtionValue);
+        if (absorptionValue > 0.0) {
+            PollutionManager.descendPollutionInWorld(world, absorptionValue);
             return true;
         }
 
@@ -168,11 +168,11 @@ public class PollutionListener implements Listener {
         return pollutionValue;
     }
 
-    private double calculateAbsorbtionValue(String ID) {
-        double absorbtionValue = 0.0;
+    private double calculateAbsorptionValue(String ID) {
+        double absorptionValue = 0.0;
 
-        absorbtionValue += PollutionManager.isAbsorbentMachine(ID);
+        absorptionValue += PollutionManager.isAbsorbentMachine(ID);
 
-        return absorbtionValue;
+        return absorptionValue;
     }
 }

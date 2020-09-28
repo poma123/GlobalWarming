@@ -20,9 +20,10 @@ import me.mrCookieSlime.Slimefun.cscorelib2.config.Config;
 
 public class Registry {
     private double pollutionMultiply;
-    private double treeGrowthAbsorbtion;
+    private double treeGrowthAbsorption;
     private double animalBreedPollution;
 
+    private final Set<String> news = new HashSet<>();
     private final Map<Biome, Double> defaultBiomeTemperatures = new EnumMap<>(Biome.class);
     private final Set<String> enabledWorlds = new HashSet<>();
     private final Map<String, Config> worldConfigs = new HashMap<>();
@@ -82,7 +83,7 @@ public class Registry {
                 } else if (SlimefunItem.getByID(id) != null) {
                     pollutedSlimefunItems.put(id, value);
                 } else {
-                    GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load polluted item \"{0}\" with a pollution value of \"{1}\"", new Object[] { id, value });
+                    GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load non-existent polluted item \"{0}\" with a pollution value of \"{1}\"", new Object[] { id, value });
                 }
             }
 
@@ -98,29 +99,29 @@ public class Registry {
                 if (SlimefunItem.getByID(id) != null) {
                     pollutedSlimefunMachines.put(id, value);
                 } else {
-                    GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load polluted machine \"{0}\" with a pollution value of \"{1}\"", new Object[] { id, value });
+                    GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load non-existent polluted machine \"{0}\" with a pollution value of \"{1}\"", new Object[] { id, value });
                 }
             }
 
             // Registering absorbent machines
-            for (String id : cfg.getKeys("pollution.absorbtion.machines")) {
-                double value = cfg.getDouble("pollution.absorbtion.machines." + id);
+            for (String id : cfg.getKeys("pollution.absorption.machines")) {
+                double value = cfg.getDouble("pollution.absorption.machines." + id);
 
                 if (value <= 0.0) {
-                    GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load absorbent machine \"{0}\" with an invalid pollution value of \"{1}\"", new Object[] { id, value });
+                    GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load absorbent machine \"{0}\" with an invalid absorption value of \"{1}\"", new Object[] { id, value });
                     continue;
                 }
 
                 if (SlimefunItem.getByID(id) != null) {
                     absorbentSlimefunMachines.put(id, value);
                 } else {
-                    GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load absorbent machine \"{0}\" with a pollution value of \"{1}\"", new Object[] { id, value });
+                    GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load non-existent absorbent machine \"{0}\" with an absorption value of \"{1}\"", new Object[] { id, value });
                 }
             }
         }, 100);
 
         pollutionMultiply = cfg.getOrSetDefault("pollution.options.pollution-multiply", 0.002);
-        treeGrowthAbsorbtion = cfg.getOrSetDefault("pollution.absorbtion.tree-growth", 0.01);
+        treeGrowthAbsorption = cfg.getOrSetDefault("pollution.absorption.tree-growth", 0.01);
         animalBreedPollution = cfg.getOrSetDefault("pollution.production.animal-breed", 0.007);
     }
 
@@ -177,8 +178,8 @@ public class Registry {
         return pollutionMultiply;
     }
 
-    public double getTreeGrowthAbsorbtion() {
-        return treeGrowthAbsorbtion;
+    public double getTreeGrowthAbsorption() {
+        return treeGrowthAbsorption;
     }
 
     public double getAnimalBreedPollution() {

@@ -44,7 +44,7 @@ pollution:
       NUCLEAR_REACTOR: 0.03
       COMBUSTION_REACTOR: 0.015
     animal-breed: 0.005
-  absorbtion:
+  absorption:
     machines:
       AIR_COMPRESSOR: 0.05
     tree-growth: 0.005

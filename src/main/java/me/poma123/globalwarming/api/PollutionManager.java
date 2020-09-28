@@ -176,12 +176,12 @@ public class PollutionManager {
     }
 
     /**
-     * This returns the pollution absorbtion of a {@link SlimefunItem} machine
+     * This returns the pollution absorption of a {@link SlimefunItem} machine
      *
      * @param ID
      *            The ID of the {@link SlimefunItem} machine
      *
-     * @return the pollution absorbtion of the {@link SlimefunItem} machine
+     * @return the pollution absorption of the {@link SlimefunItem} machine
      */
     public static double isAbsorbentMachine(@Nonnull String ID) {
         SlimefunItem sfItem = SlimefunItem.getByID(ID);
