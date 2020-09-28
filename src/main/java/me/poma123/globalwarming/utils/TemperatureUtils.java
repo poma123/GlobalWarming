@@ -4,6 +4,7 @@ import java.util.Map;
 
 import me.mrCookieSlime.Slimefun.cscorelib2.math.DoubleHandler;
 import me.poma123.globalwarming.api.PollutionManager;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
@@ -100,7 +101,14 @@ public class TemperatureUtils {
 
         if (world.getEnvironment() == World.Environment.NORMAL) {
             if (!isDaytime(world)) {
-                celsiusValue = celsiusValue - NIGHT_TEMPERATURE_DROP;
+                double nightTime = Math.round(world.getTime() - 12300);
+
+                if (nightTime > 5775) {
+                    nightTime = 5775 - (nightTime - 5775);
+                }
+
+                double dropPercent = nightTime / 5775;
+                celsiusValue = celsiusValue - (NIGHT_TEMPERATURE_DROP * dropPercent);
             }
             else if (world.hasStorm()) {
                 celsiusValue = celsiusValue - STORM_TEMPERATURE_DROP;
