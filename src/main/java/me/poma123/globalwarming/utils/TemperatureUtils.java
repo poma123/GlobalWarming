@@ -19,8 +19,6 @@ public class TemperatureUtils {
 
     public static final String HOT = "☀";
     public static final String COLD = "❄";
-    public static final int NIGHT_TEMPERATURE_DROP = 10;
-    public static final int STORM_TEMPERATURE_DROP = 5;
 
     public static String getTemperatureString(@Nonnull Location loc, @Nonnull TemperatureType tempType) {
         Temperature temp = getTemperatureAtLocation(loc);
@@ -93,10 +91,16 @@ public class TemperatureUtils {
         World world = loc.getWorld();
         Biome biome = loc.getBlock().getBiome();
         Map<Biome, Double> tempMap = GlobalWarming.getRegistry().getDefaultBiomeTemperatures();
+        Map<Biome, Double> nightDropMap = GlobalWarming.getRegistry().getMaxTemperatureDropsAtNight();
         double celsiusValue = 15;
+        double nightDrop = 10;
 
         if (tempMap.containsKey(biome)) {
             celsiusValue = tempMap.get(biome);
+        }
+
+        if (nightDropMap.containsKey(biome)) {
+            nightDrop = nightDropMap.get(biome);
         }
 
         if (world.getEnvironment() == World.Environment.NORMAL) {
@@ -108,10 +112,11 @@ public class TemperatureUtils {
                 }
 
                 double dropPercent = nightTime / 5775;
-                celsiusValue = celsiusValue - (NIGHT_TEMPERATURE_DROP * dropPercent);
+
+                celsiusValue = celsiusValue - (nightDrop * dropPercent);
             }
             else if (world.hasStorm()) {
-                celsiusValue = celsiusValue - STORM_TEMPERATURE_DROP;
+                celsiusValue = celsiusValue - GlobalWarming.getRegistry().getStormTemperatureDrop();
             }
         }
 

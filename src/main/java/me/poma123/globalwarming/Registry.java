@@ -21,11 +21,13 @@ import me.mrCookieSlime.Slimefun.cscorelib2.config.Config;
 
 public class Registry {
     private double pollutionMultiply;
+    private double stormTemperatureDrop;
     private double treeGrowthAbsorption;
     private double animalBreedPollution;
 
     private final List<String> news = new ArrayList<>();
     private final Map<Biome, Double> defaultBiomeTemperatures = new EnumMap<>(Biome.class);
+    private final Map<Biome, Double> maxTemperatureDropsAtNight = new EnumMap<>(Biome.class);
     private final Set<String> enabledWorlds = new HashSet<>();
     private final Map<String, Config> worldConfigs = new HashMap<>();
     private final Map<Material, Double> pollutedVanillaItems = new EnumMap<>(Material.class);
@@ -53,6 +55,18 @@ public class Registry {
             }
             catch (IllegalArgumentException ex) {
                 GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load temperature \"{0}\" of the invalid biome \"{1}\"", new Object[] { celsiusValue, biome });
+            }
+        }
+
+        // Loading night temperature drops
+        for (String biome : biomes.getKeys("max-temperature-drop-at-night")) {
+            double celsiusValue = biomes.getDouble("max-temperature-drop-at-night." + biome);
+
+            try {
+                maxTemperatureDropsAtNight.put(Biome.valueOf(biome), celsiusValue);
+            }
+            catch (IllegalArgumentException ex) {
+                GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load temperature drop \"{0}\" of the invalid biome \"{1}\"", new Object[] { celsiusValue, biome });
             }
         }
 
@@ -122,13 +136,18 @@ public class Registry {
 
         news.addAll(messages.getStringList("messages.news"));
 
-        pollutionMultiply = cfg.getOrSetDefault("pollution.options.pollution-multiply", 0.002);
+        pollutionMultiply = cfg.getOrSetDefault("temperature-options.pollution-multiply", 0.002);
+        stormTemperatureDrop = cfg.getOrSetDefault("temperature-options.temperature-drop-during-storms", 8);
         treeGrowthAbsorption = cfg.getOrSetDefault("pollution.absorption.tree-growth", 0.01);
         animalBreedPollution = cfg.getOrSetDefault("pollution.production.animal-breed", 0.007);
     }
 
     public Map<Biome, Double> getDefaultBiomeTemperatures() {
         return defaultBiomeTemperatures;
+    }
+
+    public Map<Biome, Double> getMaxTemperatureDropsAtNight() {
+        return maxTemperatureDropsAtNight;
     }
 
     public boolean isWorldEnabled(@Nonnull String worldName) {
@@ -182,6 +201,10 @@ public class Registry {
 
     public double getPollutionMultiply() {
         return pollutionMultiply;
+    }
+
+    public double getStormTemperatureDrop() {
+        return stormTemperatureDrop;
     }
 
     public double getTreeGrowthAbsorption() {

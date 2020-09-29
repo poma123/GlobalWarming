@@ -48,5 +48,6 @@ pollution:
     machines:
       AIR_COMPRESSOR: 0.05
     tree-growth: 0.005
-  options:
-    pollution-multiply: 0.002
+temperature-options:
+  pollution-multiply: 0.002
+  temperature-drop-during-storms: 8

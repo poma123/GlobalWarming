@@ -31,7 +31,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class PollutionListener implements Listener {
 
-    private static final int BROADCAST_COOLDOWN = 30000;
+    private static final int BROADCAST_COOLDOWN = 60000;
 
     private final Map<String, Long> lastWorldBroadcasts = new HashMap<>();
     private final Map<String, Double> tempPollutionValues = new HashMap<>();
@@ -158,8 +158,6 @@ public class PollutionListener implements Listener {
             }
 
         }, ThreadLocalRandom.current().nextInt(1, 20));
-
-        Bukkit.broadcastMessage("Pollution changed in world '" + e.getWorld().getName() + "'. oldValue=" + e.getOldValue() + " newValue=" + e.getNewValue() + " ACTUAL CHANGE=" + (e.getNewValue()-e.getOldValue()));
     }
 
     private boolean risePollutionTry(World world, String ID, ItemStack[] recipeInput) {
