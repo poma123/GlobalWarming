@@ -1,33 +1,52 @@
 ---
 name: Bug Report
-about: Report a Bug or an Issue with this Plugin.
+about: Report a Bug or an Issue with GlobalWarming.
 title: ''
-labels: bug
+labels: Bug Report
 assignees: ''
 
 ---
 
-## Description (Required)
-<!-- A clear and detailed description of what exactly the Issue consists of. -->
-<!-- Please try to write as much as possible. "it doesn't work" is not sufficient. -->
-<!-- Try to write at least 4-6 sentences. -->
+<!-- FILL IN THE FORM BELOW -->
 
-## Steps to reproduce the Issue (Required)
-<!-- Youtube Videos and Screenshots are recommended! -->
+## Description (REQUIRED)
+<!-- A clear and detailed description of what went wrong. -->
+<!-- The more information you can provide, the easier we can handle this problem. -->
+<!-- Start writing below this line -->
 
-## Expected behavior (Required)
-<!-- What did you expect to happen? -->
 
-## Server Log / Error Report
-<!-- Take a look at your Server Log and please provide any error reports you can find via https://pastebin.com/ -->
-<!-- We may discard your Issue if you just post it here, as it's unreadable for us. Please use Pastebin! -->
+## Steps to reproduce the Issue (REQUIRED)
+<!-- Tell us the exact steps to reproduce this issue, the more detailed the easier we can reproduce it. -->
+<!-- Youtube Videos and Screenshots are recommended!!! -->
+<!-- Start writing below this line -->
 
-## Environment (Required)
-<!-- We may also close your Issue if you are not providing the exact version numbers. -->
+
+## Expected behavior (REQUIRED)
+<!-- What were you expecting to happen? -->
+<!-- What do you think would have been the correct behaviour? -->
+<!-- Start writing below this line -->
+
+
+## Server Log
+<!-- Take a look at your Server Log and post any errors you can find via https://pastebin.com/ -->
+<!-- If you are unsure about it, post your full log, you can find it under /logs/latest.log -->
+<!-- Paste your link(s) below this line -->
+
+
+## /error-reports/ Folder
+<!-- Check the folder /plugins/Slimefun/error-reports/ and upload all files inside that folder. -->
+<!-- You can also post these files via https://pastebin.com/ -->
+<!-- Paste your link(s) below this line -->
+
+
+## Environment (REQUIRED)
+<!-- Any info without the exact version numbers will be closed! -->
 <!-- "latest" IS NOT A VERSION NUMBER. -->
-<!-- You can also just run "/sf versions" and show us a screenshot of that. -->
+<!-- We recommend running "/sf versions" and showing us a screenshot of that. -->
+<!-- Make sure that the screenshot covers the entire output of that command. -->
+<!-- If your issue is related to other plugins, make sure to include the versions of these plugins too! -->
 
+ - Server Software (Spigot/Paper):
  - Minecraft Version:
- - CS-CoreLib Version:
  - Slimefun Version:
- - Plugin Version: 
+ - CS-CoreLib Version:
