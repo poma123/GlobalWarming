@@ -5,10 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.logging.Level;
 
-import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.UnplaceableBlock;
-import me.poma123.globalwarming.items.CinnabariteResource;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -18,6 +15,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemConsumptionHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.cscorelib2.config.Config;
 import me.mrCookieSlime.Slimefun.cscorelib2.item.CustomItem;
@@ -25,6 +23,7 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.poma123.globalwarming.items.machines.AirQualityMeter;
 import me.poma123.globalwarming.items.machines.Thermometer;
+import me.poma123.globalwarming.items.CinnabariteResource;
 import me.poma123.globalwarming.listeners.PollutionListener;
 import me.poma123.globalwarming.tasks.FireTask;
 import me.poma123.globalwarming.tasks.MeltTask;
@@ -150,11 +149,17 @@ public class GlobalWarming extends JavaPlugin implements SlimefunAddon {
 
     private void scheduleTasks() {
         if (cfg.getBoolean("mechanics.FOREST_FIRES.enabled")) {
-            new FireTask(cfg.getOrSetDefault("mechanics.FOREST_FIRES.min-temperature-in-celsius", 40.0), cfg.getOrSetDefault("mechanics.FOREST_FIRES.chance", 0.3), cfg.getOrSetDefault("mechanics.FOREST_FIRES.fire-per-second", 10)).scheduleRepeating(0, 20);
+            new FireTask(cfg.getOrSetDefault("mechanics.FOREST_FIRES.min-temperature-in-celsius", 40.0),
+                    cfg.getOrSetDefault("mechanics.FOREST_FIRES.chance", 0.3),
+                    cfg.getOrSetDefault("mechanics.FOREST_FIRES.fire-per-second", 10)
+            ).scheduleRepeating(0, 20);
         }
 
         if (cfg.getBoolean("mechanics.ICE_MELTING.enabled")) {
-            new MeltTask(cfg.getOrSetDefault("mechanics.ICE_MELTING.min-temperature-in-celsius", 2.0), cfg.getOrSetDefault("mechanics.ICE_MELTING.chance", 0.5), cfg.getOrSetDefault("mechanics.ICE_MELTING.melt-per-second", 10)).scheduleRepeating(0, 20);
+            new MeltTask(cfg.getOrSetDefault("mechanics.ICE_MELTING.min-temperature-in-celsius", 2.0),
+                    cfg.getOrSetDefault("mechanics.ICE_MELTING.chance", 0.5),
+                    cfg.getOrSetDefault("mechanics.ICE_MELTING.melt-per-second", 10)
+            ).scheduleRepeating(0, 20);
         }
 
         if (cfg.getBoolean("mechanics.SLOWNESS.enabled")) {

@@ -1,10 +1,6 @@
 package me.poma123.globalwarming.listeners;
 
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import me.mrCookieSlime.Slimefun.cscorelib2.chat.ChatColors;
-import me.mrCookieSlime.Slimefun.cscorelib2.math.DoubleHandler;
-import me.poma123.globalwarming.api.TemperatureType;
-import me.poma123.globalwarming.utils.TemperatureUtils;
+
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.World;
@@ -19,9 +15,13 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.slimefun4.api.events.AsyncGeneratorProcessCompleteEvent;
 import io.github.thebusybiscuit.slimefun4.api.events.AsyncReactorProcessCompleteEvent;
 import io.github.thebusybiscuit.slimefun4.api.events.AsyncMachineProcessCompleteEvent;
+import me.mrCookieSlime.Slimefun.cscorelib2.chat.ChatColors;
+import me.mrCookieSlime.Slimefun.cscorelib2.math.DoubleHandler;
 import me.poma123.globalwarming.api.events.AsyncWorldPollutionChangeEvent;
+import me.poma123.globalwarming.api.TemperatureType;
 import me.poma123.globalwarming.api.PollutionManager;
 import me.poma123.globalwarming.GlobalWarming;
+import me.poma123.globalwarming.utils.TemperatureUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -129,7 +129,8 @@ public class PollutionListener implements Listener {
             double amount = DoubleHandler.fixDouble(e.getNewValue() * GlobalWarming.getRegistry().getPollutionMultiply());
             if (!tempPollutionValues.containsKey(world.getName())) {
                 tempPollutionValues.put(world.getName(), amount);
-            } else {
+            }
+            else {
                 if (tempPollutionValues.get(world.getName()) == amount) {
                     return;
                 }

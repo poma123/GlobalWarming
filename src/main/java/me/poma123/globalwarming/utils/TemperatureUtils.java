@@ -2,16 +2,15 @@ package me.poma123.globalwarming.utils;
 
 import java.util.Map;
 
-import me.mrCookieSlime.Slimefun.cscorelib2.math.DoubleHandler;
-import me.poma123.globalwarming.api.PollutionManager;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
 
-import me.poma123.globalwarming.GlobalWarming;
+import me.mrCookieSlime.Slimefun.cscorelib2.math.DoubleHandler;
+import me.poma123.globalwarming.api.PollutionManager;
 import me.poma123.globalwarming.api.Temperature;
 import me.poma123.globalwarming.api.TemperatureType;
+import me.poma123.globalwarming.GlobalWarming;
 
 import javax.annotation.Nonnull;
 
@@ -59,11 +58,14 @@ public class TemperatureUtils {
 
         if (celsiusDifference <= -1.5 || celsiusDifference >= 1.5) {
             prefix = "&c";
-        } else if (celsiusDifference <= -0.5 || celsiusDifference >= 0.5) {
+        }
+        else if (celsiusDifference <= -0.5 || celsiusDifference >= 0.5) {
             prefix = "&e";
-        } else if (celsiusDifference < 0 || celsiusDifference > 0) {
+        }
+        else if (celsiusDifference < 0 || celsiusDifference > 0) {
             prefix = "&a";
-        } else {
+        }
+        else {
             prefix = "&f";
         }
 

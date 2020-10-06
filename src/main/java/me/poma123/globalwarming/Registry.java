@@ -1,30 +1,30 @@
 package me.poma123.globalwarming;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Level;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
 
+import io.github.thebusybiscuit.slimefun4.core.researching.Research;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.cscorelib2.config.Config;
 
 public class Registry {
-    private double pollutionMultiply;
-    private double stormTemperatureDrop;
-    private double treeGrowthAbsorption;
-    private double animalBreedPollution;
-
     private final List<String> news = new ArrayList<>();
     private final Map<Biome, Double> defaultBiomeTemperatures = new EnumMap<>(Biome.class);
     private final Map<Biome, Double> maxTemperatureDropsAtNight = new EnumMap<>(Biome.class);
@@ -34,6 +34,12 @@ public class Registry {
     private final Map<String, Double> pollutedSlimefunItems = new HashMap<>();
     private final Map<String, Double> pollutedSlimefunMachines = new HashMap<>();
     private final Map<String, Double> absorbentSlimefunMachines = new HashMap<>();
+
+    private double pollutionMultiply;
+    private double stormTemperatureDrop;
+    private double treeGrowthAbsorption;
+    private double animalBreedPollution;
+    private Research researchNeededForPlayerMechanics = null;
 
     public void load(Config cfg, Config biomes, Config messages) {
         // Add missing biomes to the config
@@ -94,9 +100,11 @@ public class Registry {
 
                 if (Material.getMaterial(id) != null) {
                     pollutedVanillaItems.put(Material.getMaterial(id), value);
-                } else if (SlimefunItem.getByID(id) != null) {
+                }
+                else if (SlimefunItem.getByID(id) != null) {
                     pollutedSlimefunItems.put(id, value);
-                } else {
+                }
+                else {
                     GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load non-existent polluted item \"{0}\" with a pollution value of \"{1}\"", new Object[] { id, value });
                 }
             }
@@ -112,7 +120,8 @@ public class Registry {
 
                 if (SlimefunItem.getByID(id) != null) {
                     pollutedSlimefunMachines.put(id, value);
-                } else {
+                }
+                else {
                     GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load non-existent polluted machine \"{0}\" with a pollution value of \"{1}\"", new Object[] { id, value });
                 }
             }
@@ -128,7 +137,8 @@ public class Registry {
 
                 if (SlimefunItem.getByID(id) != null) {
                     absorbentSlimefunMachines.put(id, value);
-                } else {
+                }
+                else {
                     GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load non-existent absorbent machine \"{0}\" with an absorption value of \"{1}\"", new Object[] { id, value });
                 }
             }
@@ -140,6 +150,16 @@ public class Registry {
         stormTemperatureDrop = cfg.getOrSetDefault("temperature-options.temperature-drop-during-storms", 8);
         treeGrowthAbsorption = cfg.getOrSetDefault("pollution.absorption.tree-growth", 0.01);
         animalBreedPollution = cfg.getOrSetDefault("pollution.production.animal-breed", 0.007);
+
+        String researchKey = cfg.getString("needed-research-for-player-mechanics");
+        Optional<Research> tempResearch = Research.getResearch(new NamespacedKey(SlimefunPlugin.instance(), researchKey));
+
+        if (tempResearch.isPresent() && tempResearch.get().isEnabled()) {
+            researchNeededForPlayerMechanics = tempResearch.get();
+        }
+        else {
+            GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load research \"{0}\"", new Object[] { researchKey });
+        }
     }
 
     public Map<Biome, Double> getDefaultBiomeTemperatures() {
@@ -213,5 +233,9 @@ public class Registry {
 
     public double getAnimalBreedPollution() {
         return animalBreedPollution;
+    }
+
+    public Research getResearchNeededForPlayerMechanics() {
+        return researchNeededForPlayerMechanics;
     }
 }

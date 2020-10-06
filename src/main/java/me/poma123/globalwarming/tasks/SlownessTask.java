@@ -1,8 +1,10 @@
 package me.poma123.globalwarming.tasks;
 
-import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -10,6 +12,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import me.poma123.globalwarming.GlobalWarming;
 import me.poma123.globalwarming.api.Temperature;
 import me.poma123.globalwarming.utils.TemperatureUtils;
@@ -18,11 +22,13 @@ public class SlownessTask extends MechanicTask {
 
     private final ThreadLocalRandom rnd;
     private final double chance;
+    private final Research neededResearch;
 
     @ParametersAreNonnullByDefault
     public SlownessTask(double chance) {
         rnd = ThreadLocalRandom.current();
         this.chance = chance;
+        neededResearch = GlobalWarming.getRegistry().getResearchNeededForPlayerMechanics();
     }
 
     private void applyEffect(Player p, int duration, int amplifier) {
@@ -40,6 +46,16 @@ public class SlownessTask extends MechanicTask {
                 for (Player p : w.getPlayers()) {
                     if (p.hasPotionEffect(PotionEffectType.SLOW)) {
                         continue;
+                    }
+
+                    if (neededResearch != null) {
+                        Optional<PlayerProfile> profile = PlayerProfile.find(p);
+
+                        if (profile.isPresent()) {
+                            if (!profile.get().hasUnlocked(neededResearch)) {
+                                continue;
+                            }
+                        }
                     }
 
                     double random = rnd.nextDouble();

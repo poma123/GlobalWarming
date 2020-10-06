@@ -21,6 +21,9 @@ mechanics:
   BURN:
     enabled: true
     chance: 0.8
+
+needed-research-for-player-mechanics: ENERGY_REGULATOR
+
 pollution:
   production:
     machine-recipe-input-items:

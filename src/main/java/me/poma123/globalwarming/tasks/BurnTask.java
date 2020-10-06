@@ -1,25 +1,33 @@
 package me.poma123.globalwarming.tasks;
 
-import me.poma123.globalwarming.GlobalWarming;
-import me.poma123.globalwarming.api.Temperature;
-import me.poma123.globalwarming.utils.TemperatureUtils;
+
+import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Set;
-import java.util.concurrent.ThreadLocalRandom;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.core.researching.Research;
+import me.poma123.globalwarming.GlobalWarming;
+import me.poma123.globalwarming.api.Temperature;
+import me.poma123.globalwarming.utils.TemperatureUtils;
 
 public class BurnTask extends MechanicTask {
 
     private final ThreadLocalRandom rnd;
     private final double chance;
+    private final Research neededResearch;
 
     @ParametersAreNonnullByDefault
     public BurnTask(double chance) {
         rnd = ThreadLocalRandom.current();
         this.chance = chance;
+        neededResearch = GlobalWarming.getRegistry().getResearchNeededForPlayerMechanics();
     }
 
     @Override
@@ -35,6 +43,16 @@ public class BurnTask extends MechanicTask {
                         continue;
                     }
 
+                    if (neededResearch != null) {
+                        Optional<PlayerProfile> profile = PlayerProfile.find(p);
+
+                        if (profile.isPresent()) {
+                            if (!profile.get().hasUnlocked(neededResearch)) {
+                                continue;
+                            }
+                        }
+                    }
+
                     double random = rnd.nextDouble();
 
                     if (random < chance) {
@@ -43,7 +61,8 @@ public class BurnTask extends MechanicTask {
 
                         if (celsiusValue >= 50) {
                             p.setFireTicks(30);
-                        } else if (celsiusValue >= 60){
+                        }
+                        else if (celsiusValue >= 60){
                             p.setFireTicks(80);
                         }
                     }

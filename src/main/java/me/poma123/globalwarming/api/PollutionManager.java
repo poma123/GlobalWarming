@@ -1,7 +1,8 @@
 package me.poma123.globalwarming.api;
 
-import javax.annotation.Nonnull;
 import java.util.Map;
+
+import javax.annotation.Nonnull;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
