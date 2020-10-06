@@ -1,15 +1,17 @@
 package me.poma123.globalwarming.items;
 
-import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
-import me.poma123.globalwarming.GlobalWarming;
-import me.poma123.globalwarming.Items;
+import java.util.concurrent.ThreadLocalRandom;
+
+import javax.annotation.Nonnull;
+
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import java.util.concurrent.ThreadLocalRandom;
+import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
+import me.poma123.globalwarming.GlobalWarming;
+import me.poma123.globalwarming.Items;
 
 public class CinnabariteResource implements GEOResource {
     private final NamespacedKey key = new NamespacedKey(GlobalWarming.getInstance(), "cinnabarite");
