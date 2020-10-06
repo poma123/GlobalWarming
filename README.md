@@ -36,4 +36,4 @@ The pollution can change in a per-world basis. There are two types of pollution 
 - Filter (needed for the Air Compressor craft)
 
 ## API
-All well-documented API classes can be found under the `me.poma123.globalwarming.api` package.
+All well-documented API classes can be found under the [`me.poma123.globalwarming.api`](https://github.com/poma123/GlobalWarming/tree/master/src/main/java/me/poma123/globalwarming/api) package.
