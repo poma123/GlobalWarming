@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.logging.Level;
 
-
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
