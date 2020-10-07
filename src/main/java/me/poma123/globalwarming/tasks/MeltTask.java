@@ -49,8 +49,7 @@ public class MeltTask extends MechanicTask {
 
                     if (current.getType() == Material.ICE) {
                         state.setType(Material.WATER);
-                    }
-                    else {
+                    } else {
                         state.setType(Material.AIR);
                     }
 

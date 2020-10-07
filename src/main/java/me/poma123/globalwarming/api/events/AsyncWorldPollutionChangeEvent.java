@@ -30,9 +30,9 @@ public class AsyncWorldPollutionChangeEvent extends Event {
     }
 
     /**
-     * This method returns the {@link World} where has the change happened
+     * This method returns the {@link World} where the change has happened
      *
-     * @return the {@link World} where has the change happened
+     * @return the {@link World} where the change has happened
      */
     @Nonnull
     public World getWorld() {

@@ -57,11 +57,9 @@ public class AirQualityMeter extends SlimefunItem {
 
             if (saved == TemperatureType.CELSIUS) {
                 saved = TemperatureType.FAHRENHEIT;
-            }
-            else if (saved == TemperatureType.FAHRENHEIT) {
+            } else if (saved == TemperatureType.FAHRENHEIT) {
                 saved = TemperatureType.KELVIN;
-            }
-            else {
+            } else {
                 saved = TemperatureType.CELSIUS;
             }
 

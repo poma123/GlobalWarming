@@ -61,8 +61,7 @@ public class BurnTask extends MechanicTask {
 
                         if (celsiusValue >= 50) {
                             p.setFireTicks(30);
-                        }
-                        else if (celsiusValue >= 60){
+                        } else if (celsiusValue >= 60){
                             p.setFireTicks(80);
                         }
                     }

@@ -129,8 +129,7 @@ public class PollutionListener implements Listener {
             double amount = DoubleHandler.fixDouble(e.getNewValue() * GlobalWarming.getRegistry().getPollutionMultiply());
             if (!tempPollutionValues.containsKey(world.getName())) {
                 tempPollutionValues.put(world.getName(), amount);
-            }
-            else {
+            } else {
                 if (tempPollutionValues.get(world.getName()) == amount) {
                     return;
                 }

@@ -69,16 +69,13 @@ public class SlownessTask extends MechanicTask {
                         if (celsiusValue <= -30 || celsiusValue >= 50) {
                             amplifier = 2;
                             duration = 100;
-                        }
-                        else if (celsiusValue <= -20 || celsiusValue >= 40) {
+                        } else if (celsiusValue <= -20 || celsiusValue >= 40) {
                             amplifier = 1;
                             duration = 60;
-                        }
-                        else if (celsiusValue <= -10 || celsiusValue >= 36) {
+                        } else if (celsiusValue <= -10 || celsiusValue >= 36) {
                             amplifier = 0;
                             duration = 40;
-                        }
-                        else {
+                        } else {
                             continue;
                         }
 

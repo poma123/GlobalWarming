@@ -58,8 +58,7 @@ public class Registry {
 
             try {
                 defaultBiomeTemperatures.put(Biome.valueOf(biome), celsiusValue);
-            }
-            catch (IllegalArgumentException ex) {
+            } catch (IllegalArgumentException ex) {
                 GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load temperature \"{0}\" of the invalid biome \"{1}\"", new Object[] { celsiusValue, biome });
             }
         }
@@ -70,8 +69,7 @@ public class Registry {
 
             try {
                 maxTemperatureDropsAtNight.put(Biome.valueOf(biome), celsiusValue);
-            }
-            catch (IllegalArgumentException ex) {
+            } catch (IllegalArgumentException ex) {
                 GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load temperature drop \"{0}\" of the invalid biome \"{1}\"", new Object[] { celsiusValue, biome });
             }
         }
@@ -100,11 +98,9 @@ public class Registry {
 
                 if (Material.getMaterial(id) != null) {
                     pollutedVanillaItems.put(Material.getMaterial(id), value);
-                }
-                else if (SlimefunItem.getByID(id) != null) {
+                } else if (SlimefunItem.getByID(id) != null) {
                     pollutedSlimefunItems.put(id, value);
-                }
-                else {
+                } else {
                     GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load non-existent polluted item \"{0}\" with a pollution value of \"{1}\"", new Object[] { id, value });
                 }
             }
@@ -120,8 +116,7 @@ public class Registry {
 
                 if (SlimefunItem.getByID(id) != null) {
                     pollutedSlimefunMachines.put(id, value);
-                }
-                else {
+                } else {
                     GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load non-existent polluted machine \"{0}\" with a pollution value of \"{1}\"", new Object[] { id, value });
                 }
             }
@@ -137,8 +132,7 @@ public class Registry {
 
                 if (SlimefunItem.getByID(id) != null) {
                     absorbentSlimefunMachines.put(id, value);
-                }
-                else {
+                } else {
                     GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load non-existent absorbent machine \"{0}\" with an absorption value of \"{1}\"", new Object[] { id, value });
                 }
             }
@@ -156,8 +150,7 @@ public class Registry {
 
         if (tempResearch.isPresent() && tempResearch.get().isEnabled()) {
             researchNeededForPlayerMechanics = tempResearch.get();
-        }
-        else {
+        } else {
             GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load research \"{0}\"", new Object[] { researchKey });
         }
     }
