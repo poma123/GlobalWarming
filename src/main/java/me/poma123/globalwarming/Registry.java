@@ -74,13 +74,12 @@ public class Registry {
             }
         }
 
-        List<String> enabledWorlds = cfg.getStringList("enabled-worlds");
+        List<String> worlds = cfg.getStringList("enabled-worlds");
 
         // Creating world configs
         for (World w : Bukkit.getWorlds()) {
-            if (enabledWorlds.contains(w.getName())) {
-                this.enabledWorlds.add(w.getName());
-
+            if (worlds.contains(w.getName())) {
+                enabledWorlds.add(w.getName());
                 getWorldConfig(w);
             }
         }

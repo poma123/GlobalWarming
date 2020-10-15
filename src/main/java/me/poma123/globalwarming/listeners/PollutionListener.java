@@ -152,8 +152,8 @@ public class PollutionListener implements Listener {
         }, ThreadLocalRandom.current().nextInt(1, 20));
     }
 
-    private boolean risePollutionTry(World world, String ID, ItemStack[] recipeInput) {
-        double pollutionValue = calculatePollutionValue(ID, recipeInput);
+    private boolean risePollutionTry(World world, String id, ItemStack[] recipeInput) {
+        double pollutionValue = calculatePollutionValue(id, recipeInput);
 
         if (pollutionValue > 0.0) {
             PollutionManager.risePollutionInWorld(world, pollutionValue);
@@ -163,8 +163,8 @@ public class PollutionListener implements Listener {
         return false;
     }
 
-    private boolean descendPollutionTry(World world, String ID) {
-        double absorptionValue = calculateAbsorptionValue(ID);
+    private boolean descendPollutionTry(World world, String id) {
+        double absorptionValue = calculateAbsorptionValue(id);
 
         if (absorptionValue > 0.0) {
             PollutionManager.descendPollutionInWorld(world, absorptionValue);
@@ -174,10 +174,10 @@ public class PollutionListener implements Listener {
         return false;
     }
 
-    private double calculatePollutionValue(String ID, ItemStack[] recipeInput) {
+    private double calculatePollutionValue(String id, ItemStack[] recipeInput) {
         double pollutionValue = 0.0;
         
-        pollutionValue += PollutionManager.isPollutedMachine(ID);
+        pollutionValue += PollutionManager.isPollutedMachine(id);
 
         for (ItemStack item : recipeInput) {
             pollutionValue += PollutionManager.isPollutedItem(item);
@@ -186,10 +186,10 @@ public class PollutionListener implements Listener {
         return pollutionValue;
     }
 
-    private double calculateAbsorptionValue(String ID) {
+    private double calculateAbsorptionValue(String id) {
         double absorptionValue = 0.0;
 
-        absorptionValue += PollutionManager.isAbsorbentMachine(ID);
+        absorptionValue += PollutionManager.isAbsorbentMachine(id);
 
         return absorptionValue;
     }

@@ -160,13 +160,13 @@ public class PollutionManager {
     /**
      * This returns the pollution production of a {@link SlimefunItem} machine
      *
-     * @param ID
+     * @param id
      *            The ID of the {@link SlimefunItem} machine
      *
      * @return the pollution production of the {@link SlimefunItem} machine
      */
-    public static double isPollutedMachine(@Nonnull String ID) {
-        SlimefunItem sfItem = SlimefunItem.getByID(ID);
+    public static double isPollutedMachine(@Nonnull String id) {
+        SlimefunItem sfItem = SlimefunItem.getByID(id);
         Map<String, Double> pollutedSlimefunMachines = GlobalWarming.getRegistry().getPollutedSlimefunMachines();
 
         if (sfItem != null && pollutedSlimefunMachines.containsKey(sfItem.getID())) {
@@ -179,13 +179,13 @@ public class PollutionManager {
     /**
      * This returns the pollution absorption of a {@link SlimefunItem} machine
      *
-     * @param ID
+     * @param id
      *            The ID of the {@link SlimefunItem} machine
      *
      * @return the pollution absorption of the {@link SlimefunItem} machine
      */
-    public static double isAbsorbentMachine(@Nonnull String ID) {
-        SlimefunItem sfItem = SlimefunItem.getByID(ID);
+    public static double isAbsorbentMachine(@Nonnull String id) {
+        SlimefunItem sfItem = SlimefunItem.getByID(id);
         Map<String, Double> absorbentSlimefunMachines = GlobalWarming.getRegistry().getAbsorbentSlimefunMachines();
 
         if (sfItem != null && absorbentSlimefunMachines.containsKey(sfItem.getID())) {

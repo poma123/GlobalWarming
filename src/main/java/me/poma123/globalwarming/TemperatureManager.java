@@ -103,7 +103,6 @@ public class TemperatureManager {
         double celsiusDifference = (PollutionManager.getPollutionInWorld(world) * GlobalWarming.getRegistry().getPollutionMultiply());
         double currentValue = temp.getCelsiusValue() + celsiusDifference;
         double defaultValue = temp.getCelsiusValue();
-        //double celsiusDifference = getDifference(currentValue, defaultValue, TemperatureType.CELSIUS);
         String prefix;
 
         if (celsiusDifference <= -1.5 || celsiusDifference >= 1.5) {
@@ -131,7 +130,6 @@ public class TemperatureManager {
         World world = loc.getWorld();
         Biome biome = loc.getBlock().getBiome();
         Map<Biome, Double> tempMap = GlobalWarming.getRegistry().getDefaultBiomeTemperatures();
-        Map<Biome, Double> nightDropMap = GlobalWarming.getRegistry().getMaxTemperatureDropsAtNight();
         double celsiusValue = 15;
         double nightDrop = 10;
 
