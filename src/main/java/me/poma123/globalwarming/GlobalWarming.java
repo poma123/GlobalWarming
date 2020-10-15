@@ -44,7 +44,6 @@ public class GlobalWarming extends JavaPlugin implements SlimefunAddon {
     private final Config cfg = new Config(this);
     private Config messages;
     private Config biomes;
-    private Category category;
 
     @Override
     public void onEnable() {
@@ -80,7 +79,7 @@ public class GlobalWarming extends JavaPlugin implements SlimefunAddon {
     }
 
     private void registerItems() {
-        category = new Category(new NamespacedKey(this, "global_warming"), new CustomItem(Items.THERMOMETER, "&2Global Warming"));
+        Category category = new Category(new NamespacedKey(this, "global_warming"), new CustomItem(Items.THERMOMETER, "&2Global Warming"));
 
         new TemperatureMeter(category, Items.THERMOMETER, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
                 SlimefunItems.NICKEL_INGOT, new ItemStack(Material.GLASS), SlimefunItems.NICKEL_INGOT,

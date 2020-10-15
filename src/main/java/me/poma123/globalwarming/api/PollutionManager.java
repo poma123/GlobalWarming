@@ -24,6 +24,8 @@ import me.poma123.globalwarming.api.events.AsyncWorldPollutionChangeEvent;
  */
 public class PollutionManager {
 
+    public static final String DATA_PATH = "data.pollution";
+
     public static double getPollutionAtLocation(@Nonnull Location loc) {
         return getPollutionInWorld(loc.getWorld());
     }
@@ -41,7 +43,7 @@ public class PollutionManager {
             Config config = GlobalWarming.getRegistry().getWorldConfig(world);
 
             if (config != null) {
-                return config.getDouble("data.pollution");
+                return config.getDouble(DATA_PATH);
             }
         }
         return 0.0;
@@ -62,13 +64,13 @@ public class PollutionManager {
             Config config = GlobalWarming.getRegistry().getWorldConfig(world);
 
             if (config != null) {
-                double oldValue = config.getDouble("data.pollution");
+                double oldValue = config.getDouble(DATA_PATH);
                 value = oldValue + value;
 
                 AsyncWorldPollutionChangeEvent event = new AsyncWorldPollutionChangeEvent(world, oldValue, value);
                 Bukkit.getScheduler().runTaskAsynchronously(GlobalWarming.getInstance(), () -> Bukkit.getPluginManager().callEvent(event));
 
-                config.setValue("data.pollution", value);
+                config.setValue(DATA_PATH, value);
                 config.save();
                 return true;
             }
@@ -91,13 +93,13 @@ public class PollutionManager {
             Config config = GlobalWarming.getRegistry().getWorldConfig(world);
 
             if (config != null) {
-                double oldValue = config.getDouble("data.pollution");
+                double oldValue = config.getDouble(DATA_PATH);
                 value = Math.max(oldValue - value, 0.0);
 
                 AsyncWorldPollutionChangeEvent event = new AsyncWorldPollutionChangeEvent(world, oldValue, value);
                 Bukkit.getScheduler().runTaskAsynchronously(GlobalWarming.getInstance(), () -> Bukkit.getPluginManager().callEvent(event));
 
-                config.setValue("data.pollution", value);
+                config.setValue(DATA_PATH, value);
                 config.save();
                 return true;
             }
@@ -120,12 +122,12 @@ public class PollutionManager {
             Config config = GlobalWarming.getRegistry().getWorldConfig(world);
 
             if (config != null) {
-                double oldValue = config.getDouble("data.pollution");
+                double oldValue = config.getDouble(DATA_PATH);
 
                 AsyncWorldPollutionChangeEvent event = new AsyncWorldPollutionChangeEvent(world, oldValue, newValue);
                 Bukkit.getScheduler().runTaskAsynchronously(GlobalWarming.getInstance(), () -> Bukkit.getPluginManager().callEvent(event));
 
-                config.setValue("data.pollution", newValue);
+                config.setValue(DATA_PATH, newValue);
                 config.save();
                 return true;
             }

@@ -23,7 +23,7 @@ import me.poma123.globalwarming.api.TemperatureType;
 public abstract class TemperatureMeter extends SlimefunItem {
 
     @ParametersAreNonnullByDefault
-    public TemperatureMeter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    protected TemperatureMeter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
         SlimefunItem.registerBlockHandler(getID(), (p, b, stack, reason) -> {
