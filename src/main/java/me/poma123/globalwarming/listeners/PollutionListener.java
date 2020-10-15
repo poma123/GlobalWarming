@@ -42,7 +42,6 @@ public class PollutionListener implements Listener {
         }
 
         risePollutionTry(world, e.getMachine().getID(), e.getMachineRecipe().getInput());
-
         descendPollutionTry(world, e.getMachine().getID());
     }
 
@@ -55,7 +54,6 @@ public class PollutionListener implements Listener {
         }
 
         risePollutionTry(world, e.getGenerator().getID(), new ItemStack[]{ e.getMachineFuel().getInput() });
-
         descendPollutionTry(world, e.getGenerator().getID());
     }
 
@@ -68,7 +66,6 @@ public class PollutionListener implements Listener {
         }
 
         risePollutionTry(world, e.getReactor().getID(), new ItemStack[]{ e.getMachineFuel().getInput() });
-
         descendPollutionTry(world, e.getReactor().getID());
     }
 
