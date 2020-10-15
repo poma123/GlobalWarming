@@ -1,5 +1,9 @@
 package me.poma123.globalwarming.listeners;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.Material;
 import org.bukkit.Tag;
@@ -21,13 +25,6 @@ import me.poma123.globalwarming.api.events.AsyncWorldPollutionChangeEvent;
 import me.poma123.globalwarming.api.TemperatureType;
 import me.poma123.globalwarming.api.PollutionManager;
 import me.poma123.globalwarming.GlobalWarming;
-import me.poma123.globalwarming.utils.TemperatureUtils;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class PollutionListener implements Listener {
 
@@ -137,12 +134,12 @@ public class PollutionListener implements Listener {
 
             tempPollutionValues.replace(world.getName(), amount);
 
-            TemperatureType messageTempType = TemperatureType.valueOf(GlobalWarming.getMessages().getString("temperature-scale"));
-            String difference = TemperatureUtils.getAirQualityString(world, messageTempType);
+            TemperatureType messageTempType = TemperatureType.valueOf(GlobalWarming.getMessagesConfig().getString("temperature-scale"));
+            String difference = GlobalWarming.getTemperatureManager().getAirQualityString(world, messageTempType);
 
             String news = "";
             if (!GlobalWarming.getRegistry().getNews().isEmpty()) {
-                String base = GlobalWarming.getMessages().getString("messages.breaking-news");
+                String base = GlobalWarming.getMessagesConfig().getString("messages.breaking-news");
                 List<String> newsList = GlobalWarming.getRegistry().getNews();
                 String random = newsList.get(ThreadLocalRandom.current().nextInt(newsList.size()));
 
@@ -150,7 +147,7 @@ public class PollutionListener implements Listener {
             }
 
             for (Player p : world.getPlayers()) {
-                p.sendMessage(ChatColors.color(GlobalWarming.getMessages().getString("messages.climate-change").replace("%value%", difference)));
+                p.sendMessage(ChatColors.color(GlobalWarming.getMessagesConfig().getString("messages.climate-change").replace("%value%", difference)));
 
                 if (news.length() > 0) {
                     p.sendMessage(news);

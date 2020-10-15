@@ -20,7 +20,7 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.poma123.globalwarming.api.TemperatureType;
-import me.poma123.globalwarming.utils.TemperatureUtils;
+import me.poma123.globalwarming.GlobalWarming;
 
 public class Thermometer extends SlimefunItem {
 
@@ -90,6 +90,6 @@ public class Thermometer extends SlimefunItem {
 
     private void tick(@Nonnull Block b) {
         Location loc = b.getLocation();
-        SimpleHologram.update(b, TemperatureUtils.getTemperatureString(loc, TemperatureType.valueOf(BlockStorage.getLocationInfo(loc, "type"))));
+        SimpleHologram.update(b, GlobalWarming.getTemperatureManager().getTemperatureString(loc, TemperatureType.valueOf(BlockStorage.getLocationInfo(loc, "type"))));
     }
 }

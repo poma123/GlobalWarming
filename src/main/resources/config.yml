@@ -1,8 +1,8 @@
 options:
   auto-update: true
 
-disabled-worlds:
-- disabled_world
+enabled-worlds:
+- world
 
 mechanics:
   FOREST_FIRES:

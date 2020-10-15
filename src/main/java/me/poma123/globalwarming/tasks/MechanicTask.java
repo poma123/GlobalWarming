@@ -20,4 +20,8 @@ public abstract class MechanicTask implements Runnable {
         setID(Bukkit.getScheduler().scheduleSyncRepeatingTask(GlobalWarming.getInstance(), this, delay, interval));
     }
 
+    public void scheduleAsyncRepeating(long delay, long interval) {
+        setID(Bukkit.getScheduler().scheduleAsyncRepeatingTask(GlobalWarming.getInstance(), this, delay, interval));
+    }
+
 }

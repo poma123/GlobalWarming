@@ -20,7 +20,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.poma123.globalwarming.api.TemperatureType;
-import me.poma123.globalwarming.utils.TemperatureUtils;
+import me.poma123.globalwarming.GlobalWarming;
 
 public class AirQualityMeter extends SlimefunItem {
 
@@ -90,6 +90,6 @@ public class AirQualityMeter extends SlimefunItem {
 
     private void tick(@Nonnull Block b) {
         Location loc = b.getLocation();
-        SimpleHologram.update(b, "&7Climate change: " + TemperatureUtils.getAirQualityString(loc.getWorld(), TemperatureType.valueOf(BlockStorage.getLocationInfo(loc, "type"))));
+        SimpleHologram.update(b, "&7Climate change: " + GlobalWarming.getTemperatureManager().getAirQualityString(loc.getWorld(), TemperatureType.valueOf(BlockStorage.getLocationInfo(loc, "type"))));
     }
 }

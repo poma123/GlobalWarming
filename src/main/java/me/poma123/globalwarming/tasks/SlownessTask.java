@@ -16,7 +16,6 @@ import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import me.poma123.globalwarming.GlobalWarming;
 import me.poma123.globalwarming.api.Temperature;
-import me.poma123.globalwarming.utils.TemperatureUtils;
 
 public class SlownessTask extends MechanicTask {
 
@@ -42,7 +41,7 @@ public class SlownessTask extends MechanicTask {
         for (String worldName : enabledWorlds) {
             World w = Bukkit.getWorld(worldName);
 
-            if (w != null && GlobalWarming.getRegistry().isWorldEnabled(w.getName()) && w.getPlayers().size() > 0) {
+            if (w != null && GlobalWarming.getRegistry().isWorldEnabled(w.getName()) && !w.getPlayers().isEmpty()) {
                 for (Player p : w.getPlayers()) {
                     if (p.hasPotionEffect(PotionEffectType.SLOW)) {
                         continue;
@@ -61,7 +60,7 @@ public class SlownessTask extends MechanicTask {
                     double random = rnd.nextDouble();
 
                     if (random < chance) {
-                        Temperature temp = TemperatureUtils.getTemperatureAtLocation(p.getLocation());
+                        Temperature temp = GlobalWarming.getTemperatureManager().getTemperatureAtLocation(p.getLocation());
                         double celsiusValue = temp.getCelsiusValue();
                         int amplifier;
                         int duration;

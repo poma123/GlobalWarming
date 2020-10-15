@@ -74,11 +74,11 @@ public class Registry {
             }
         }
 
-        List<String> disabledWorlds = cfg.getStringList("disabled-worlds");
+        List<String> enabledWorlds = cfg.getStringList("enabled-worlds");
 
         // Creating world configs
         for (World w : Bukkit.getWorlds()) {
-            if (!disabledWorlds.contains(w.getName())) {
+            if (enabledWorlds.contains(w.getName())) {
                 enabledWorlds.add(w.getName());
 
                 getWorldConfig(w);
@@ -164,6 +164,10 @@ public class Registry {
     }
 
     public boolean isWorldEnabled(@Nonnull String worldName) {
+        if (Bukkit.getWorld(worldName) == null) {
+            enabledWorlds.remove(worldName);
+            return false;
+        }
         return enabledWorlds.contains(worldName);
     }
 
@@ -172,8 +176,8 @@ public class Registry {
     }
 
     @Nullable
-    public Config getWorldConfig(@Nonnull World world) {
-        if (isWorldEnabled(world.getName())) {
+    public Config getWorldConfig(@Nullable World world) {
+        if (world != null && isWorldEnabled(world.getName())) {
             if (!worldConfigs.containsKey(world.getName())) {
                 worldConfigs.put(world.getName(), getNewWorldConfig(world));
             }
