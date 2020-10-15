@@ -4,3 +4,11 @@ main: me.poma123.globalwarming.GlobalWarming
 depend: [Slimefun]
 version: ${project.version}
 api-version: 1.16
+commands:
+  globalwarming:
+    description: GlobalWarming command
+    aliases: gw
+permissions:
+  globalwarming.command.pollution:
+    description: Allows you to manually change the pollution amount
+    default: op

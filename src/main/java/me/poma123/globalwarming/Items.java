@@ -22,7 +22,6 @@ public class Items {
     public static final SlimefunItemStack MERCURY = new SlimefunItemStack("MERCURY", Material.GRAY_DYE, "&7Mercury");
     public static final SlimefunItemStack FILTER = new SlimefunItemStack("FILTER", Material.GUNPOWDER, "&7Filter");
 
-
     static {
         ItemStack item = new ItemStack(Material.POTION);
         ItemMeta meta = item.getItemMeta();

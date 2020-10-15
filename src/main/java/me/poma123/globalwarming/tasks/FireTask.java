@@ -13,7 +13,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 
 import me.poma123.globalwarming.GlobalWarming;
-import me.poma123.globalwarming.utils.TemperatureUtils;
 
 public class FireTask extends MechanicTask {
 
@@ -42,7 +41,7 @@ public class FireTask extends MechanicTask {
                 int z = (chunk.getZ() << 4) + rnd.nextInt(16);
 
                 Block current = world.getHighestBlockAt(x, z).getRelative(BlockFace.UP);
-                if (TemperatureUtils.getTemperatureAtLocation(current.getLocation()).getCelsiusValue() >= minimumTemperature) {
+                if (GlobalWarming.getTemperatureManager().getTemperatureAtLocation(current.getLocation()).getCelsiusValue() >= minimumTemperature) {
                     current.setType(Material.FIRE);
                 }
             }
@@ -56,7 +55,7 @@ public class FireTask extends MechanicTask {
         for (String worldName : enabledWorlds) {
             World w = Bukkit.getWorld(worldName);
 
-            if (w != null && GlobalWarming.getRegistry().isWorldEnabled(w.getName()) && !(w.hasStorm() || w.isThundering()) && w.getLoadedChunks().length > 0) {
+            if (w != null && GlobalWarming.getRegistry().isWorldEnabled(w.getName()) && !w.getPlayers().isEmpty() && !(w.hasStorm() || w.isThundering()) && w.getLoadedChunks().length > 0) {
                 double random = rnd.nextDouble();
 
                 if (random < chance) {

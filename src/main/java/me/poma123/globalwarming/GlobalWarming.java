@@ -20,6 +20,7 @@ import me.mrCookieSlime.Slimefun.cscorelib2.config.Config;
 import me.mrCookieSlime.Slimefun.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.poma123.globalwarming.commands.GlobalWarmingCommand;
 import me.poma123.globalwarming.items.machines.AirQualityMeter;
 import me.poma123.globalwarming.items.machines.Thermometer;
 import me.poma123.globalwarming.items.CinnabariteResource;
@@ -32,11 +33,13 @@ import me.poma123.globalwarming.tasks.BurnTask;
 
 public class GlobalWarming extends JavaPlugin implements SlimefunAddon {
 
-    private static Config cfg;
-    private static Config messages;
-    private Config biomes;
     private static GlobalWarming instance;
-    private static final Registry registry = new Registry();
+    private static Registry registry = new Registry();
+    private final TemperatureManager temperatureManager = new TemperatureManager();
+    private final GlobalWarmingCommand command = new GlobalWarmingCommand(this);
+    private final Config cfg = new Config(this);
+    private Config messages;
+    private Config biomes;
     private Category category;
 
     @Override
@@ -44,8 +47,6 @@ public class GlobalWarming extends JavaPlugin implements SlimefunAddon {
         instance = this;
 
         // Create configuration files
-        cfg = new Config(this);
-
         final File biomesFile = new File(getDataFolder(), "biomes.yml");
         if (!biomesFile.exists()) {
             try {
@@ -70,6 +71,7 @@ public class GlobalWarming extends JavaPlugin implements SlimefunAddon {
         registry.load(cfg, biomes, messages);
         scheduleTasks();
 
+        command.register();
         Bukkit.getPluginManager().registerEvents(new PollutionListener(), this);
     }
 
@@ -163,17 +165,27 @@ public class GlobalWarming extends JavaPlugin implements SlimefunAddon {
             new SlownessTask(cfg.getOrSetDefault("mechanics.SLOWNESS.chance", 0.8)).scheduleRepeating(0, 200);
         }
 
-        if (cfg.getBoolean("mechanics.BURNING.enabled")) {
-            new BurnTask(cfg.getOrSetDefault("mechanics.BURNING.chance", 0.8)).scheduleRepeating(0, 200);
+        if (cfg.getBoolean("mechanics.BURN.enabled")) {
+            new BurnTask(cfg.getOrSetDefault("mechanics.BURN.chance", 0.8)).scheduleRepeating(0, 200);
         }
+
+        temperatureManager.runCalculationTask(0, 100);
     }
 
     public static Registry getRegistry() {
         return registry;
     }
 
+    public static TemperatureManager getTemperatureManager() {
+        return instance.temperatureManager;
+    }
+
     public static GlobalWarming getInstance() {
         return instance;
+    }
+
+    public static GlobalWarmingCommand getCommand() {
+        return instance.command;
     }
 
     @Override
@@ -187,10 +199,14 @@ public class GlobalWarming extends JavaPlugin implements SlimefunAddon {
     }
 
     public static Config getCfg() {
-        return cfg;
+        return instance.cfg;
     }
 
-    public static Config getMessages() {
-        return messages;
+    public static Config getMessagesConfig() {
+        return instance.messages;
+    }
+
+    public static Config getBiomesConfig() {
+        return instance.biomes;
     }
 }
