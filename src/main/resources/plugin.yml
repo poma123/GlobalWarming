@@ -4,6 +4,7 @@ main: me.poma123.globalwarming.GlobalWarming
 depend: [Slimefun]
 version: ${project.version}
 api-version: 1.16
+
 commands:
   globalwarming:
     description: GlobalWarming command
