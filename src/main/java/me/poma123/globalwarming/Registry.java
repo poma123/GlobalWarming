@@ -25,6 +25,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.cscorelib2.config.Config;
 
 public class Registry {
+
     private final List<String> news = new ArrayList<>();
     private final Map<Biome, Double> defaultBiomeTemperatures = new EnumMap<>(Biome.class);
     private final Map<Biome, Double> maxTemperatureDropsAtNight = new EnumMap<>(Biome.class);
@@ -34,7 +35,6 @@ public class Registry {
     private final Map<String, Double> pollutedSlimefunItems = new HashMap<>();
     private final Map<String, Double> pollutedSlimefunMachines = new HashMap<>();
     private final Map<String, Double> absorbentSlimefunMachines = new HashMap<>();
-
     private double pollutionMultiply;
     private double stormTemperatureDrop;
     private double treeGrowthAbsorption;
@@ -79,7 +79,7 @@ public class Registry {
         // Creating world configs
         for (World w : Bukkit.getWorlds()) {
             if (enabledWorlds.contains(w.getName())) {
-                enabledWorlds.add(w.getName());
+                this.enabledWorlds.add(w.getName());
 
                 getWorldConfig(w);
             }
