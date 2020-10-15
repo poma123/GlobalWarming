@@ -50,10 +50,8 @@ public class SlownessTask extends MechanicTask {
                     if (neededResearch != null) {
                         Optional<PlayerProfile> profile = PlayerProfile.find(p);
 
-                        if (profile.isPresent()) {
-                            if (!profile.get().hasUnlocked(neededResearch)) {
-                                continue;
-                            }
+                        if (profile.isPresent() && !profile.get().hasUnlocked(neededResearch)) {
+                            continue;
                         }
                     }
 

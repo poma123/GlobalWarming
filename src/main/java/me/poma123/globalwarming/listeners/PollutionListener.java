@@ -113,10 +113,8 @@ public class PollutionListener implements Listener {
             World world = e.getWorld();
 
             Long lastBroadcast = lastWorldBroadcasts.get(world.getName());
-            if (lastBroadcast != null) {
-                if ((System.currentTimeMillis() - lastBroadcast) < BROADCAST_COOLDOWN) {
-                    return;
-                }
+            if (lastBroadcast != null && (System.currentTimeMillis() - lastBroadcast) < BROADCAST_COOLDOWN) {
+                return;
             }
             lastWorldBroadcasts.put(world.getName(), System.currentTimeMillis());
 

@@ -19,7 +19,7 @@ public abstract class AirCompressor extends AContainer implements RecipeDisplayI
             new NamespacedKey(GlobalWarming.getInstance(), "air_compressor"), Items.AIR_COMPRESSOR
     );
 
-    public AirCompressor(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    protected AirCompressor(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
     }
 

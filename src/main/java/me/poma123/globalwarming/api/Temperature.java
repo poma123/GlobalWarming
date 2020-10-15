@@ -10,16 +10,16 @@ import javax.annotation.Nonnull;
  *
  */
 public class Temperature {
-    private static double celsiusValue;
-    private static TemperatureType tempType = TemperatureType.CELSIUS;
+    private double celsiusValue;
+    private TemperatureType tempType = TemperatureType.CELSIUS;
 
-    public Temperature(@Nonnull double celsiusValue) {
-        this.celsiusValue = celsiusValue;
+    public Temperature(@Nonnull double value) {
+        this.celsiusValue = value;
     }
 
-    public Temperature(@Nonnull double celsiusValue, @Nonnull TemperatureType tempType) {
-        this.celsiusValue = celsiusValue;
-        this.tempType = tempType;
+    public Temperature(@Nonnull double value, @Nonnull TemperatureType type) {
+        celsiusValue = value;
+        tempType = type;
     }
 
     @Nonnull
@@ -54,7 +54,7 @@ public class Temperature {
         return tempType;
     }
 
-    public void setTemperatureType(TemperatureType tempType) {
-        this.tempType = tempType;
+    public void setTemperatureType(TemperatureType type) {
+        tempType = type;
     }
 }

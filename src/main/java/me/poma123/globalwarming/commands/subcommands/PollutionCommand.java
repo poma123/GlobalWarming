@@ -66,10 +66,8 @@ class PollutionCommand extends SubCommand {
     private int parseAmount(String[] args) {
         int amount = -1;
 
-        if (args.length == 4) {
-            if (PatternUtils.NUMERIC.matcher(args[3]).matches()) {
-                amount = Integer.parseInt(args[3]);
-            }
+        if (args.length == 4 && PatternUtils.NUMERIC.matcher(args[3]).matches()) {
+            amount = Integer.parseInt(args[3]);
         }
 
         return amount;

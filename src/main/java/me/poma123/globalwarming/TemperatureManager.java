@@ -127,15 +127,6 @@ public class TemperatureManager {
         return prefix + DoubleHandler.fixDouble(difference) + " &7" + tempType.getSuffix();
     }
 
-    /*public static Temperature getTemperatureAtLocation(@Nonnull Location loc) {
-        World world = loc.getWorld();
-        double celsiusValue = getDefaultBiomeTemperatureAtLocation(loc).getCelsiusValue();
-        
-        celsiusValue = celsiusValue + (PollutionManager.getPollutionInWorld(world) * GlobalWarming.getRegistry().getPollutionMultiply());
-
-        return new Temperature(celsiusValue);
-    }*/
-
     public Temperature getDefaultBiomeTemperatureAtLocation(@Nonnull Location loc) {
         World world = loc.getWorld();
         Biome biome = loc.getBlock().getBiome();
