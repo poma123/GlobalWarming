@@ -2,7 +2,7 @@ package me.poma123.globalwarming.tasks;
 
 import org.bukkit.Bukkit;
 
-import me.poma123.globalwarming.GlobalWarming;
+import me.poma123.globalwarming.GlobalWarmingPlugin;
 
 public abstract class MechanicTask implements Runnable {
 
@@ -13,15 +13,15 @@ public abstract class MechanicTask implements Runnable {
     }
 
     public void schedule(long delay) {
-        setID(Bukkit.getScheduler().scheduleSyncDelayedTask(GlobalWarming.getInstance(), this, delay));
+        setID(Bukkit.getScheduler().scheduleSyncDelayedTask(GlobalWarmingPlugin.getInstance(), this, delay));
     }
 
     public void scheduleRepeating(long delay, long interval) {
-        setID(Bukkit.getScheduler().scheduleSyncRepeatingTask(GlobalWarming.getInstance(), this, delay, interval));
+        setID(Bukkit.getScheduler().scheduleSyncRepeatingTask(GlobalWarmingPlugin.getInstance(), this, delay, interval));
     }
 
     public void scheduleAsyncRepeating(long delay, long interval) {
-        setID(Bukkit.getScheduler().scheduleAsyncRepeatingTask(GlobalWarming.getInstance(), this, delay, interval));
+        setID(Bukkit.getScheduler().scheduleAsyncRepeatingTask(GlobalWarmingPlugin.getInstance(), this, delay, interval));
     }
 
 }

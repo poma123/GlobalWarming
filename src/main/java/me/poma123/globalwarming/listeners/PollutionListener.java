@@ -21,10 +21,10 @@ import io.github.thebusybiscuit.slimefun4.api.events.AsyncReactorProcessComplete
 import io.github.thebusybiscuit.slimefun4.api.events.AsyncMachineProcessCompleteEvent;
 import me.mrCookieSlime.Slimefun.cscorelib2.chat.ChatColors;
 import me.mrCookieSlime.Slimefun.cscorelib2.math.DoubleHandler;
+import me.poma123.globalwarming.GlobalWarmingPlugin;
 import me.poma123.globalwarming.api.events.AsyncWorldPollutionChangeEvent;
 import me.poma123.globalwarming.api.TemperatureType;
 import me.poma123.globalwarming.api.PollutionManager;
-import me.poma123.globalwarming.GlobalWarming;
 
 public class PollutionListener implements Listener {
 
@@ -37,7 +37,7 @@ public class PollutionListener implements Listener {
     public void onMachineProcessComplete(AsyncMachineProcessCompleteEvent e) {
         World world = e.getLocation().getWorld();
 
-        if (!GlobalWarming.getRegistry().isWorldEnabled(world.getName())) {
+        if (!GlobalWarmingPlugin.getRegistry().isWorldEnabled(world.getName())) {
             return;
         }
 
@@ -49,7 +49,7 @@ public class PollutionListener implements Listener {
     public void onGeneratorProcessComplete(AsyncGeneratorProcessCompleteEvent e) {
         World world = e.getLocation().getWorld();
 
-        if (!GlobalWarming.getRegistry().isWorldEnabled(world.getName())) {
+        if (!GlobalWarmingPlugin.getRegistry().isWorldEnabled(world.getName())) {
             return;
         }
 
@@ -61,7 +61,7 @@ public class PollutionListener implements Listener {
     public void onReactorProcessComplete(AsyncReactorProcessCompleteEvent e) {
         World world = e.getLocation().getWorld();
 
-        if (!GlobalWarming.getRegistry().isWorldEnabled(world.getName())) {
+        if (!GlobalWarmingPlugin.getRegistry().isWorldEnabled(world.getName())) {
             return;
         }
 
@@ -73,11 +73,11 @@ public class PollutionListener implements Listener {
     public void onAnimalBreed(EntityBreedEvent e) {
         World world = e.getMother().getWorld();
 
-        if (!GlobalWarming.getRegistry().isWorldEnabled(world.getName())) {
+        if (!GlobalWarmingPlugin.getRegistry().isWorldEnabled(world.getName())) {
             return;
         }
 
-        double pollutionValue = GlobalWarming.getRegistry().getAnimalBreedPollution();
+        double pollutionValue = GlobalWarmingPlugin.getRegistry().getAnimalBreedPollution();
 
         if (pollutionValue > 0.0) {
             PollutionManager.descendPollutionInWorld(world, pollutionValue);
@@ -88,15 +88,15 @@ public class PollutionListener implements Listener {
     public void onTreeGrowth(StructureGrowEvent e) {
         World world = e.getWorld();
 
-        if (!GlobalWarming.getRegistry().isWorldEnabled(world.getName())) {
+        if (!GlobalWarmingPlugin.getRegistry().isWorldEnabled(world.getName())) {
             return;
         }
 
-        Bukkit.getScheduler().runTaskLater(GlobalWarming.getInstance(), () -> {
+        Bukkit.getScheduler().runTaskLater(GlobalWarmingPlugin.getInstance(), () -> {
             Material type = e.getLocation().getBlock().getType();
 
             if (Tag.LOGS.isTagged(type)) {
-                double pollutionValue = GlobalWarming.getRegistry().getTreeGrowthAbsorption();
+                double pollutionValue = GlobalWarmingPlugin.getRegistry().getTreeGrowthAbsorption();
 
                 if (pollutionValue > 0.0) {
                     PollutionManager.descendPollutionInWorld(world, pollutionValue);
@@ -109,7 +109,7 @@ public class PollutionListener implements Listener {
     public void onPollutionChange(AsyncWorldPollutionChangeEvent e) {
 
         // This delayed task is needed to prevent multiple broadcasts
-        Bukkit.getScheduler().runTaskLater(GlobalWarming.getInstance(), () -> {
+        Bukkit.getScheduler().runTaskLater(GlobalWarmingPlugin.getInstance(), () -> {
             World world = e.getWorld();
 
             Long lastBroadcast = lastWorldBroadcasts.get(world.getName());
@@ -118,7 +118,7 @@ public class PollutionListener implements Listener {
             }
             lastWorldBroadcasts.put(world.getName(), System.currentTimeMillis());
 
-            double amount = DoubleHandler.fixDouble(e.getNewValue() * GlobalWarming.getRegistry().getPollutionMultiply());
+            double amount = DoubleHandler.fixDouble(e.getNewValue() * GlobalWarmingPlugin.getRegistry().getPollutionMultiply());
             if (!tempPollutionValues.containsKey(world.getName())) {
                 tempPollutionValues.put(world.getName(), amount);
             } else {
@@ -129,20 +129,20 @@ public class PollutionListener implements Listener {
 
             tempPollutionValues.replace(world.getName(), amount);
 
-            TemperatureType messageTempType = TemperatureType.valueOf(GlobalWarming.getMessagesConfig().getString("temperature-scale"));
-            String difference = GlobalWarming.getTemperatureManager().getAirQualityString(world, messageTempType);
+            TemperatureType messageTempType = TemperatureType.valueOf(GlobalWarmingPlugin.getMessagesConfig().getString("temperature-scale"));
+            String difference = GlobalWarmingPlugin.getTemperatureManager().getAirQualityString(world, messageTempType);
 
             String news = "";
-            if (!GlobalWarming.getRegistry().getNews().isEmpty()) {
-                String base = GlobalWarming.getMessagesConfig().getString("messages.breaking-news");
-                List<String> newsList = GlobalWarming.getRegistry().getNews();
+            if (!GlobalWarmingPlugin.getRegistry().getNews().isEmpty()) {
+                String base = GlobalWarmingPlugin.getMessagesConfig().getString("messages.breaking-news");
+                List<String> newsList = GlobalWarmingPlugin.getRegistry().getNews();
                 String random = newsList.get(ThreadLocalRandom.current().nextInt(newsList.size()));
 
                 news = ChatColors.color(base.replace("%news%", random));
             }
 
             for (Player p : world.getPlayers()) {
-                p.sendMessage(ChatColors.color(GlobalWarming.getMessagesConfig().getString("messages.climate-change").replace("%value%", difference)));
+                p.sendMessage(ChatColors.color(GlobalWarmingPlugin.getMessagesConfig().getString("messages.climate-change").replace("%value%", difference)));
 
                 if (news.length() > 0) {
                     p.sendMessage(news);

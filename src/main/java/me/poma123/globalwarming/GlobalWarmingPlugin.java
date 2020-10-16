@@ -18,6 +18,8 @@ import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemConsumptionHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import me.mrCookieSlime.CSCoreLibPlugin.cscorelib2.updater.GitHubBuildsUpdater;
+import me.mrCookieSlime.CSCoreLibPlugin.cscorelib2.updater.Updater;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.cscorelib2.config.Config;
@@ -35,9 +37,9 @@ import me.poma123.globalwarming.tasks.SlownessTask;
 import me.poma123.globalwarming.items.machines.AirCompressor;
 import me.poma123.globalwarming.tasks.BurnTask;
 
-public class GlobalWarming extends JavaPlugin implements SlimefunAddon {
+public class GlobalWarmingPlugin extends JavaPlugin implements SlimefunAddon {
 
-    private static GlobalWarming instance;
+    private static GlobalWarmingPlugin instance;
     private static Registry registry = new Registry();
     private final TemperatureManager temperatureManager = new TemperatureManager();
     private final GlobalWarmingCommand command = new GlobalWarmingCommand(this);
@@ -48,6 +50,11 @@ public class GlobalWarming extends JavaPlugin implements SlimefunAddon {
     @Override
     public void onEnable() {
         instance = this;
+
+        if (cfg.getBoolean("options.auto-update") && getDescription().getVersion().startsWith("DEV - ")) {
+            Updater updater = new GitHubBuildsUpdater(this, getFile(), "poma123/GlobalWarming/master");
+            updater.start();
+        }
 
         // Create configuration files
         final File biomesFile = new File(getDataFolder(), "biomes.yml");
@@ -89,7 +96,7 @@ public class GlobalWarming extends JavaPlugin implements SlimefunAddon {
             @Override
             public void tick(Block b) {
                 Location loc = b.getLocation();
-                SimpleHologram.update(b, GlobalWarming.getTemperatureManager().getTemperatureString(loc, TemperatureType.valueOf(BlockStorage.getLocationInfo(loc, "type"))));
+                SimpleHologram.update(b, GlobalWarmingPlugin.getTemperatureManager().getTemperatureString(loc, TemperatureType.valueOf(BlockStorage.getLocationInfo(loc, "type"))));
             }
         }.register(this);
 
@@ -101,7 +108,7 @@ public class GlobalWarming extends JavaPlugin implements SlimefunAddon {
             @Override
             public void tick(Block b) {
                 Location loc = b.getLocation();
-                SimpleHologram.update(b, "&7Climate change: " + GlobalWarming.getTemperatureManager().getAirQualityString(loc.getWorld(), TemperatureType.valueOf(BlockStorage.getLocationInfo(loc, "type"))));
+                SimpleHologram.update(b, "&7Climate change: " + GlobalWarmingPlugin.getTemperatureManager().getAirQualityString(loc.getWorld(), TemperatureType.valueOf(BlockStorage.getLocationInfo(loc, "type"))));
             }
         }.register(this);
 
@@ -193,7 +200,7 @@ public class GlobalWarming extends JavaPlugin implements SlimefunAddon {
         return instance.temperatureManager;
     }
 
-    public static GlobalWarming getInstance() {
+    public static GlobalWarmingPlugin getInstance() {
         return instance;
     }
 

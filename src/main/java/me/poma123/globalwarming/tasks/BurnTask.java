@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
-import me.poma123.globalwarming.GlobalWarming;
+import me.poma123.globalwarming.GlobalWarmingPlugin;
 import me.poma123.globalwarming.api.Temperature;
 
 public class BurnTask extends MechanicTask {
@@ -26,17 +26,17 @@ public class BurnTask extends MechanicTask {
     public BurnTask(double chance) {
         rnd = ThreadLocalRandom.current();
         this.chance = chance;
-        neededResearch = GlobalWarming.getRegistry().getResearchNeededForPlayerMechanics();
+        neededResearch = GlobalWarmingPlugin.getRegistry().getResearchNeededForPlayerMechanics();
     }
 
     @Override
     public void run() {
-        Set<String> enabledWorlds = GlobalWarming.getRegistry().getEnabledWorlds();
+        Set<String> enabledWorlds = GlobalWarmingPlugin.getRegistry().getEnabledWorlds();
 
         for (String worldName : enabledWorlds) {
             World w = Bukkit.getWorld(worldName);
 
-            if (w != null && GlobalWarming.getRegistry().isWorldEnabled(w.getName()) && !w.getPlayers().isEmpty()) {
+            if (w != null && GlobalWarmingPlugin.getRegistry().isWorldEnabled(w.getName()) && !w.getPlayers().isEmpty()) {
                 for (Player p : w.getPlayers()) {
                     if (p.getFireTicks() > 0) {
                         continue;
@@ -53,7 +53,7 @@ public class BurnTask extends MechanicTask {
                     double random = rnd.nextDouble();
 
                     if (random < chance) {
-                        Temperature temp = GlobalWarming.getTemperatureManager().getTemperatureAtLocation(p.getLocation());
+                        Temperature temp = GlobalWarmingPlugin.getTemperatureManager().getTemperatureAtLocation(p.getLocation());
                         double celsiusValue = temp.getCelsiusValue();
 
                         if (celsiusValue >= 50) {

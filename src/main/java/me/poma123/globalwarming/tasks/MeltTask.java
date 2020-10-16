@@ -14,7 +14,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.event.block.BlockFadeEvent;
 
-import me.poma123.globalwarming.GlobalWarming;
+import me.poma123.globalwarming.GlobalWarmingPlugin;
 
 public class MeltTask extends MechanicTask {
 
@@ -43,7 +43,7 @@ public class MeltTask extends MechanicTask {
                 int z = (chunk.getZ() << 4) + rnd.nextInt(16);
 
                 Block current = world.getHighestBlockAt(x, z);
-                if (Tag.ICE.isTagged(current.getType()) && GlobalWarming.getTemperatureManager().getTemperatureAtLocation(current.getLocation()).getCelsiusValue() >= minimumTemperature) {
+                if (Tag.ICE.isTagged(current.getType()) && GlobalWarmingPlugin.getTemperatureManager().getTemperatureAtLocation(current.getLocation()).getCelsiusValue() >= minimumTemperature) {
                     BlockState state = current.getState();
 
                     if (current.getType() == Material.ICE) {
@@ -52,7 +52,7 @@ public class MeltTask extends MechanicTask {
                         state.setType(Material.AIR);
                     }
 
-                    GlobalWarming.getInstance().getServer().getPluginManager().callEvent(new BlockFadeEvent(current, state));
+                    GlobalWarmingPlugin.getInstance().getServer().getPluginManager().callEvent(new BlockFadeEvent(current, state));
                 }
             }
         }
@@ -60,12 +60,12 @@ public class MeltTask extends MechanicTask {
 
     @Override
     public void run() {
-        Set<String> enabledWorlds = GlobalWarming.getRegistry().getEnabledWorlds();
+        Set<String> enabledWorlds = GlobalWarmingPlugin.getRegistry().getEnabledWorlds();
 
         for (String worldName : enabledWorlds) {
             World w = Bukkit.getWorld(worldName);
 
-            if (w != null && GlobalWarming.getRegistry().isWorldEnabled(w.getName()) && !w.getPlayers().isEmpty() && w.getLoadedChunks().length > 0) {
+            if (w != null && GlobalWarmingPlugin.getRegistry().isWorldEnabled(w.getName()) && !w.getPlayers().isEmpty() && w.getLoadedChunks().length > 0) {
                 double random = rnd.nextDouble();
 
                 if (random < chance) {

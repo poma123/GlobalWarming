@@ -7,11 +7,11 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.command.CommandSender;
 
-import me.poma123.globalwarming.GlobalWarming;
+import me.poma123.globalwarming.GlobalWarmingPlugin;
 
 public abstract class SubCommand {
 
-    protected final GlobalWarming plugin;
+    protected final GlobalWarmingPlugin plugin;
     protected final GlobalWarmingCommand cmd;
 
     private final String name;
@@ -19,7 +19,7 @@ public abstract class SubCommand {
     private final boolean hidden;
 
     @ParametersAreNonnullByDefault
-    protected SubCommand(GlobalWarming plugin, GlobalWarmingCommand cmd, String name, String description, boolean hidden) {
+    protected SubCommand(GlobalWarmingPlugin plugin, GlobalWarmingCommand cmd, String name, String description, boolean hidden) {
         this.plugin = plugin;
         this.cmd = cmd;
 

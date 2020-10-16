@@ -8,14 +8,14 @@ import org.bukkit.entity.Player;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import me.mrCookieSlime.Slimefun.cscorelib2.chat.ChatColors;
 import me.mrCookieSlime.Slimefun.cscorelib2.math.DoubleHandler;
-import me.poma123.globalwarming.GlobalWarming;
+import me.poma123.globalwarming.GlobalWarmingPlugin;
 import me.poma123.globalwarming.api.PollutionManager;
 import me.poma123.globalwarming.commands.GlobalWarmingCommand;
 import me.poma123.globalwarming.commands.SubCommand;
 
 class PollutionCommand extends SubCommand {
 
-    PollutionCommand(GlobalWarming plugin, GlobalWarmingCommand cmd) {
+    PollutionCommand(GlobalWarmingPlugin plugin, GlobalWarmingCommand cmd) {
         super(plugin, cmd, "pollution", "Allows you to manually change the pollution amount", false);
     }
 
@@ -25,7 +25,7 @@ class PollutionCommand extends SubCommand {
             if (args.length > 2) {
                 World world = Bukkit.getWorld(args[2]);
 
-                if (world != null && GlobalWarming.getRegistry().isWorldEnabled(world.getName())) {
+                if (world != null && GlobalWarmingPlugin.getRegistry().isWorldEnabled(world.getName())) {
                     if (args[1].equalsIgnoreCase("get")) {
                         double pollution = DoubleHandler.fixDouble(PollutionManager.getPollutionInWorld(world), 2);
 

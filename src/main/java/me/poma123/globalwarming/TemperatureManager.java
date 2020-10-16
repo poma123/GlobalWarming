@@ -29,15 +29,15 @@ public class TemperatureManager {
     public static final String HOT = "☀";
     public static final String COLD = "❄";
 
-    private static final Set<Map.Entry<Biome, Double>> tempSet = GlobalWarming.getRegistry().getDefaultBiomeTemperatures().entrySet();
-    private final Map<Biome, Double> nightDropMap = GlobalWarming.getRegistry().getMaxTemperatureDropsAtNight();
+    private static final Set<Map.Entry<Biome, Double>> tempSet = GlobalWarmingPlugin.getRegistry().getDefaultBiomeTemperatures().entrySet();
+    private final Map<Biome, Double> nightDropMap = GlobalWarmingPlugin.getRegistry().getMaxTemperatureDropsAtNight();
     private final Map<String, EnumMap<Biome, Double>> worldTemperatureChangeFactorMap = new HashMap<>();
 
     protected void runCalculationTask(long delay, long interval) {
-        Bukkit.getScheduler().runTaskTimerAsynchronously(GlobalWarming.getInstance(), () -> {
+        Bukkit.getScheduler().runTaskTimerAsynchronously(GlobalWarmingPlugin.getInstance(), () -> {
 
-            for (String w : GlobalWarming.getRegistry().getEnabledWorlds()) {
-                if (GlobalWarming.getRegistry().isWorldEnabled(w)) {
+            for (String w : GlobalWarmingPlugin.getRegistry().getEnabledWorlds()) {
+                if (GlobalWarmingPlugin.getRegistry().isWorldEnabled(w)) {
                     World world = Bukkit.getWorld(w);
 
                     if (world != null && !world.getPlayers().isEmpty()) {
@@ -100,7 +100,7 @@ public class TemperatureManager {
     public String getAirQualityString(@Nonnull World world, @Nonnull TemperatureType tempType) {
         Temperature temp = new Temperature(15.0);
 
-        double celsiusDifference = (PollutionManager.getPollutionInWorld(world) * GlobalWarming.getRegistry().getPollutionMultiply());
+        double celsiusDifference = (PollutionManager.getPollutionInWorld(world) * GlobalWarmingPlugin.getRegistry().getPollutionMultiply());
         double currentValue = temp.getCelsiusValue() + celsiusDifference;
         double defaultValue = temp.getCelsiusValue();
         String prefix;
@@ -129,7 +129,7 @@ public class TemperatureManager {
     public Temperature getDefaultBiomeTemperatureAtLocation(@Nonnull Location loc) {
         World world = loc.getWorld();
         Biome biome = loc.getBlock().getBiome();
-        Map<Biome, Double> tempMap = GlobalWarming.getRegistry().getDefaultBiomeTemperatures();
+        Map<Biome, Double> tempMap = GlobalWarmingPlugin.getRegistry().getDefaultBiomeTemperatures();
         double celsiusValue = 15;
         double nightDrop = 10;
 
@@ -153,7 +153,7 @@ public class TemperatureManager {
 
                 celsiusValue = celsiusValue - (nightDrop * dropPercent);
             } else if (world.hasStorm()) {
-                celsiusValue = celsiusValue - GlobalWarming.getRegistry().getStormTemperatureDrop();
+                celsiusValue = celsiusValue - GlobalWarmingPlugin.getRegistry().getStormTemperatureDrop();
             }
         }
 
@@ -180,11 +180,11 @@ public class TemperatureManager {
 
                 celsiusValue = celsiusValue - (nightDrop * dropPercent);
             } else if (world.hasStorm()) {
-                celsiusValue = celsiusValue - GlobalWarming.getRegistry().getStormTemperatureDrop();
+                celsiusValue = celsiusValue - GlobalWarmingPlugin.getRegistry().getStormTemperatureDrop();
             }
         }
 
-        celsiusValue = celsiusValue + (PollutionManager.getPollutionInWorld(world) * GlobalWarming.getRegistry().getPollutionMultiply());
+        celsiusValue = celsiusValue + (PollutionManager.getPollutionInWorld(world) * GlobalWarmingPlugin.getRegistry().getPollutionMultiply());
 
         return new Temperature(celsiusValue);
     }

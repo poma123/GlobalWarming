@@ -6,6 +6,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import me.poma123.globalwarming.GlobalWarmingPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -14,7 +15,6 @@ import org.bukkit.potion.PotionEffectType;
 
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
-import me.poma123.globalwarming.GlobalWarming;
 import me.poma123.globalwarming.api.Temperature;
 
 public class SlownessTask extends MechanicTask {
@@ -27,7 +27,7 @@ public class SlownessTask extends MechanicTask {
     public SlownessTask(double chance) {
         rnd = ThreadLocalRandom.current();
         this.chance = chance;
-        neededResearch = GlobalWarming.getRegistry().getResearchNeededForPlayerMechanics();
+        neededResearch = GlobalWarmingPlugin.getRegistry().getResearchNeededForPlayerMechanics();
     }
 
     private void applyEffect(Player p, int duration, int amplifier) {
@@ -36,12 +36,12 @@ public class SlownessTask extends MechanicTask {
 
     @Override
     public void run() {
-        Set<String> enabledWorlds = GlobalWarming.getRegistry().getEnabledWorlds();
+        Set<String> enabledWorlds = GlobalWarmingPlugin.getRegistry().getEnabledWorlds();
 
         for (String worldName : enabledWorlds) {
             World w = Bukkit.getWorld(worldName);
 
-            if (w != null && GlobalWarming.getRegistry().isWorldEnabled(w.getName()) && !w.getPlayers().isEmpty()) {
+            if (w != null && GlobalWarmingPlugin.getRegistry().isWorldEnabled(w.getName()) && !w.getPlayers().isEmpty()) {
                 for (Player p : w.getPlayers()) {
                     if (p.hasPotionEffect(PotionEffectType.SLOW)) {
                         continue;
@@ -58,7 +58,7 @@ public class SlownessTask extends MechanicTask {
                     double random = rnd.nextDouble();
 
                     if (random < chance) {
-                        Temperature temp = GlobalWarming.getTemperatureManager().getTemperatureAtLocation(p.getLocation());
+                        Temperature temp = GlobalWarmingPlugin.getTemperatureManager().getTemperatureAtLocation(p.getLocation());
                         double celsiusValue = temp.getCelsiusValue();
                         int amplifier;
                         int duration;

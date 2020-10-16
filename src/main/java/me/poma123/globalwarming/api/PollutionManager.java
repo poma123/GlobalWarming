@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.cscorelib2.config.Config;
-import me.poma123.globalwarming.GlobalWarming;
+import me.poma123.globalwarming.GlobalWarmingPlugin;
 import me.poma123.globalwarming.api.events.AsyncWorldPollutionChangeEvent;
 
 /**
@@ -24,8 +24,16 @@ import me.poma123.globalwarming.api.events.AsyncWorldPollutionChangeEvent;
  */
 public class PollutionManager {
 
-    public static final String DATA_PATH = "data.pollution";
+    private static final String DATA_PATH = "data.pollution";
 
+    /**
+     * This returns the pollution amount at a {@link Location}
+     *
+     * @param loc
+     *            The {@link Location} to get the pollution amount from
+     *
+     * @return the pollution amount at the given {@link Location}
+     */
     public static double getPollutionAtLocation(@Nonnull Location loc) {
         return getPollutionInWorld(loc.getWorld());
     }
@@ -39,8 +47,8 @@ public class PollutionManager {
      * @return the pollution amount in the given {@link World}
      */
     public static double getPollutionInWorld(@Nonnull World world) {
-        if (GlobalWarming.getRegistry().isWorldEnabled(world.getName())) {
-            Config config = GlobalWarming.getRegistry().getWorldConfig(world);
+        if (GlobalWarmingPlugin.getRegistry().isWorldEnabled(world.getName())) {
+            Config config = GlobalWarmingPlugin.getRegistry().getWorldConfig(world);
 
             if (config != null) {
                 return config.getDouble(DATA_PATH);
@@ -60,15 +68,15 @@ public class PollutionManager {
      * @return whether the change was successful
      */
     public static boolean risePollutionInWorld(@Nonnull World world, @Nonnull double value) {
-        if (GlobalWarming.getRegistry().isWorldEnabled(world.getName())) {
-            Config config = GlobalWarming.getRegistry().getWorldConfig(world);
+        if (GlobalWarmingPlugin.getRegistry().isWorldEnabled(world.getName())) {
+            Config config = GlobalWarmingPlugin.getRegistry().getWorldConfig(world);
 
             if (config != null) {
                 double oldValue = config.getDouble(DATA_PATH);
                 value = oldValue + value;
 
                 AsyncWorldPollutionChangeEvent event = new AsyncWorldPollutionChangeEvent(world, oldValue, value);
-                Bukkit.getScheduler().runTaskAsynchronously(GlobalWarming.getInstance(), () -> Bukkit.getPluginManager().callEvent(event));
+                Bukkit.getScheduler().runTaskAsynchronously(GlobalWarmingPlugin.getInstance(), () -> Bukkit.getPluginManager().callEvent(event));
 
                 config.setValue(DATA_PATH, value);
                 config.save();
@@ -89,15 +97,15 @@ public class PollutionManager {
      * @return whether the change was successful
      */
     public static boolean descendPollutionInWorld(@Nonnull World world, @Nonnull double value) {
-        if (GlobalWarming.getRegistry().isWorldEnabled(world.getName())) {
-            Config config = GlobalWarming.getRegistry().getWorldConfig(world);
+        if (GlobalWarmingPlugin.getRegistry().isWorldEnabled(world.getName())) {
+            Config config = GlobalWarmingPlugin.getRegistry().getWorldConfig(world);
 
             if (config != null) {
                 double oldValue = config.getDouble(DATA_PATH);
                 value = Math.max(oldValue - value, 0.0);
 
                 AsyncWorldPollutionChangeEvent event = new AsyncWorldPollutionChangeEvent(world, oldValue, value);
-                Bukkit.getScheduler().runTaskAsynchronously(GlobalWarming.getInstance(), () -> Bukkit.getPluginManager().callEvent(event));
+                Bukkit.getScheduler().runTaskAsynchronously(GlobalWarmingPlugin.getInstance(), () -> Bukkit.getPluginManager().callEvent(event));
 
                 config.setValue(DATA_PATH, value);
                 config.save();
@@ -118,14 +126,14 @@ public class PollutionManager {
      * @return whether the change was successful
      */
     public static boolean setPollutionInWorld(@Nonnull World world, @Nonnull double newValue) {
-        if (GlobalWarming.getRegistry().isWorldEnabled(world.getName())) {
-            Config config = GlobalWarming.getRegistry().getWorldConfig(world);
+        if (GlobalWarmingPlugin.getRegistry().isWorldEnabled(world.getName())) {
+            Config config = GlobalWarmingPlugin.getRegistry().getWorldConfig(world);
 
             if (config != null) {
                 double oldValue = config.getDouble(DATA_PATH);
 
                 AsyncWorldPollutionChangeEvent event = new AsyncWorldPollutionChangeEvent(world, oldValue, newValue);
-                Bukkit.getScheduler().runTaskAsynchronously(GlobalWarming.getInstance(), () -> Bukkit.getPluginManager().callEvent(event));
+                Bukkit.getScheduler().runTaskAsynchronously(GlobalWarmingPlugin.getInstance(), () -> Bukkit.getPluginManager().callEvent(event));
 
                 config.setValue(DATA_PATH, newValue);
                 config.save();
@@ -145,8 +153,8 @@ public class PollutionManager {
      */
     public static double isPollutedItem(@Nonnull ItemStack item) {
         SlimefunItem sfItem = SlimefunItem.getByItem(item);
-        Map<String, Double> pollutedSlimefunItems = GlobalWarming.getRegistry().getPollutedSlimefunItems();
-        Map<Material, Double> pollutedVanillaItems = GlobalWarming.getRegistry().getPollutedVanillaItems();
+        Map<String, Double> pollutedSlimefunItems = GlobalWarmingPlugin.getRegistry().getPollutedSlimefunItems();
+        Map<Material, Double> pollutedVanillaItems = GlobalWarmingPlugin.getRegistry().getPollutedVanillaItems();
 
         if (sfItem != null && pollutedSlimefunItems.containsKey(sfItem.getID())) {
             return pollutedSlimefunItems.get(sfItem.getID());
@@ -169,7 +177,7 @@ public class PollutionManager {
      */
     public static double isPollutedMachine(@Nonnull String id) {
         SlimefunItem sfItem = SlimefunItem.getByID(id);
-        Map<String, Double> pollutedSlimefunMachines = GlobalWarming.getRegistry().getPollutedSlimefunMachines();
+        Map<String, Double> pollutedSlimefunMachines = GlobalWarmingPlugin.getRegistry().getPollutedSlimefunMachines();
 
         if (sfItem != null && pollutedSlimefunMachines.containsKey(sfItem.getID())) {
             return pollutedSlimefunMachines.get(sfItem.getID());
@@ -188,7 +196,7 @@ public class PollutionManager {
      */
     public static double isAbsorbentMachine(@Nonnull String id) {
         SlimefunItem sfItem = SlimefunItem.getByID(id);
-        Map<String, Double> absorbentSlimefunMachines = GlobalWarming.getRegistry().getAbsorbentSlimefunMachines();
+        Map<String, Double> absorbentSlimefunMachines = GlobalWarmingPlugin.getRegistry().getAbsorbentSlimefunMachines();
 
         if (sfItem != null && absorbentSlimefunMachines.containsKey(sfItem.getID())) {
             return absorbentSlimefunMachines.get(sfItem.getID());

@@ -47,7 +47,7 @@ public class Registry {
             if (biomes.getValue("default-biome-temperatures." + biome.name()) == null) {
                 biomes.setValue("default-biome-temperatures." + biome.name(), 15);
 
-                GlobalWarming.getInstance().getLogger().log(Level.INFO, "Added missing biome \"{0}\" to biomes.yml with the temperature value of 15", biome);
+                GlobalWarmingPlugin.getInstance().getLogger().log(Level.INFO, "Added missing biome \"{0}\" to biomes.yml with the temperature value of 15", biome);
             }
         }
         biomes.save();
@@ -59,7 +59,7 @@ public class Registry {
             try {
                 defaultBiomeTemperatures.put(Biome.valueOf(biome), celsiusValue);
             } catch (IllegalArgumentException ex) {
-                GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load temperature \"{0}\" of the invalid biome \"{1}\"", new Object[] { celsiusValue, biome });
+                GlobalWarmingPlugin.getInstance().getLogger().log(Level.WARNING, "Could not load temperature \"{0}\" of the invalid biome \"{1}\"", new Object[] { celsiusValue, biome });
             }
         }
 
@@ -70,7 +70,7 @@ public class Registry {
             try {
                 maxTemperatureDropsAtNight.put(Biome.valueOf(biome), celsiusValue);
             } catch (IllegalArgumentException ex) {
-                GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load temperature drop \"{0}\" of the invalid biome \"{1}\"", new Object[] { celsiusValue, biome });
+                GlobalWarmingPlugin.getInstance().getLogger().log(Level.WARNING, "Could not load temperature drop \"{0}\" of the invalid biome \"{1}\"", new Object[] { celsiusValue, biome });
             }
         }
 
@@ -85,13 +85,13 @@ public class Registry {
         }
 
         // Registering pollution productuon
-        Bukkit.getScheduler().runTaskLater(GlobalWarming.getInstance(), () -> {
+        Bukkit.getScheduler().runTaskLater(GlobalWarmingPlugin.getInstance(), () -> {
             // Registering polluting items
             for (String id : cfg.getKeys("pollution.production.machine-recipe-input-items")) {
                 double value = cfg.getDouble("pollution.production.machine-recipe-input-items." + id);
 
                 if (value <= 0.0) {
-                    GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load polluted item \"{0}\" with an invalid pollution value of \"{1}\"", new Object[] { id, value });
+                    GlobalWarmingPlugin.getInstance().getLogger().log(Level.WARNING, "Could not load polluted item \"{0}\" with an invalid pollution value of \"{1}\"", new Object[] { id, value });
                     continue;
                 }
 
@@ -100,7 +100,7 @@ public class Registry {
                 } else if (SlimefunItem.getByID(id) != null) {
                     pollutedSlimefunItems.put(id, value);
                 } else {
-                    GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load non-existent polluted item \"{0}\" with a pollution value of \"{1}\"", new Object[] { id, value });
+                    GlobalWarmingPlugin.getInstance().getLogger().log(Level.WARNING, "Could not load non-existent polluted item \"{0}\" with a pollution value of \"{1}\"", new Object[] { id, value });
                 }
             }
 
@@ -109,14 +109,14 @@ public class Registry {
                 double value = cfg.getDouble("pollution.production.machines." + id);
 
                 if (value <= 0.0) {
-                    GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load polluted machine \"{0}\" with an invalid pollution value of \"{1}\"", new Object[] { id, value });
+                    GlobalWarmingPlugin.getInstance().getLogger().log(Level.WARNING, "Could not load polluted machine \"{0}\" with an invalid pollution value of \"{1}\"", new Object[] { id, value });
                     continue;
                 }
 
                 if (SlimefunItem.getByID(id) != null) {
                     pollutedSlimefunMachines.put(id, value);
                 } else {
-                    GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load non-existent polluted machine \"{0}\" with a pollution value of \"{1}\"", new Object[] { id, value });
+                    GlobalWarmingPlugin.getInstance().getLogger().log(Level.WARNING, "Could not load non-existent polluted machine \"{0}\" with a pollution value of \"{1}\"", new Object[] { id, value });
                 }
             }
 
@@ -125,14 +125,14 @@ public class Registry {
                 double value = cfg.getDouble("pollution.absorption.machines." + id);
 
                 if (value <= 0.0) {
-                    GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load absorbent machine \"{0}\" with an invalid absorption value of \"{1}\"", new Object[] { id, value });
+                    GlobalWarmingPlugin.getInstance().getLogger().log(Level.WARNING, "Could not load absorbent machine \"{0}\" with an invalid absorption value of \"{1}\"", new Object[] { id, value });
                     continue;
                 }
 
                 if (SlimefunItem.getByID(id) != null) {
                     absorbentSlimefunMachines.put(id, value);
                 } else {
-                    GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load non-existent absorbent machine \"{0}\" with an absorption value of \"{1}\"", new Object[] { id, value });
+                    GlobalWarmingPlugin.getInstance().getLogger().log(Level.WARNING, "Could not load non-existent absorbent machine \"{0}\" with an absorption value of \"{1}\"", new Object[] { id, value });
                 }
             }
         }, 100);
@@ -150,7 +150,7 @@ public class Registry {
         if (tempResearch.isPresent() && tempResearch.get().isEnabled()) {
             researchNeededForPlayerMechanics = tempResearch.get();
         } else {
-            GlobalWarming.getInstance().getLogger().log(Level.WARNING, "Could not load research \"{0}\"", new Object[] { researchKey });
+            GlobalWarmingPlugin.getInstance().getLogger().log(Level.WARNING, "Could not load research \"{0}\"", new Object[] { researchKey });
         }
     }
 
@@ -186,7 +186,7 @@ public class Registry {
     }
 
     public Config getNewWorldConfig(@Nonnull World world) {
-        Config config = new Config(GlobalWarming.getInstance(), "worlds/" + world.getName() + ".yml");
+        Config config = new Config(GlobalWarmingPlugin.getInstance(), "worlds/" + world.getName() + ".yml");
         if (config.getValue("data.pollution") == null) {
             config.setValue("data.pollution", 0.0);
             config.save();

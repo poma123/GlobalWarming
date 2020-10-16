@@ -1,6 +1,6 @@
 name: GlobalWarming
 author: poma123
-main: me.poma123.globalwarming.GlobalWarming
+main: me.poma123.globalwarming.GlobalWarmingPlugin
 depend: [Slimefun]
 version: ${project.version}
 api-version: 1.16

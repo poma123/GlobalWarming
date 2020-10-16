@@ -17,16 +17,16 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.cscorelib2.chat.ChatColors;
-import me.poma123.globalwarming.GlobalWarming;
+import me.poma123.globalwarming.GlobalWarmingPlugin;
 import me.poma123.globalwarming.commands.subcommands.SubCommands;
 
 public class GlobalWarmingCommand implements CommandExecutor, Listener {
 
     private boolean registered = false;
-    private final GlobalWarming plugin;
+    private final GlobalWarmingPlugin plugin;
     private final List<SubCommand> commands = new LinkedList<>();
 
-    public GlobalWarmingCommand(@Nonnull GlobalWarming plugin) {
+    public GlobalWarmingCommand(@Nonnull GlobalWarmingPlugin plugin) {
         this.plugin = plugin;
     }
 
@@ -41,7 +41,7 @@ public class GlobalWarmingCommand implements CommandExecutor, Listener {
     }
 
     @Nonnull
-    public GlobalWarming getPlugin() {
+    public GlobalWarmingPlugin getPlugin() {
         return plugin;
     }
 
