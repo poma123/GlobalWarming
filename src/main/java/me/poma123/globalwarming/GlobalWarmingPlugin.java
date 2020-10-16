@@ -17,6 +17,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemConsumptionHandler;
+import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import me.mrCookieSlime.CSCoreLibPlugin.cscorelib2.updater.GitHubBuildsUpdater;
@@ -81,6 +82,7 @@ public class GlobalWarmingPlugin extends JavaPlugin implements SlimefunAddon {
         messages = new Config(this, "messages.yml");
 
         registerItems();
+        registerResearches();
         registry.load(cfg, biomes, messages);
         scheduleTasks();
 
@@ -111,7 +113,7 @@ public class GlobalWarmingPlugin extends JavaPlugin implements SlimefunAddon {
             @Override
             public void tick(Block b) {
                 Location loc = b.getLocation();
-                SimpleHologram.update(b, "&7Climate change: " + GlobalWarmingPlugin.getTemperatureManager().getAirQualityString(loc.getWorld(), TemperatureType.valueOf(BlockStorage.getLocationInfo(loc, "type"))));
+                SimpleHologram.update(b, GlobalWarmingPlugin.getTemperatureManager().getAirQualityString(loc.getWorld(), TemperatureType.valueOf(BlockStorage.getLocationInfo(loc, "type"))));
             }
         }.register(this);
 
@@ -169,6 +171,15 @@ public class GlobalWarmingPlugin extends JavaPlugin implements SlimefunAddon {
         }).register(this);
     }
 
+    private void registerResearches() {
+        registerResearch("thermometer", 69696969, "Thermometer", 10, Items.THERMOMETER);
+        registerResearch("air_quality_meter", 69696970, "Air Quality Meter", 30, Items.AIR_QUALITY_METER);
+        registerResearch("air_compressor", 69696971, "Air Compressor", 40, Items.AIR_COMPRESSOR);
+        registerResearch("canisters", 69696972, "Pollution storing", 6, Items.EMPTY_CANISTER, Items.CO2_CANISTER);
+        registerResearch("filter", 69696973, "Filter", 8, Items.FILTER);
+        registerResearch("mercury", 69696973, "Mercury", 12, Items.CINNABARITE, Items.MERCURY);
+    }
+
     private void scheduleTasks() {
         if (cfg.getBoolean("mechanics.FOREST_FIRES.enabled")) {
             new FireTask(cfg.getOrSetDefault("mechanics.FOREST_FIRES.min-temperature-in-celsius", 40.0),
@@ -193,6 +204,20 @@ public class GlobalWarmingPlugin extends JavaPlugin implements SlimefunAddon {
         }
 
         temperatureManager.runCalculationTask(0, 100);
+    }
+
+    private void registerResearch(String key, int id, String name, int defaultCost, ItemStack... items) {
+        Research research = new Research(new NamespacedKey(this, key), id, name, defaultCost);
+
+        for (ItemStack item : items) {
+            SlimefunItem sfItem = SlimefunItem.getByItem(item);
+
+            if (sfItem != null) {
+                research.addItems(sfItem);
+            }
+        }
+
+        research.register();
     }
 
     public static Registry getRegistry() {

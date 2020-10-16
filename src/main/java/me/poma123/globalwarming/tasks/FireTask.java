@@ -54,7 +54,7 @@ public class FireTask extends MechanicTask {
         for (String worldName : enabledWorlds) {
             World w = Bukkit.getWorld(worldName);
 
-            if (w != null && GlobalWarmingPlugin.getRegistry().isWorldEnabled(w.getName()) && !w.getPlayers().isEmpty() && !(w.hasStorm() || w.isThundering()) && w.getLoadedChunks().length > 0) {
+            if (w != null && GlobalWarmingPlugin.getRegistry().isWorldEnabled(w.getName()) && w.getEnvironment() == World.Environment.NORMAL && !w.getPlayers().isEmpty() && !(w.hasStorm() || w.isThundering()) && w.getLoadedChunks().length > 0) {
                 double random = rnd.nextDouble();
 
                 if (random < chance) {

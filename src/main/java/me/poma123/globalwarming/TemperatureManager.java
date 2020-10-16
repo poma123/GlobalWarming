@@ -42,10 +42,12 @@ public class TemperatureManager {
 
                     if (world != null && !world.getPlayers().isEmpty()) {
                         EnumMap<Biome, Double> map = new EnumMap<>(Biome.class);
+                        boolean isNormalEnvironment = world.getEnvironment() == World.Environment.NORMAL;
 
                         for (Map.Entry<Biome, Double> entry : tempSet) {
                             Biome biome = entry.getKey();
-                            Temperature newTemp = addTemperatureChangeFactors(world, biome, new Temperature(entry.getValue()));
+                            Temperature defaultTemperature = new Temperature(entry.getValue());
+                            Temperature newTemp = isNormalEnvironment ? addTemperatureChangeFactors(world, biome, defaultTemperature) : defaultTemperature;
 
                             map.put(biome, newTemp.getCelsiusValue());
                         }
@@ -70,6 +72,10 @@ public class TemperatureManager {
     }
 
     public String getTemperatureString(@Nonnull Location loc, @Nonnull TemperatureType tempType) {
+        if (!GlobalWarmingPlugin.getRegistry().isWorldEnabled(loc.getWorld().getName())) {
+            return "&cNon-functional in this world.";
+        }
+
         Temperature temp = getTemperatureAtLocation(loc);
 
         if (temp == null) {
@@ -98,6 +104,10 @@ public class TemperatureManager {
     }
 
     public String getAirQualityString(@Nonnull World world, @Nonnull TemperatureType tempType) {
+        if (!GlobalWarmingPlugin.getRegistry().isWorldEnabled(world.getName()) || world.getEnvironment() != World.Environment.NORMAL) {
+            return "&cNon-functional in this world.";
+        }
+
         Temperature temp = new Temperature(15.0);
 
         double celsiusDifference = (PollutionManager.getPollutionInWorld(world) * GlobalWarmingPlugin.getRegistry().getPollutionMultiply());
@@ -123,7 +133,7 @@ public class TemperatureManager {
 
         prefix = prefix + (difference > 0 ? "+" : "");
 
-        return prefix + DoubleHandler.fixDouble(difference) + " &7" + tempType.getSuffix();
+        return "&7Climate change: " + prefix + DoubleHandler.fixDouble(difference) + " &7" + tempType.getSuffix();
     }
 
     public Temperature addTemperatureChangeFactors(@Nonnull World world, @Nonnull Biome biome, @Nonnull Temperature temperature) {
