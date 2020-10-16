@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.logging.Level;
 
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -55,6 +56,8 @@ public class GlobalWarmingPlugin extends JavaPlugin implements SlimefunAddon {
             Updater updater = new GitHubBuildsUpdater(this, getFile(), "poma123/GlobalWarming/master");
             updater.start();
         }
+
+        new Metrics(this, 9132);
 
         // Create configuration files
         final File biomesFile = new File(getDataFolder(), "biomes.yml");

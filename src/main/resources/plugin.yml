@@ -1,9 +1,11 @@
 name: GlobalWarming
 author: poma123
+description: A Slimefun addon that aims to add climate change mechanics to the game.
 main: me.poma123.globalwarming.GlobalWarmingPlugin
+website: https://github.com/poma123/GlobalWarming
 depend: [Slimefun]
 version: ${project.version}
-api-version: 1.16
+api-version: 1.14
 
 commands:
   globalwarming:

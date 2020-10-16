@@ -19,7 +19,7 @@ import javax.annotation.Nonnull;
 
 /**
  * Handles the temperature calculations in different {@link Biome} instances
- * based on default temperature, pollution, weather and time.
+ * based on default biome temperature, pollution, weather and time.
  *
  * @author poma123
  *
@@ -124,40 +124,6 @@ public class TemperatureManager {
         prefix = prefix + (difference > 0 ? "+" : "");
 
         return prefix + DoubleHandler.fixDouble(difference) + " &7" + tempType.getSuffix();
-    }
-
-    public Temperature getDefaultBiomeTemperatureAtLocation(@Nonnull Location loc) {
-        World world = loc.getWorld();
-        Biome biome = loc.getBlock().getBiome();
-        Map<Biome, Double> tempMap = GlobalWarmingPlugin.getRegistry().getDefaultBiomeTemperatures();
-        double celsiusValue = 15;
-        double nightDrop = 10;
-
-        if (tempMap.containsKey(biome)) {
-            celsiusValue = tempMap.get(biome);
-        }
-
-        if (nightDropMap.containsKey(biome)) {
-            nightDrop = nightDropMap.get(biome);
-        }
-
-        if (world.getEnvironment() == World.Environment.NORMAL) {
-            if (!isDaytime(world)) {
-                double nightTime = world.getTime() - 12300F;
-
-                if (nightTime > 5775) {
-                    nightTime = 5775 - (nightTime - 5775);
-                }
-
-                double dropPercent = nightTime / 5775;
-
-                celsiusValue = celsiusValue - (nightDrop * dropPercent);
-            } else if (world.hasStorm()) {
-                celsiusValue = celsiusValue - GlobalWarmingPlugin.getRegistry().getStormTemperatureDrop();
-            }
-        }
-
-        return new Temperature(celsiusValue);
     }
 
     public Temperature addTemperatureChangeFactors(@Nonnull World world, @Nonnull Biome biome, @Nonnull Temperature temperature) {
