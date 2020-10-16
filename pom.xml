@@ -99,7 +99,7 @@
         <dependency>
             <groupId>com.github.TheBusyBiscuit</groupId>
             <artifactId>CS-CoreLib</artifactId>
-            <version>e42a05d129</version>
+            <version>1.7</version>
             <scope>provided</scope>
             <exclusions>
                 <exclusion>
