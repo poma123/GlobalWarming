@@ -26,7 +26,7 @@ public abstract class TemperatureMeter extends SlimefunItem {
     protected TemperatureMeter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
-        SlimefunItem.registerBlockHandler(getID(), (p, b, stack, reason) -> {
+        SlimefunItem.registerBlockHandler(getId(), (p, b, stack, reason) -> {
             SimpleHologram.remove(b);
             return true;
         });

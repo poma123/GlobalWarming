@@ -41,8 +41,8 @@ public class PollutionListener implements Listener {
             return;
         }
 
-        risePollutionTry(world, e.getMachine().getID(), e.getMachineRecipe().getInput());
-        descendPollutionTry(world, e.getMachine().getID());
+        risePollutionTry(world, e.getMachine().getId(), e.getMachineRecipe().getInput());
+        descendPollutionTry(world, e.getMachine().getId());
     }
 
     @EventHandler
@@ -53,8 +53,8 @@ public class PollutionListener implements Listener {
             return;
         }
 
-        risePollutionTry(world, e.getGenerator().getID(), new ItemStack[]{ e.getMachineFuel().getInput() });
-        descendPollutionTry(world, e.getGenerator().getID());
+        risePollutionTry(world, e.getGenerator().getId(), new ItemStack[]{ e.getMachineFuel().getInput() });
+        descendPollutionTry(world, e.getGenerator().getId());
     }
 
     @EventHandler
@@ -65,8 +65,8 @@ public class PollutionListener implements Listener {
             return;
         }
 
-        risePollutionTry(world, e.getReactor().getID(), new ItemStack[]{ e.getMachineFuel().getInput() });
-        descendPollutionTry(world, e.getReactor().getID());
+        risePollutionTry(world, e.getReactor().getId(), new ItemStack[]{ e.getMachineFuel().getInput() });
+        descendPollutionTry(world, e.getReactor().getId());
     }
 
     @EventHandler
@@ -107,7 +107,6 @@ public class PollutionListener implements Listener {
 
     @EventHandler
     public void onPollutionChange(AsyncWorldPollutionChangeEvent e) {
-
         // This delayed task is needed to prevent multiple broadcasts
         Bukkit.getScheduler().runTaskLater(GlobalWarmingPlugin.getInstance(), () -> {
             World world = e.getWorld();
@@ -129,27 +128,31 @@ public class PollutionListener implements Listener {
 
             tempPollutionValues.replace(world.getName(), amount);
 
-            TemperatureType messageTempType = TemperatureType.valueOf(GlobalWarmingPlugin.getMessagesConfig().getString("temperature-scale"));
-            String difference = GlobalWarmingPlugin.getTemperatureManager().getAirQualityString(world, messageTempType);
-
-            String news = "";
-            if (!GlobalWarmingPlugin.getRegistry().getNews().isEmpty()) {
-                String base = GlobalWarmingPlugin.getMessagesConfig().getString("messages.breaking-news");
-                List<String> newsList = GlobalWarmingPlugin.getRegistry().getNews();
-                String random = newsList.get(ThreadLocalRandom.current().nextInt(newsList.size()));
-
-                news = ChatColors.color(base.replace("%news%", random));
-            }
-
-            for (Player p : world.getPlayers()) {
-                p.sendMessage(ChatColors.color(GlobalWarmingPlugin.getMessagesConfig().getString("messages.climate-change").replace("%value%", difference)));
-
-                if (news.length() > 0) {
-                    p.sendMessage(news);
-                }
-            }
+            sendNews(world);
 
         }, ThreadLocalRandom.current().nextInt(1, 20));
+    }
+
+    private void sendNews(World world) {
+        TemperatureType messageTempType = TemperatureType.valueOf(GlobalWarmingPlugin.getMessagesConfig().getString("temperature-scale"));
+        String difference = GlobalWarmingPlugin.getTemperatureManager().getAirQualityString(world, messageTempType);
+
+        String news = "";
+        if (!GlobalWarmingPlugin.getRegistry().getNews().isEmpty()) {
+            String base = GlobalWarmingPlugin.getMessagesConfig().getString("messages.breaking-news");
+            List<String> newsList = GlobalWarmingPlugin.getRegistry().getNews();
+            String random = newsList.get(ThreadLocalRandom.current().nextInt(newsList.size()));
+
+            news = ChatColors.color(base.replace("%news%", random));
+        }
+
+        for (Player p : world.getPlayers()) {
+            p.sendMessage(ChatColors.color(GlobalWarmingPlugin.getMessagesConfig().getString("messages.climate-change").replace("%value%", difference)));
+
+            if (news.length() > 0) {
+                p.sendMessage(news);
+            }
+        }
     }
 
     private boolean risePollutionTry(World world, String id, ItemStack[] recipeInput) {

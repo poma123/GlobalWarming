@@ -156,8 +156,8 @@ public class PollutionManager {
         Map<String, Double> pollutedSlimefunItems = GlobalWarmingPlugin.getRegistry().getPollutedSlimefunItems();
         Map<Material, Double> pollutedVanillaItems = GlobalWarmingPlugin.getRegistry().getPollutedVanillaItems();
 
-        if (sfItem != null && pollutedSlimefunItems.containsKey(sfItem.getID())) {
-            return pollutedSlimefunItems.get(sfItem.getID());
+        if (sfItem != null && pollutedSlimefunItems.containsKey(sfItem.getId())) {
+            return pollutedSlimefunItems.get(sfItem.getId());
         }
 
         if (pollutedVanillaItems.containsKey(item.getType())) {
@@ -179,8 +179,8 @@ public class PollutionManager {
         SlimefunItem sfItem = SlimefunItem.getByID(id);
         Map<String, Double> pollutedSlimefunMachines = GlobalWarmingPlugin.getRegistry().getPollutedSlimefunMachines();
 
-        if (sfItem != null && pollutedSlimefunMachines.containsKey(sfItem.getID())) {
-            return pollutedSlimefunMachines.get(sfItem.getID());
+        if (sfItem != null && pollutedSlimefunMachines.containsKey(sfItem.getId())) {
+            return pollutedSlimefunMachines.get(sfItem.getId());
         }
 
         return 0.0;
@@ -198,8 +198,8 @@ public class PollutionManager {
         SlimefunItem sfItem = SlimefunItem.getByID(id);
         Map<String, Double> absorbentSlimefunMachines = GlobalWarmingPlugin.getRegistry().getAbsorbentSlimefunMachines();
 
-        if (sfItem != null && absorbentSlimefunMachines.containsKey(sfItem.getID())) {
-            return absorbentSlimefunMachines.get(sfItem.getID());
+        if (sfItem != null && absorbentSlimefunMachines.containsKey(sfItem.getId())) {
+            return absorbentSlimefunMachines.get(sfItem.getId());
         }
 
         return 0.0;
