@@ -3,6 +3,14 @@
 This Slimefun addon aims to add climate change mechanics to the game.
 A worth-trying, 99% configurable plugin for Minecraft Servers.
 
+You can download GlobalWarming right here: [Development Builds](https://thebusybiscuit.github.io/builds/poma123/GlobalWarming/master/)
+
+<p align="center">
+  <a href="https://thebusybiscuit.github.io/builds/poma123/GlobalWarming/master/">
+    <img src="https://thebusybiscuit.github.io/builds/poma123/GlobalWarming/master/badge.svg" alt="Build Server"/>
+  </a>
+</p>
+
 ## Mechanics
 ### Environmental mechanics:
 
