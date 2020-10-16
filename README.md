@@ -36,5 +36,6 @@ The pollution can change in a per-world basis. There are two types of pollution 
 - Mercury (Resource, needed for the Air Compressor craft)
 - Filter (needed for the Air Compressor craft)
 
+![image](https://user-images.githubusercontent.com/25465545/96291379-3cb11680-0fe8-11eb-8178-4448077f7055.png)
 ## API
 All well-documented API classes can be found under the [`me.poma123.globalwarming.api`](https://github.com/poma123/GlobalWarming/tree/master/src/main/java/me/poma123/globalwarming/api) package.
