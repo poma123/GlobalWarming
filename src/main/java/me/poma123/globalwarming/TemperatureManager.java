@@ -143,7 +143,7 @@ public class TemperatureManager {
 
         if (world.getEnvironment() == World.Environment.NORMAL) {
             if (!isDaytime(world)) {
-                double nightTime = Math.round(world.getTime() - 12300);
+                double nightTime = world.getTime() - 12300F;
 
                 if (nightTime > 5775) {
                     nightTime = 5775 - (nightTime - 5775);
@@ -170,7 +170,7 @@ public class TemperatureManager {
 
         if (world.getEnvironment() == World.Environment.NORMAL) {
             if (!isDaytime(world)) {
-                double nightTime = Math.round(world.getTime() - 12300);
+                double nightTime = world.getTime() - 12300F;
 
                 if (nightTime > 5775) {
                     nightTime = 5775 - (nightTime - 5775);
