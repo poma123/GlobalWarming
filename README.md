@@ -3,6 +3,17 @@
 This Slimefun addon aims to add climate change mechanics to the game.
 A worth-trying, 99% configurable plugin for Minecraft Servers.
 
+## Navigation
+* [Download](#download)
+* [Configuration](#configuration)
+* [Mechanics](#mechanics)
+  * [Environmental mechanics](#environmental-mechanics)
+  * [Pollution mechanics](#pollution-mechanics)
+  * [News system](#news-system)
+* [Items and machines](#items-and-machines)
+* [API](#api)
+
+## Download
 You can download GlobalWarming right here: [Development Builds](https://thebusybiscuit.github.io/builds/poma123/GlobalWarming/master/)
 
 <p align="center">
@@ -11,6 +22,14 @@ You can download GlobalWarming right here: [Development Builds](https://thebusyb
   </a>
 </p>
 
+## Configuration
+Once you have successfully installed the plugin, take a look at the [config.yml](https://github.com/poma123/GlobalWarming/tree/master/src/main/resources/config.yml).
+- `disabled-worlds` allows you to exclude worlds from the mechanics of climate change
+- Under the `mechanics` section, you can customize the available climate change mechanics
+- The `pollution` section holds pollution production and absorption of machines, items and entities
+- Under the `temperature-options` section, you can configure how the temperature should be calculated based on pollution and weather.
+
+After editing a file, restart your server!
 ## Mechanics
 ### Environmental mechanics:
 
