@@ -74,17 +74,18 @@ public class Registry {
             }
         }
 
-        List<String> worlds = cfg.getStringList("enabled-worlds");
+        List<String> disabledWorlds = cfg.getStringList("disabled-worlds");
 
         // Creating world configs
         for (World w : Bukkit.getWorlds()) {
-            if (worlds.contains(w.getName())) {
+            if (!disabledWorlds.contains(w.getName())) {
                 enabledWorlds.add(w.getName());
                 getWorldConfig(w);
             }
         }
 
         // Registering pollution productuon
+        // We are delaying this so that we can register items from other addons
         Bukkit.getScheduler().runTaskLater(GlobalWarmingPlugin.getInstance(), () -> {
             // Registering polluting items
             for (String id : cfg.getKeys("pollution.production.machine-recipe-input-items")) {
