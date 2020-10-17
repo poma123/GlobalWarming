@@ -2,7 +2,7 @@
 name: Bug Report
 about: Report a Bug or an Issue with GlobalWarming.
 title: ''
-labels: Bug Report
+labels: Bug report
 assignees: ''
 
 ---
