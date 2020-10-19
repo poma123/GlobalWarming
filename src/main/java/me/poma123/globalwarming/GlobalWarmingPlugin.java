@@ -113,7 +113,7 @@ public class GlobalWarmingPlugin extends JavaPlugin implements SlimefunAddon {
             @Override
             public void tick(Block b) {
                 Location loc = b.getLocation();
-                SimpleHologram.update(b, GlobalWarmingPlugin.getTemperatureManager().getAirQualityString(loc.getWorld(), TemperatureType.valueOf(BlockStorage.getLocationInfo(loc, "type"))));
+                SimpleHologram.update(b, "&7Climate change: " + GlobalWarmingPlugin.getTemperatureManager().getAirQualityString(loc.getWorld(), TemperatureType.valueOf(BlockStorage.getLocationInfo(loc, "type"))));
             }
         }.register(this);
 
