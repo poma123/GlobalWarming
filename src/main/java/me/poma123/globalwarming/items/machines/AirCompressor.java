@@ -25,12 +25,12 @@ public abstract class AirCompressor extends AContainer implements RecipeDisplayI
 
     @Override
     protected void registerDefaultRecipes() {
-        addRecipe(5, Items.EMPTY_CANISTER, Items.CO2_CANISTER);
-        addRecipe(5, Items.CO2_CANISTER, SlimefunItems.CARBON);
+        addRecipe(5, Items.EMPTY_CANISTER, new ItemStack[] { Items.CO2_CANISTER });
+        addRecipe(5, Items.CO2_CANISTER, new ItemStack[] { SlimefunItems.CARBON, Items.EMPTY_CANISTER });
     }
 
-    private void addRecipe(int seconds, ItemStack input, ItemStack output) {
-        registerRecipe(seconds, new ItemStack[] { input }, new ItemStack[] { output });
+    private void addRecipe(int seconds, ItemStack input, ItemStack[] output) {
+        registerRecipe(seconds, new ItemStack[] { input }, output);
     }
 
     @Override
