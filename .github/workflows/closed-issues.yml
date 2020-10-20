@@ -1,0 +1,19 @@
+on:
+  issue:
+    types:
+      - closed
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: TheBusyBiscuit/recently-closed-issues@master
+        id: resolved
+        token: ${{ secrets.GITHUB_TOKEN }}
+        max_commits: 20
+      - uses: maxkomarychev/octions/octions/issues/add-labels@master
+        if: contains(toJson(steps.resolved.outputs.issues), github.event.issue.number)
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue_number: ${{ github.event.issue.number }}
+          labels: 'Resolved'
