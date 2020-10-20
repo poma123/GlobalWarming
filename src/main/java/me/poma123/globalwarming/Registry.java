@@ -74,17 +74,33 @@ public class Registry {
             }
         }
 
-        List<String> disabledWorlds = cfg.getStringList("disabled-worlds");
+        List<String> oldDisabledWorlds = cfg.getStringList("disabled-worlds");
+        if (!oldDisabledWorlds.isEmpty()) {
+            cfg.setValue("worlds", oldDisabledWorlds);
+            cfg.setValue("disabled-worlds", null);
+            cfg.setValue("world-filter-type", "blacklist");
+            cfg.save();
+        }
 
-        // Creating world configs
+        List<String> worlds = cfg.getStringList("worlds");
+        String filterType = cfg.getString("world-filter-type");
+        boolean blacklist = filterType.equalsIgnoreCase("blacklist");
+
         for (World w : Bukkit.getWorlds()) {
-            if (!disabledWorlds.contains(w.getName())) {
-                enabledWorlds.add(w.getName());
-                getWorldConfig(w);
+            if (blacklist) {
+                if (!worlds.contains(w.getName())) {
+                    enabledWorlds.add(w.getName());
+                    getWorldConfig(w);
+                }
+            } else {
+                if (worlds.contains(w.getName())) {
+                    enabledWorlds.add(w.getName());
+                    getWorldConfig(w);
+                }
             }
         }
 
-        // Registering pollution productuon
+        // Registering pollution production
         // We are delaying this so that we can register items from other addons
         Bukkit.getScheduler().runTaskLater(GlobalWarmingPlugin.getInstance(), () -> {
             // Registering polluting items
