@@ -1,7 +1,6 @@
 on:
-  issue:
-    types:
-      - closed
+  issues:
+    type: [closed]
 
 jobs:
   label:
