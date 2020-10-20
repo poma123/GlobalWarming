@@ -24,7 +24,8 @@ You can download GlobalWarming right here: [Development Builds](https://thebusyb
 
 ## Configuration
 Once you have successfully installed the plugin, take a look at the [config.yml](https://github.com/poma123/GlobalWarming/tree/master/src/main/resources/config.yml).
-- `disabled-worlds` allows you to exclude worlds from the mechanics of climate change
+- `worlds` allows you to whitelist or exclude worlds from the mechanics of climate change
+- `world-filter-type` defines how the world filter should work (available types: ``blacklist``, ``whitelist``)
 - Under the `mechanics` section, you can customize the available climate change mechanics
 - The `pollution` section holds pollution production and absorption of machines, items and entities
 - Under the `temperature-options` section, you can configure how the temperature should be calculated based on pollution and weather.
