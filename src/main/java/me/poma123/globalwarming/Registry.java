@@ -74,6 +74,7 @@ public class Registry {
             }
         }
 
+        // Whitelisting or blacklisting worlds
         List<String> oldDisabledWorlds = cfg.getStringList("disabled-worlds");
         if (!oldDisabledWorlds.isEmpty()) {
             cfg.setValue("worlds", oldDisabledWorlds);
