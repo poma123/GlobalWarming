@@ -23,6 +23,7 @@ import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.cscorelib2.config.Config;
+import me.poma123.globalwarming.api.WorldFilterType;
 
 public class Registry {
 
@@ -35,6 +36,8 @@ public class Registry {
     private final Map<String, Double> pollutedSlimefunItems = new HashMap<>();
     private final Map<String, Double> pollutedSlimefunMachines = new HashMap<>();
     private final Map<String, Double> absorbentSlimefunMachines = new HashMap<>();
+    private final Set<String> worlds = new HashSet<>();
+    private WorldFilterType worldFilterType;
     private double pollutionMultiply;
     private double stormTemperatureDrop;
     private double treeGrowthAbsorption;
@@ -83,22 +86,11 @@ public class Registry {
             cfg.save();
         }
 
-        List<String> worlds = cfg.getStringList("worlds");
-        String filterType = cfg.getString("world-filter-type");
-        boolean blacklist = filterType.equalsIgnoreCase("blacklist");
+        worldFilterType = WorldFilterType.valueOf(cfg.getOrSetDefault("world-filter-type", "blacklist"));
+        worlds.addAll(cfg.getStringList("worlds"));
 
         for (World w : Bukkit.getWorlds()) {
-            if (blacklist) {
-                if (!worlds.contains(w.getName())) {
-                    enabledWorlds.add(w.getName());
-                    getWorldConfig(w);
-                }
-            } else {
-                if (worlds.contains(w.getName())) {
-                    enabledWorlds.add(w.getName());
-                    getWorldConfig(w);
-                }
-            }
+            registerWorld(w, w.getName());
         }
 
         // Registering pollution production
@@ -186,6 +178,24 @@ public class Registry {
             return false;
         }
         return enabledWorlds.contains(worldName);
+    }
+
+    public void registerWorld(World w, String worldName) {
+        if (worldFilterType == WorldFilterType.BLACKLIST) {
+            if (!worlds.contains(worldName)) {
+                enabledWorlds.add(worldName);
+                getWorldConfig(w);
+            }
+        } else {
+            if (worlds.contains(worldName)) {
+                enabledWorlds.add(worldName);
+                getWorldConfig(w);
+            }
+        }
+    }
+
+    public void unregisterWorld(String worldName) {
+        enabledWorlds.remove(worldName);
     }
 
     public Set<String> getEnabledWorlds() {

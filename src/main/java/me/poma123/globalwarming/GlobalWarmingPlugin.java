@@ -33,6 +33,7 @@ import me.poma123.globalwarming.commands.GlobalWarmingCommand;
 import me.poma123.globalwarming.items.machines.TemperatureMeter;
 import me.poma123.globalwarming.items.CinnabariteResource;
 import me.poma123.globalwarming.listeners.PollutionListener;
+import me.poma123.globalwarming.listeners.WorldListener;
 import me.poma123.globalwarming.tasks.FireTask;
 import me.poma123.globalwarming.tasks.MeltTask;
 import me.poma123.globalwarming.tasks.SlownessTask;
@@ -88,6 +89,7 @@ public class GlobalWarmingPlugin extends JavaPlugin implements SlimefunAddon {
 
         command.register();
         Bukkit.getPluginManager().registerEvents(new PollutionListener(), this);
+        Bukkit.getPluginManager().registerEvents(new WorldListener(), this);
     }
 
     private void registerItems() {
