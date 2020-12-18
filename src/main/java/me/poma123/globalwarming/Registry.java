@@ -86,7 +86,7 @@ public class Registry {
             cfg.save();
         }
 
-        worldFilterType = WorldFilterType.valueOf(cfg.getOrSetDefault("world-filter-type", "blacklist"));
+        worldFilterType = WorldFilterType.valueOf(((String) cfg.getOrSetDefault("world-filter-type", "blacklist")).toUpperCase(Locale.ROOT));
         worlds.addAll(cfg.getStringList("worlds"));
 
         for (World w : Bukkit.getWorlds()) {
