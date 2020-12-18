@@ -87,7 +87,13 @@ public class Registry {
             cfg.save();
         }
 
-        worldFilterType = WorldFilterType.valueOf(((String) cfg.getOrSetDefault("world-filter-type", "blacklist")).toUpperCase(Locale.ROOT));
+        try {
+            worldFilterType = WorldFilterType.valueOf(((String) cfg.getOrSetDefault("world-filter-type", "blacklist")).toUpperCase(Locale.ROOT));
+        } catch (IllegalArgumentException ex) {
+            worldFilterType = WorldFilterType.BLACKLIST;
+            GlobalWarmingPlugin.getInstance().getLogger().log(Level.WARNING, "\"{0}\" is not a valid world filter type. Now using default value (blacklist)", new Object[] { cfg.getString("world-filter-type") });
+        }
+        
         worlds.addAll(cfg.getStringList("worlds"));
 
         for (World w : Bukkit.getWorlds()) {
