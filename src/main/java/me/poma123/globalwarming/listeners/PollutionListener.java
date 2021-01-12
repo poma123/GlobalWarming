@@ -20,8 +20,8 @@ import io.github.thebusybiscuit.slimefun4.api.events.AsyncGeneratorProcessComple
 import io.github.thebusybiscuit.slimefun4.api.events.AsyncReactorProcessCompleteEvent;
 import io.github.thebusybiscuit.slimefun4.api.events.AsyncMachineProcessCompleteEvent;
 import me.mrCookieSlime.Slimefun.cscorelib2.chat.ChatColors;
-import me.mrCookieSlime.Slimefun.cscorelib2.math.DoubleHandler;
 import me.poma123.globalwarming.GlobalWarmingPlugin;
+import me.poma123.globalwarming.TemperatureManager;
 import me.poma123.globalwarming.api.events.AsyncWorldPollutionChangeEvent;
 import me.poma123.globalwarming.api.TemperatureType;
 import me.poma123.globalwarming.api.PollutionManager;
@@ -117,7 +117,7 @@ public class PollutionListener implements Listener {
             }
             lastWorldBroadcasts.put(world.getName(), System.currentTimeMillis());
 
-            double amount = DoubleHandler.fixDouble(e.getNewValue() * GlobalWarmingPlugin.getRegistry().getPollutionMultiply());
+            double amount = TemperatureManager.fixDouble(e.getNewValue() * GlobalWarmingPlugin.getRegistry().getPollutionMultiply());
             if (!tempPollutionValues.containsKey(world.getName())) {
                 tempPollutionValues.put(world.getName(), amount);
             } else {

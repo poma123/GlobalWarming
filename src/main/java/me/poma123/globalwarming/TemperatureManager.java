@@ -1,5 +1,6 @@
 package me.poma123.globalwarming;
 
+import java.text.DecimalFormat;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +11,6 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
 
-import me.mrCookieSlime.Slimefun.cscorelib2.math.DoubleHandler;
 import me.poma123.globalwarming.api.PollutionManager;
 import me.poma123.globalwarming.api.Temperature;
 import me.poma123.globalwarming.api.TemperatureType;
@@ -100,7 +100,7 @@ public class TemperatureManager {
         }
         temp.setTemperatureType(tempType);
 
-        return prefix + " " + DoubleHandler.fixDouble(temp.getConvertedValue()) + " &7" + tempType.getSuffix();
+        return prefix + " " + fixDouble(temp.getConvertedValue()) + " &7" + tempType.getSuffix();
     }
 
     public String getAirQualityString(@Nonnull World world, @Nonnull TemperatureType tempType) {
@@ -133,7 +133,7 @@ public class TemperatureManager {
 
         prefix = prefix + (difference > 0 ? "+" : "");
 
-        return prefix + DoubleHandler.fixDouble(difference) + " &7" + tempType.getSuffix();
+        return prefix + fixDouble(difference) + " &7" + tempType.getSuffix();
     }
 
     public Temperature addTemperatureChangeFactors(@Nonnull World world, @Nonnull Biome biome, @Nonnull Temperature temperature) {
@@ -181,5 +181,21 @@ public class TemperatureManager {
     public static boolean isDaytime(@Nonnull World world) {
         long time = world.getTime();
         return (time < 12300 || time > 23850);
+    }
+
+    public static double fixDouble(double amount, int digits) {
+        if (digits == 0)
+            return (int) amount;
+        StringBuilder format = new StringBuilder("##");
+        for (int i = 0; i < digits; i++) {
+            if (i == 0)
+                format.append(".");
+            format.append("#");
+        }
+        return Double.valueOf(new DecimalFormat(format.toString()).format(amount).replace(",", "."));
+    }
+
+    public static double fixDouble(double amount) {
+        return fixDouble(amount, 2);
     }
 }
