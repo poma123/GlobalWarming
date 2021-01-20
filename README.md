@@ -1,5 +1,6 @@
 # GlobalWarming
 
+
 This Slimefun addon aims to add climate change mechanics to the game.
 A worth-trying, 99% configurable plugin for Minecraft Servers.
 
