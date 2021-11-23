@@ -1,11 +1,28 @@
 package me.poma123.globalwarming;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.logging.Level;
-
-import org.bstats.bukkit.Metrics;
+import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.api.researches.Research;
+import io.github.thebusybiscuit.slimefun4.core.handlers.ItemConsumptionHandler;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.updater.GitHubBuildsUpdater;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.poma123.globalwarming.api.TemperatureType;
+import me.poma123.globalwarming.commands.GlobalWarmingCommand;
+import me.poma123.globalwarming.items.CinnabariteResource;
+import me.poma123.globalwarming.items.machines.AirCompressor;
+import me.poma123.globalwarming.items.machines.TemperatureMeter;
+import me.poma123.globalwarming.listeners.PollutionListener;
+import me.poma123.globalwarming.listeners.WorldListener;
+import me.poma123.globalwarming.tasks.BurnTask;
+import me.poma123.globalwarming.tasks.FireTask;
+import me.poma123.globalwarming.tasks.MeltTask;
+import me.poma123.globalwarming.tasks.SlownessTask;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -14,31 +31,10 @@ import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
-import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import io.github.thebusybiscuit.slimefun4.core.handlers.ItemConsumptionHandler;
-import io.github.thebusybiscuit.slimefun4.core.researching.Research;
-import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.cscorelib2.config.Config;
-import me.mrCookieSlime.Slimefun.cscorelib2.item.CustomItem;
-import me.mrCookieSlime.Slimefun.cscorelib2.updater.GitHubBuildsUpdater;
-import me.mrCookieSlime.Slimefun.cscorelib2.updater.Updater;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.poma123.globalwarming.api.TemperatureType;
-import me.poma123.globalwarming.commands.GlobalWarmingCommand;
-import me.poma123.globalwarming.items.machines.TemperatureMeter;
-import me.poma123.globalwarming.items.CinnabariteResource;
-import me.poma123.globalwarming.listeners.PollutionListener;
-import me.poma123.globalwarming.listeners.WorldListener;
-import me.poma123.globalwarming.tasks.FireTask;
-import me.poma123.globalwarming.tasks.MeltTask;
-import me.poma123.globalwarming.tasks.SlownessTask;
-import me.poma123.globalwarming.items.machines.AirCompressor;
-import me.poma123.globalwarming.tasks.BurnTask;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.logging.Level;
 
 public class GlobalWarmingPlugin extends JavaPlugin implements SlimefunAddon {
 
@@ -55,11 +51,10 @@ public class GlobalWarmingPlugin extends JavaPlugin implements SlimefunAddon {
         instance = this;
 
         if (cfg.getBoolean("options.auto-update") && getDescription().getVersion().startsWith("DEV - ")) {
-            Updater updater = new GitHubBuildsUpdater(this, getFile(), "poma123/GlobalWarming/master");
-            updater.start();
+            new GitHubBuildsUpdater(this, getFile(), "poma123/GlobalWarming/master").start();
         }
 
-        new Metrics(this, 9132);
+        // new Metrics(this, 9132);
 
         // Create configuration files
         final File biomesFile = new File(getDataFolder(), "biomes.yml");
@@ -93,9 +88,9 @@ public class GlobalWarmingPlugin extends JavaPlugin implements SlimefunAddon {
     }
 
     private void registerItems() {
-        Category category = new Category(new NamespacedKey(this, "global_warming"), new CustomItem(Items.THERMOMETER, "&2Global Warming"));
+        ItemGroup itemGroup = new ItemGroup(new NamespacedKey(this, "global_warming"), new CustomItemStack(Items.THERMOMETER, "&2Global Warming"));
 
-        new TemperatureMeter(category, Items.THERMOMETER, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
+        new TemperatureMeter(itemGroup, Items.THERMOMETER, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
                 SlimefunItems.NICKEL_INGOT, new ItemStack(Material.GLASS), SlimefunItems.NICKEL_INGOT,
                 SlimefunItems.NICKEL_INGOT, Items.MERCURY, SlimefunItems.NICKEL_INGOT,
                 SlimefunItems.NICKEL_INGOT, new ItemStack(Material.GLASS), SlimefunItems.NICKEL_INGOT
@@ -103,11 +98,11 @@ public class GlobalWarmingPlugin extends JavaPlugin implements SlimefunAddon {
             @Override
             public void tick(Block b) {
                 Location loc = b.getLocation();
-                SimpleHologram.update(b, GlobalWarmingPlugin.getTemperatureManager().getTemperatureString(loc, TemperatureType.valueOf(BlockStorage.getLocationInfo(loc, "type"))));
+                updateHologram(b, GlobalWarmingPlugin.getTemperatureManager().getTemperatureString(loc, TemperatureType.valueOf(BlockStorage.getLocationInfo(loc, "type"))));
             }
         }.register(this);
 
-        new TemperatureMeter(category, Items.AIR_QUALITY_METER, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
+        new TemperatureMeter(itemGroup, Items.AIR_QUALITY_METER, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
                 SlimefunItems.BILLON_INGOT, SlimefunItems.BILLON_INGOT, SlimefunItems.BILLON_INGOT,
                 SlimefunItems.SOLDER_INGOT, Items.THERMOMETER, SlimefunItems.SOLDER_INGOT,
                 SlimefunItems.SOLDER_INGOT, SlimefunItems.MAGNET, SlimefunItems.SOLDER_INGOT
@@ -115,11 +110,11 @@ public class GlobalWarmingPlugin extends JavaPlugin implements SlimefunAddon {
             @Override
             public void tick(Block b) {
                 Location loc = b.getLocation();
-                SimpleHologram.update(b, "&7Climate change: " + GlobalWarmingPlugin.getTemperatureManager().getAirQualityString(loc.getWorld(), TemperatureType.valueOf(BlockStorage.getLocationInfo(loc, "type"))));
+                updateHologram(b, "&7Climate change: " + GlobalWarmingPlugin.getTemperatureManager().getAirQualityString(loc.getWorld(), TemperatureType.valueOf(BlockStorage.getLocationInfo(loc, "type"))));
             }
         }.register(this);
 
-        new AirCompressor(category, Items.AIR_COMPRESSOR, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
+        new AirCompressor(itemGroup, Items.AIR_COMPRESSOR, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
                 SlimefunItems.SOLDER_INGOT, Items.FILTER, SlimefunItems.SOLDER_INGOT,
                 SlimefunItems.ALUMINUM_BRASS_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.ALUMINUM_BRASS_INGOT,
                 SlimefunItems.SOLDER_INGOT, SlimefunItems.BATTERY, SlimefunItems.SOLDER_INGOT
@@ -140,13 +135,13 @@ public class GlobalWarmingPlugin extends JavaPlugin implements SlimefunAddon {
             }
         }.register(this);
 
-        new SlimefunItem(category, Items.EMPTY_CANISTER, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
+        new SlimefunItem(itemGroup, Items.EMPTY_CANISTER, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
                 null, SlimefunItems.SOLDER_INGOT, null,
                 SlimefunItems.SOLDER_INGOT, new ItemStack(Material.GLASS_BOTTLE), SlimefunItems.SOLDER_INGOT,
                 SlimefunItems.SOLDER_INGOT, SlimefunItems.SOLDER_INGOT, SlimefunItems.SOLDER_INGOT
         }).register(this);
 
-        new SimpleSlimefunItem<ItemConsumptionHandler>(category, Items.CO2_CANISTER, AirCompressor.RECIPE_TYPE, new ItemStack[] {
+        new SimpleSlimefunItem<ItemConsumptionHandler>(itemGroup, Items.CO2_CANISTER, AirCompressor.RECIPE_TYPE, new ItemStack[] {
                 null, null, null,
                 null, Items.EMPTY_CANISTER, null,
                 null, null, null
@@ -157,16 +152,16 @@ public class GlobalWarmingPlugin extends JavaPlugin implements SlimefunAddon {
             }
         }.register(this);
 
-        new SlimefunItem(category, Items.CINNABARITE, RecipeType.GEO_MINER, new ItemStack[]{}).register(this);
+        new SlimefunItem(itemGroup, Items.CINNABARITE, RecipeType.GEO_MINER, new ItemStack[]{}).register(this);
         new CinnabariteResource().register();
 
-        new SlimefunItem(category, Items.MERCURY, RecipeType.SMELTERY, new ItemStack[]{
+        new SlimefunItem(itemGroup, Items.MERCURY, RecipeType.SMELTERY, new ItemStack[]{
                 Items.CINNABARITE, null, null,
                 null, null, null,
                 null, null, null
         }).register(this);
 
-        new SlimefunItem(category, Items.FILTER, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[]{
+        new SlimefunItem(itemGroup, Items.FILTER, RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[]{
                 null, new ItemStack(Material.GLASS), null,
                 new ItemStack(Material.GLASS), SlimefunItems.GOLD_PAN, new ItemStack(Material.GLASS),
                 null, new ItemStack(Material.GLASS), null
@@ -240,7 +235,7 @@ public class GlobalWarmingPlugin extends JavaPlugin implements SlimefunAddon {
 
     @Override
     public String getBugTrackerURL() {
-        return "https://github.com/poma123/GlobalWarming/issues";
+        return "https://github.com/ybw0014/GlobalWarming/issues";
     }
 
     @Override

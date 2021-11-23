@@ -1,17 +1,16 @@
 package me.poma123.globalwarming.commands.subcommands;
 
-import org.bukkit.Bukkit;
-import org.bukkit.World;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
-import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
-import me.mrCookieSlime.Slimefun.cscorelib2.chat.ChatColors;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.common.CommonPatterns;
 import me.poma123.globalwarming.GlobalWarmingPlugin;
 import me.poma123.globalwarming.TemperatureManager;
 import me.poma123.globalwarming.api.PollutionManager;
 import me.poma123.globalwarming.commands.GlobalWarmingCommand;
 import me.poma123.globalwarming.commands.SubCommand;
+import org.bukkit.Bukkit;
+import org.bukkit.World;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 class PollutionCommand extends SubCommand {
 
@@ -66,7 +65,7 @@ class PollutionCommand extends SubCommand {
     private int parseAmount(String[] args) {
         int amount = -1;
 
-        if (args.length == 4 && PatternUtils.NUMERIC.matcher(args[3]).matches()) {
+        if (args.length == 4 && CommonPatterns.NUMERIC.matcher(args[3]).matches()) {
             amount = Integer.parseInt(args[3]);
         }
 

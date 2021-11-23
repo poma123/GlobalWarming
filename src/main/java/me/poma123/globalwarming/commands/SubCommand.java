@@ -1,13 +1,11 @@
 package me.poma123.globalwarming.commands;
 
-import java.util.Map;
+import me.poma123.globalwarming.GlobalWarmingPlugin;
+import org.bukkit.command.CommandSender;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.bukkit.command.CommandSender;
-
-import me.poma123.globalwarming.GlobalWarmingPlugin;
+import java.util.Map;
 
 public abstract class SubCommand {
 

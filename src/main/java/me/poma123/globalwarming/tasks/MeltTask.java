@@ -1,10 +1,6 @@
 package me.poma123.globalwarming.tasks;
 
-import java.util.Set;
-import java.util.concurrent.ThreadLocalRandom;
-
-import javax.annotation.ParametersAreNonnullByDefault;
-
+import me.poma123.globalwarming.GlobalWarmingPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
@@ -14,7 +10,9 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.event.block.BlockFadeEvent;
 
-import me.poma123.globalwarming.GlobalWarmingPlugin;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class MeltTask extends MechanicTask {
 

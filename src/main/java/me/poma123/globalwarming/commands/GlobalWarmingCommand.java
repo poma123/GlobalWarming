@@ -1,13 +1,10 @@
 package me.poma123.globalwarming.commands;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.annotation.Nonnull;
-
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
+import me.poma123.globalwarming.GlobalWarmingPlugin;
+import me.poma123.globalwarming.commands.subcommands.SubCommands;
 import org.apache.commons.lang.Validate;
-
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,10 +12,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.cscorelib2.chat.ChatColors;
-import me.poma123.globalwarming.GlobalWarmingPlugin;
-import me.poma123.globalwarming.commands.subcommands.SubCommands;
+import javax.annotation.Nonnull;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class GlobalWarmingCommand implements CommandExecutor, Listener {
 
@@ -66,7 +63,7 @@ public class GlobalWarmingCommand implements CommandExecutor, Listener {
 
     public void sendHelp(@Nonnull CommandSender sender) {
         sender.sendMessage("");
-        sender.sendMessage(ChatColors.color("&aGlobalWarming &2v" + SlimefunPlugin.getVersion()));
+        sender.sendMessage(ChatColors.color("&aGlobalWarming &2v" + Slimefun.getVersion()));
         sender.sendMessage("");
 
         for (SubCommand cmd : commands) {
