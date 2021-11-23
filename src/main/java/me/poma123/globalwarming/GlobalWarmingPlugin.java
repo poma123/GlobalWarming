@@ -23,6 +23,7 @@ import me.poma123.globalwarming.tasks.BurnTask;
 import me.poma123.globalwarming.tasks.FireTask;
 import me.poma123.globalwarming.tasks.MeltTask;
 import me.poma123.globalwarming.tasks.SlownessTask;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -54,7 +55,7 @@ public class GlobalWarmingPlugin extends JavaPlugin implements SlimefunAddon {
             new GitHubBuildsUpdater(this, getFile(), "poma123/GlobalWarming/master").start();
         }
 
-        // new Metrics(this, 9132);
+        new Metrics(this, 9132);
 
         // Create configuration files
         final File biomesFile = new File(getDataFolder(), "biomes.yml");
