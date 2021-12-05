@@ -1,17 +1,10 @@
 package me.poma123.globalwarming.listeners;
 
-import io.github.thebusybiscuit.slimefun4.api.events.AsyncMachineOperationFinishEvent;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.Reactor;
-import io.github.thebusybiscuit.slimefun4.implementation.operations.CraftingOperation;
-import io.github.thebusybiscuit.slimefun4.implementation.operations.FuelOperation;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
-import me.poma123.globalwarming.GlobalWarmingPlugin;
-import me.poma123.globalwarming.TemperatureManager;
-import me.poma123.globalwarming.api.PollutionManager;
-import me.poma123.globalwarming.api.TemperatureType;
-import me.poma123.globalwarming.api.events.AsyncWorldPollutionChangeEvent;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Tag;
@@ -23,10 +16,19 @@ import org.bukkit.event.entity.EntityBreedEvent;
 import org.bukkit.event.world.StructureGrowEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
+import io.github.thebusybiscuit.slimefun4.api.events.AsyncMachineOperationFinishEvent;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.Reactor;
+import io.github.thebusybiscuit.slimefun4.implementation.operations.CraftingOperation;
+import io.github.thebusybiscuit.slimefun4.implementation.operations.FuelOperation;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
+
+import me.poma123.globalwarming.GlobalWarmingPlugin;
+import me.poma123.globalwarming.TemperatureManager;
+import me.poma123.globalwarming.api.PollutionManager;
+import me.poma123.globalwarming.api.TemperatureType;
+import me.poma123.globalwarming.api.events.AsyncWorldPollutionChangeEvent;
 
 public class PollutionListener implements Listener {
 

@@ -1,16 +1,18 @@
 package me.poma123.globalwarming.commands.subcommands;
 
+import org.bukkit.Bukkit;
+import org.bukkit.World;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
 import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.common.CommonPatterns;
+
 import me.poma123.globalwarming.GlobalWarmingPlugin;
 import me.poma123.globalwarming.TemperatureManager;
 import me.poma123.globalwarming.api.PollutionManager;
 import me.poma123.globalwarming.commands.GlobalWarmingCommand;
 import me.poma123.globalwarming.commands.SubCommand;
-import org.bukkit.Bukkit;
-import org.bukkit.World;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 class PollutionCommand extends SubCommand {
 

@@ -1,7 +1,8 @@
 package me.poma123.globalwarming.tasks;
 
-import me.poma123.globalwarming.GlobalWarmingPlugin;
 import org.bukkit.Bukkit;
+
+import me.poma123.globalwarming.GlobalWarmingPlugin;
 
 public abstract class MechanicTask implements Runnable {
 

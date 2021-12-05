@@ -1,6 +1,10 @@
 package me.poma123.globalwarming.tasks;
 
-import me.poma123.globalwarming.GlobalWarmingPlugin;
+import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
@@ -8,9 +12,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Set;
-import java.util.concurrent.ThreadLocalRandom;
+import me.poma123.globalwarming.GlobalWarmingPlugin;
 
 public class FireTask extends MechanicTask {
 

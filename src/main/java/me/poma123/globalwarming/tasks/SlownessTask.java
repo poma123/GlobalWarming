@@ -1,19 +1,22 @@
 package me.poma123.globalwarming.tasks;
 
-import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
-import io.github.thebusybiscuit.slimefun4.api.researches.Research;
-import me.poma123.globalwarming.GlobalWarmingPlugin;
-import me.poma123.globalwarming.api.Temperature;
+import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Optional;
-import java.util.Set;
-import java.util.concurrent.ThreadLocalRandom;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.api.researches.Research;
+
+import me.poma123.globalwarming.GlobalWarmingPlugin;
+import me.poma123.globalwarming.api.Temperature;
 
 public class SlownessTask extends MechanicTask {
 

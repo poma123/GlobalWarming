@@ -1,17 +1,20 @@
 package me.poma123.globalwarming.api;
 
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
-import me.poma123.globalwarming.GlobalWarmingPlugin;
-import me.poma123.globalwarming.api.events.AsyncWorldPollutionChangeEvent;
+import java.util.Map;
+
+import javax.annotation.Nonnull;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import java.util.Map;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
+
+import me.poma123.globalwarming.GlobalWarmingPlugin;
+import me.poma123.globalwarming.api.events.AsyncWorldPollutionChangeEvent;
 
 /**
  * A very useful API that handles the pollution amount in {@link World} instances

@@ -1,19 +1,21 @@
 package me.poma123.globalwarming;
 
-import me.poma123.globalwarming.api.PollutionManager;
-import me.poma123.globalwarming.api.Temperature;
-import me.poma123.globalwarming.api.TemperatureType;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.block.Biome;
-
-import javax.annotation.Nonnull;
 import java.text.DecimalFormat;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
+import javax.annotation.Nonnull;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.block.Biome;
+
+import me.poma123.globalwarming.api.PollutionManager;
+import me.poma123.globalwarming.api.Temperature;
+import me.poma123.globalwarming.api.TemperatureType;
 
 /**
  * Handles the temperature calculations in different {@link Biome} instances
