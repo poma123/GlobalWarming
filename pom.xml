@@ -91,7 +91,7 @@
                     <!-- Shade dependencies into the output jar -->
                     <relocations>
                         <relocation>
-                            <pattern>org.bstats.bukkit</pattern>
+                            <pattern>org.bstats</pattern>
                             <shadedPattern>me.poma123.globalwarming.bstats</shadedPattern>
                         </relocation>
                     </relocations>
@@ -133,21 +133,14 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.16.4-R0.1-SNAPSHOT</version>
+            <version>1.17.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
-            <groupId>com.github.TheBusyBiscuit</groupId>
-            <artifactId>CS-CoreLib</artifactId>
-            <version>e42a05d129</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.TheBusyBiscuit</groupId>
+            <groupId>com.github.Slimefun</groupId>
             <artifactId>Slimefun4</artifactId>
-            <version>RC-19</version>
+            <version>RC-29</version>
             <scope>provided</scope>
             <exclusions>
                 <exclusion>
@@ -167,7 +160,7 @@
         <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
-            <version>1.8</version>
+            <version>2.2.1</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

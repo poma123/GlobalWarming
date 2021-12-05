@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -14,8 +16,6 @@ import org.bukkit.block.Biome;
 import me.poma123.globalwarming.api.PollutionManager;
 import me.poma123.globalwarming.api.Temperature;
 import me.poma123.globalwarming.api.TemperatureType;
-
-import javax.annotation.Nonnull;
 
 /**
  * Handles the temperature calculations in different {@link Biome} instances

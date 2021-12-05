@@ -5,10 +5,10 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.Locale;
 import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
@@ -20,10 +20,11 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
 
-import io.github.thebusybiscuit.slimefun4.core.researching.Research;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.cscorelib2.config.Config;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.researches.Research;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
+
 import me.poma123.globalwarming.api.WorldFilterType;
 
 public class Registry {
@@ -114,7 +115,7 @@ public class Registry {
 
                 if (Material.getMaterial(id) != null) {
                     pollutedVanillaItems.put(Material.getMaterial(id), value);
-                } else if (SlimefunItem.getByID(id) != null) {
+                } else if (SlimefunItem.getById(id) != null) {
                     pollutedSlimefunItems.put(id, value);
                 } else {
                     GlobalWarmingPlugin.getInstance().getLogger().log(Level.WARNING, "Could not load non-existent polluted item \"{0}\" with a pollution value of \"{1}\"", new Object[] { id, value });
@@ -130,7 +131,7 @@ public class Registry {
                     continue;
                 }
 
-                if (SlimefunItem.getByID(id) != null) {
+                if (SlimefunItem.getById(id) != null) {
                     pollutedSlimefunMachines.put(id, value);
                 } else {
                     GlobalWarmingPlugin.getInstance().getLogger().log(Level.WARNING, "Could not load non-existent polluted machine \"{0}\" with a pollution value of \"{1}\"", new Object[] { id, value });
@@ -146,7 +147,7 @@ public class Registry {
                     continue;
                 }
 
-                if (SlimefunItem.getByID(id) != null) {
+                if (SlimefunItem.getById(id) != null) {
                     absorbentSlimefunMachines.put(id, value);
                 } else {
                     GlobalWarmingPlugin.getInstance().getLogger().log(Level.WARNING, "Could not load non-existent absorbent machine \"{0}\" with an absorption value of \"{1}\"", new Object[] { id, value });
@@ -162,7 +163,7 @@ public class Registry {
         animalBreedPollution = cfg.getOrSetDefault("pollution.production.animal-breed", 0.007);
 
         String researchKey = cfg.getString("needed-research-for-player-mechanics");
-        Optional<Research> tempResearch = Research.getResearch(new NamespacedKey(SlimefunPlugin.instance(), researchKey));
+        Optional<Research> tempResearch = Research.getResearch(new NamespacedKey(Slimefun.instance(), researchKey));
 
         if (tempResearch.isPresent() && tempResearch.get().isEnabled()) {
             researchNeededForPlayerMechanics = tempResearch.get();

@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.World;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,15 +16,19 @@ import org.bukkit.event.entity.EntityBreedEvent;
 import org.bukkit.event.world.StructureGrowEvent;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.slimefun4.api.events.AsyncGeneratorProcessCompleteEvent;
-import io.github.thebusybiscuit.slimefun4.api.events.AsyncReactorProcessCompleteEvent;
-import io.github.thebusybiscuit.slimefun4.api.events.AsyncMachineProcessCompleteEvent;
-import me.mrCookieSlime.Slimefun.cscorelib2.chat.ChatColors;
+import io.github.thebusybiscuit.slimefun4.api.events.AsyncMachineOperationFinishEvent;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.Reactor;
+import io.github.thebusybiscuit.slimefun4.implementation.operations.CraftingOperation;
+import io.github.thebusybiscuit.slimefun4.implementation.operations.FuelOperation;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
+
 import me.poma123.globalwarming.GlobalWarmingPlugin;
 import me.poma123.globalwarming.TemperatureManager;
-import me.poma123.globalwarming.api.events.AsyncWorldPollutionChangeEvent;
-import me.poma123.globalwarming.api.TemperatureType;
 import me.poma123.globalwarming.api.PollutionManager;
+import me.poma123.globalwarming.api.TemperatureType;
+import me.poma123.globalwarming.api.events.AsyncWorldPollutionChangeEvent;
 
 public class PollutionListener implements Listener {
 
@@ -34,39 +38,35 @@ public class PollutionListener implements Listener {
     private final Map<String, Double> tempPollutionValues = new HashMap<>();
 
     @EventHandler
-    public void onMachineProcessComplete(AsyncMachineProcessCompleteEvent e) {
-        World world = e.getLocation().getWorld();
+    public void onMachineOperationComplete(AsyncMachineOperationFinishEvent e) {
+        World world = e.getPosition().getWorld();
 
         if (!GlobalWarmingPlugin.getRegistry().isWorldEnabled(world.getName())) {
             return;
         }
 
-        risePollutionTry(world, e.getMachine().getId(), e.getMachineRecipe().getInput());
-        descendPollutionTry(world, e.getMachine().getId());
-    }
-
-    @EventHandler
-    public void onGeneratorProcessComplete(AsyncGeneratorProcessCompleteEvent e) {
-        World world = e.getLocation().getWorld();
-
-        if (!GlobalWarmingPlugin.getRegistry().isWorldEnabled(world.getName())) {
+        if (e.getProcessor() == null) {
             return;
         }
 
-        risePollutionTry(world, e.getGenerator().getId(), new ItemStack[]{ e.getMachineFuel().getInput() });
-        descendPollutionTry(world, e.getGenerator().getId());
-    }
+        String id = null;
+        ItemStack[] inputs = new ItemStack[]{};
 
-    @EventHandler
-    public void onReactorProcessComplete(AsyncReactorProcessCompleteEvent e) {
-        World world = e.getLocation().getWorld();
-
-        if (!GlobalWarmingPlugin.getRegistry().isWorldEnabled(world.getName())) {
-            return;
+        if ((e.getProcessor().getOwner() instanceof Reactor || e.getProcessor().getOwner() instanceof AGenerator)
+                && e.getOperation() instanceof FuelOperation) {
+            id = e.getProcessor().getOwner().getId();
+            FuelOperation operation = (FuelOperation) e.getOperation();
+            inputs = new ItemStack[]{ operation.getIngredient() };
+        } else if (e.getProcessor().getOwner() instanceof AContainer && e.getOperation() instanceof CraftingOperation) {
+            id = e.getProcessor().getOwner().getId();
+            CraftingOperation operation = (CraftingOperation) e.getOperation();
+            inputs = operation.getIngredients();
         }
 
-        risePollutionTry(world, e.getReactor().getId(), new ItemStack[]{ e.getMachineFuel().getInput() });
-        descendPollutionTry(world, e.getReactor().getId());
+        if (id != null) {
+            risePollutionTry(world, id, inputs);
+            descendPollutionTry(world, id);
+        }
     }
 
     @EventHandler

@@ -1,16 +1,17 @@
 package me.poma123.globalwarming.items.machines;
 
-import me.poma123.globalwarming.GlobalWarmingPlugin;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
+
+import me.poma123.globalwarming.GlobalWarmingPlugin;
 import me.poma123.globalwarming.Items;
 
 public abstract class AirCompressor extends AContainer implements RecipeDisplayItem {
@@ -19,8 +20,8 @@ public abstract class AirCompressor extends AContainer implements RecipeDisplayI
             new NamespacedKey(GlobalWarmingPlugin.getInstance(), "air_compressor"), Items.AIR_COMPRESSOR
     );
 
-    protected AirCompressor(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    protected AirCompressor(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
     }
 
     @Override

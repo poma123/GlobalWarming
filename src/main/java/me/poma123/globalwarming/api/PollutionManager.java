@@ -10,8 +10,9 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.cscorelib2.config.Config;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
+
 import me.poma123.globalwarming.GlobalWarmingPlugin;
 import me.poma123.globalwarming.api.events.AsyncWorldPollutionChangeEvent;
 
@@ -176,7 +177,7 @@ public class PollutionManager {
      * @return the pollution production of the {@link SlimefunItem} machine
      */
     public static double isPollutedMachine(@Nonnull String id) {
-        SlimefunItem sfItem = SlimefunItem.getByID(id);
+        SlimefunItem sfItem = SlimefunItem.getById(id);
         Map<String, Double> pollutedSlimefunMachines = GlobalWarmingPlugin.getRegistry().getPollutedSlimefunMachines();
 
         if (sfItem != null && pollutedSlimefunMachines.containsKey(sfItem.getId())) {
@@ -195,7 +196,7 @@ public class PollutionManager {
      * @return the pollution absorption of the {@link SlimefunItem} machine
      */
     public static double isAbsorbentMachine(@Nonnull String id) {
-        SlimefunItem sfItem = SlimefunItem.getByID(id);
+        SlimefunItem sfItem = SlimefunItem.getById(id);
         Map<String, Double> absorbentSlimefunMachines = GlobalWarmingPlugin.getRegistry().getAbsorbentSlimefunMachines();
 
         if (sfItem != null && absorbentSlimefunMachines.containsKey(sfItem.getId())) {

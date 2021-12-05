@@ -5,13 +5,14 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import me.poma123.globalwarming.GlobalWarmingPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+
+import me.poma123.globalwarming.GlobalWarmingPlugin;
 
 public class FireTask extends MechanicTask {
 

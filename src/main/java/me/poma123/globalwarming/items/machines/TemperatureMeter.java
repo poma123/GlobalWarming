@@ -8,28 +8,37 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
-import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
+
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.poma123.globalwarming.api.TemperatureType;
 
-public abstract class TemperatureMeter extends SlimefunItem {
+public abstract class TemperatureMeter extends SlimefunItem implements HologramOwner {
 
     @ParametersAreNonnullByDefault
-    protected TemperatureMeter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    protected TemperatureMeter(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe);
+    }
 
-        SlimefunItem.registerBlockHandler(getId(), (p, b, stack, reason) -> {
-            SimpleHologram.remove(b);
-            return true;
-        });
+    @Nonnull
+    private BlockBreakHandler onBreak() {
+        return new SimpleBlockBreakHandler() {
+
+            @Override
+            public void onBlockBreak(@Nonnull Block b) {
+                removeHologram(b);
+            }
+        };
     }
 
     @Nonnull
@@ -40,7 +49,7 @@ public abstract class TemperatureMeter extends SlimefunItem {
             public void onPlayerPlace(BlockPlaceEvent e) {
                 Block b = e.getBlockPlaced();
                 BlockStorage.addBlockInfo(b,"type", TemperatureType.CELSIUS.name());
-                SimpleHologram.update(b, "&7Measuring...");
+                updateHologram(b, "&7Measuring...");
             }
         };
     }
@@ -70,6 +79,7 @@ public abstract class TemperatureMeter extends SlimefunItem {
 
     @Override
     public void preRegister() {
+        addItemHandler(onBreak());
         addItemHandler(onPlace());
         addItemHandler(onRightClick());
         addItemHandler(new BlockTicker() {
