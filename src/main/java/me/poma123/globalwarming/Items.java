@@ -20,7 +20,7 @@ public final class Items {
     public static final SlimefunItemStack CO2_CANISTER;
     public static final SlimefunItemStack CINNABARITE = new SlimefunItemStack("CINNABARITE", "d67a8a3d7d5aa5db00dff5c82f846ea0aeb7d645f0e467d7e9d9a18e9fa5b012", "&cCinnabarite");
     public static final SlimefunItemStack MERCURY = new SlimefunItemStack("MERCURY", Material.GRAY_DYE, "&7Mercury");
-    public static final SlimefunItemStack FILTER = new SlimefunItemStack("FILTER", Material.GUNPOWDER, "&7Filter");
+    public static final SlimefunItemStack FILTER = new SlimefunItemStack("AIR_COMPRESSOR_FILTER", Material.GUNPOWDER, "&7Filter");
 
     static {
         ItemStack item = new ItemStack(Material.POTION);

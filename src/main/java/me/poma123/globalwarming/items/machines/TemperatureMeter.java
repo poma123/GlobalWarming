@@ -17,6 +17,7 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
@@ -71,7 +72,7 @@ public abstract class TemperatureMeter extends SlimefunItem implements HologramO
             }
 
             BlockStorage.addBlockInfo(b, "type", saved.name());
-            p.sendMessage("§7Temperature type: §e" + saved.getName());
+            p.sendMessage(ChatColors.color("&7Temperature type: &e" + saved.getName()));
 
             e.cancel();
         };
