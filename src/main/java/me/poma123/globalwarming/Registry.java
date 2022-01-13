@@ -1,5 +1,10 @@
 package me.poma123.globalwarming;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -10,6 +15,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -18,20 +24,23 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
-import org.bukkit.block.Biome;
 
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.api.exceptions.BiomeMapException;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.researches.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
+import io.github.thebusybiscuit.slimefun4.utils.biomes.BiomeMap;
 
+import me.poma123.globalwarming.api.BiomeTemperature;
+import me.poma123.globalwarming.api.BiomeTemperatureDataConverter;
 import me.poma123.globalwarming.api.WorldFilterType;
 
 public class Registry {
 
     private final List<String> news = new ArrayList<>();
-    private final Map<Biome, Double> defaultBiomeTemperatures = new EnumMap<>(Biome.class);
-    private final Map<Biome, Double> maxTemperatureDropsAtNight = new EnumMap<>(Biome.class);
+    private BiomeMap<BiomeTemperature> biomeMap;
     private final Set<String> enabledWorlds = new HashSet<>();
     private final Map<String, Config> worldConfigs = new HashMap<>();
     private final Map<Material, Double> pollutedVanillaItems = new EnumMap<>(Material.class);
@@ -46,37 +55,17 @@ public class Registry {
     private double animalBreedPollution;
     private Research researchNeededForPlayerMechanics = null;
 
-    public void load(Config cfg, Config biomes, Config messages) {
-        // Add missing biomes to the config
-        for (Biome biome : Biome.values()) {
-            if (biomes.getValue("default-biome-temperatures." + biome.name()) == null) {
-                biomes.setValue("default-biome-temperatures." + biome.name(), 15);
-
-                GlobalWarmingPlugin.getInstance().getLogger().log(Level.INFO, "Added missing biome \"{0}\" to biomes.yml with the temperature value of 15", biome);
+    public void load(Config cfg, Config messages) {
+        // Setting up biome map
+        try {
+            if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_18)) {
+                this.biomeMap = loadBiomeMap("post-1.18.json");
+            } else {
+                this.biomeMap = loadBiomeMap("pre-1.18.json");
             }
         }
-        biomes.save();
-
-        // Loading default biome temperatures
-        for (String biome : biomes.getKeys("default-biome-temperatures")) {
-            double celsiusValue = biomes.getDouble("default-biome-temperatures." + biome);
-
-            try {
-                defaultBiomeTemperatures.put(Biome.valueOf(biome), celsiusValue);
-            } catch (IllegalArgumentException ex) {
-                GlobalWarmingPlugin.getInstance().getLogger().log(Level.WARNING, "Could not load temperature \"{0}\" of the invalid biome \"{1}\"", new Object[] { celsiusValue, biome });
-            }
-        }
-
-        // Loading night temperature drops
-        for (String biome : biomes.getKeys("max-temperature-drop-at-night")) {
-            double celsiusValue = biomes.getDouble("max-temperature-drop-at-night." + biome);
-
-            try {
-                maxTemperatureDropsAtNight.put(Biome.valueOf(biome), celsiusValue);
-            } catch (IllegalArgumentException ex) {
-                GlobalWarmingPlugin.getInstance().getLogger().log(Level.WARNING, "Could not load temperature drop \"{0}\" of the invalid biome \"{1}\"", new Object[] { celsiusValue, biome });
-            }
+        catch (BiomeMapException | FileNotFoundException e) {
+            e.printStackTrace();
         }
 
         // Whitelisting or blacklisting worlds
@@ -172,12 +161,13 @@ public class Registry {
         }
     }
 
-    public Map<Biome, Double> getDefaultBiomeTemperatures() {
-        return defaultBiomeTemperatures;
+    public BiomeMap<BiomeTemperature> loadBiomeMap(String path) throws BiomeMapException, FileNotFoundException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(GlobalWarmingPlugin.getInstance().getDataFolder() + "/biome-maps/" + path), StandardCharsets.UTF_8));
+        return BiomeMap.fromJson(GlobalWarmingPlugin.BIOME_MAP_KEY, reader.lines().collect(Collectors.joining("")), new BiomeTemperatureDataConverter());
     }
 
-    public Map<Biome, Double> getMaxTemperatureDropsAtNight() {
-        return maxTemperatureDropsAtNight;
+    public BiomeMap<BiomeTemperature> getBiomeMap() {
+        return biomeMap;
     }
 
     public boolean isWorldEnabled(@Nonnull String worldName) {
