@@ -78,7 +78,7 @@ public class Registry {
         }
 
         try {
-            worldFilterType = WorldFilterType.valueOf(((String) cfg.getOrSetDefault("world-filter-type", "blacklist")).toUpperCase(Locale.ROOT));
+            worldFilterType = WorldFilterType.valueOf((cfg.getOrSetDefault("world-filter-type", "blacklist")).toUpperCase(Locale.ROOT));
         } catch (IllegalArgumentException ex) {
             worldFilterType = WorldFilterType.BLACKLIST;
             GlobalWarmingPlugin.getInstance().getLogger().log(Level.WARNING, "\"{0}\" is not a valid world filter type. Now using default value (blacklist)", new Object[] { cfg.getString("world-filter-type") });
@@ -163,7 +163,7 @@ public class Registry {
 
     public BiomeMap<BiomeTemperature> loadBiomeMap(String path) throws BiomeMapException, FileNotFoundException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(GlobalWarmingPlugin.getInstance().getDataFolder() + "/biome-maps/" + path), StandardCharsets.UTF_8));
-        return BiomeMap.fromJson(GlobalWarmingPlugin.BIOME_MAP_KEY, reader.lines().collect(Collectors.joining("")), new BiomeTemperatureDataConverter());
+        return BiomeMap.fromJson(new NamespacedKey(GlobalWarmingPlugin.getInstance(), "globalwarming_biome_map"), reader.lines().collect(Collectors.joining("")), new BiomeTemperatureDataConverter());
     }
 
     public BiomeMap<BiomeTemperature> getBiomeMap() {

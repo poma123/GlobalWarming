@@ -123,7 +123,11 @@
                 <directory>${basedir}/src/main/resources</directory>
                 <filtering>true</filtering>
                 <includes>
-                    <include>*</include>
+                    <include>plugin.yml</include>
+                    <include>config.yml</include>
+                    <include>messages.yml</include>
+
+                    <include>biome-maps/*.json</include>
                 </includes>
             </resource>
         </resources>

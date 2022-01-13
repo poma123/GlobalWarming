@@ -41,7 +41,6 @@ import me.poma123.globalwarming.tasks.SlownessTask;
 
 public class GlobalWarmingPlugin extends JavaPlugin implements SlimefunAddon {
 
-    public static final NamespacedKey BIOME_MAP_KEY = new NamespacedKey(GlobalWarmingPlugin.getInstance(), "globalwarming_biome_map");
     private static GlobalWarmingPlugin instance;
     private static Registry registry = new Registry();
     private final TemperatureManager temperatureManager = new TemperatureManager();
@@ -69,8 +68,13 @@ public class GlobalWarmingPlugin extends JavaPlugin implements SlimefunAddon {
         }
         messages = new Config(this, "messages.yml");
 
+        File biomeMapDirectory = new File(getDataFolder(), "biome-maps");
+        if (!biomeMapDirectory.exists()) {
+            biomeMapDirectory.mkdirs();
+        }
+
         // Create biome map files
-        final File pre118BiomeMap = new File(getDataFolder(), "biome-maps/pre-1.18.json");
+        final File pre118BiomeMap = new File(biomeMapDirectory, "pre-1.18.json");
         if (!pre118BiomeMap.exists()) {
             try {
                 Files.copy(this.getClass().getResourceAsStream("/biome-maps/pre-1.18.json"), pre118BiomeMap.toPath());
@@ -79,7 +83,7 @@ public class GlobalWarmingPlugin extends JavaPlugin implements SlimefunAddon {
             }
         }
         
-        final File post118BiomeMap = new File(getDataFolder(), "biome-maps/post-1.18.json");
+        final File post118BiomeMap = new File(biomeMapDirectory, "post-1.18.json");
         if (!post118BiomeMap.exists()) {
             try {
                 Files.copy(this.getClass().getResourceAsStream("/biome-maps/post-1.18.json"), post118BiomeMap.toPath());
@@ -261,5 +265,5 @@ public class GlobalWarmingPlugin extends JavaPlugin implements SlimefunAddon {
     public static Config getMessagesConfig() {
         return instance.messages;
     }
-    
+
 }
