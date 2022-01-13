@@ -27,7 +27,8 @@ You can download GlobalWarming right here: [Development Builds](https://thebusyb
 Once you have successfully installed the plugin, take a look at the [config.yml](https://github.com/poma123/GlobalWarming/tree/master/src/main/resources/config.yml).
 - `worlds` allows you to whitelist or exclude worlds from the mechanics of climate change
 - `world-filter-type` defines how the world filter should work (available types: ``blacklist``, ``whitelist``)
-- Under the `mechanics` section, you can customize the available climate change mechanics
+- Under the `mechanics` section, you can customize the climate change mechanics available
+- You can also set the `needed-research-for-player-mechanics` and this way mechanics will only take effect on players with the research specified 
 - The `pollution` section holds pollution production and absorption of machines, items and entities
 - Under the `temperature-options` section, you can configure how the temperature should be calculated based on pollution and weather.
 
@@ -35,20 +36,20 @@ After editing a file, restart your server!
 ## Mechanics
 ### Environmental mechanics:
 
-- Forest fires (happens in loaded chunks, fire blocks will appear on random highest blocks in high temperature conditions)
-- Ice melting (happens in loaded chunks, ice will melt randomly in high temperature conditions)
+- Forest fires (happens in loaded chunks, fire blocks will appear on random highest blocks in high-temperature conditions)
+- Ice melting (happens in loaded chunks, ice will melt randomly in high-temperature conditions)
 - Player slowness (happens to players if the temp. is high or low enough)
 - Player burning (happens to players if the temp. is extremely high)
 
 ### Pollution mechanics:
-The pollution can change in a per-world basis. There are two types of pollution mechanics:
+Pollution can change on a per-world basis. There are two types of pollution mechanics:
 
 ##### 1. Pollution production
 - When animals breed
-- When a polluted Slimefun machine completes their process.
+- When a polluted Slimefun machine completes its process.
 - When a polluted Slimefun item was used in a Slimefun machine.
 
-##### 2. Pollution absorbtion
+##### 2. Pollution absorption
 - When a tree grows
 - When an absorbent Slimefun machine completes its process. (default: Air Compressor)
 
