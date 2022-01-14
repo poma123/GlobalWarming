@@ -182,7 +182,7 @@ public class Registry {
     }
     
     public BiomeMap<BiomeTemperature> loadResourceBiomeMap(String path) throws BiomeMapException, FileNotFoundException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(GlobalWarmingPlugin.getInstance().getClass().getResourceAsStream("/biome-maps/" + path)), StandardCharsets.UTF_8));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(new InputStreamReader(GlobalWarmingPlugin.getInstance().getClass().getResourceAsStream("/biome-maps/" + path)), StandardCharsets.UTF_8));
         return BiomeMap.fromJson(new NamespacedKey(GlobalWarmingPlugin.getInstance(), "globalwarming_biome_map"), reader.lines().collect(Collectors.joining("")), new BiomeTemperatureDataConverter());
     }
 
