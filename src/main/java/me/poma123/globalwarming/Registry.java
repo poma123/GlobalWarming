@@ -79,7 +79,7 @@ public class Registry {
             catch (BiomeMapException | FileNotFoundException exception2) {
                 GlobalWarmingPlugin.getInstance().getLogger().log(Level.WARNING, "Could not load internal biome map, please reinstall GlobalWarming.");
                 exception2.printStackTrace();
-                getServer().getPluginManager().disablePlugin(GlobalWarmingPlugin.getInstance());
+                GlobalWarmingPlugin.getInstance().getServer().getPluginManager().disablePlugin(GlobalWarmingPlugin.getInstance());
             }
         }
 
@@ -182,7 +182,7 @@ public class Registry {
     }
     
     public BiomeMap<BiomeTemperature> loadResourceBiomeMap(String path) throws BiomeMapException, FileNotFoundException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(GlobalWarmingPlugin.getClass().getResourceAsStream("/biome-maps/" + path)), StandardCharsets.UTF_8));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(GlobalWarmingPlugin.getInstance().getClass().getResourceAsStream("/biome-maps/" + path)), StandardCharsets.UTF_8));
         return BiomeMap.fromJson(new NamespacedKey(GlobalWarmingPlugin.getInstance(), "globalwarming_biome_map"), reader.lines().collect(Collectors.joining("")), new BiomeTemperatureDataConverter());
     }
 
