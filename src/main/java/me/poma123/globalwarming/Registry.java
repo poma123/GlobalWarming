@@ -64,8 +64,20 @@ public class Registry {
                 this.biomeMap = loadBiomeMap("pre-1.18.json");
             }
         }
-        catch (BiomeMapException | FileNotFoundException e) {
-            e.printStackTrace();
+        catch (BiomeMapException | FileNotFoundException exception) {
+            GlobalWarmingPlugin.getInstance().getLogger().log(Level.WARNING, "Could not load biome map from plugins/GlobalWarming/biome-maps/, now using the default file internally.");
+            exception.printStackTrace();
+            try {
+                if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_18)) {
+                    this.biomeMap = loadResourceBiomeMap("post-1.18.json");
+                } else {
+                    this.biomeMap = loadResourceBiomeMap("pre-1.18.json");
+                }
+            catch (BiomeMapException | FileNotFoundException exception2) {
+                GlobalWarmingPlugin.getInstance().getLogger().log(Level.WARNING, "Could not load internal biome map, please reinstall GlobalWarming.");
+                exception2.printStackTrace();
+                getServer().getPluginManager().disablePlugin(GlobalWarmingPlugin.getInstance());
+            }
         }
 
         // Whitelisting or blacklisting worlds
@@ -163,6 +175,11 @@ public class Registry {
 
     public BiomeMap<BiomeTemperature> loadBiomeMap(String path) throws BiomeMapException, FileNotFoundException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(GlobalWarmingPlugin.getInstance().getDataFolder() + "/biome-maps/" + path), StandardCharsets.UTF_8));
+        return BiomeMap.fromJson(new NamespacedKey(GlobalWarmingPlugin.getInstance(), "globalwarming_biome_map"), reader.lines().collect(Collectors.joining("")), new BiomeTemperatureDataConverter());
+    }
+    
+    public BiomeMap<BiomeTemperature> loadResourceBiomeMap(String path) throws BiomeMapException, FileNotFoundException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(GlobalWarmingPlugin.getClass()..getResourceAsStream("/biome-maps/" + path)), StandardCharsets.UTF_8));
         return BiomeMap.fromJson(new NamespacedKey(GlobalWarmingPlugin.getInstance(), "globalwarming_biome_map"), reader.lines().collect(Collectors.joining("")), new BiomeTemperatureDataConverter());
     }
 
