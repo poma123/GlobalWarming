@@ -67,12 +67,15 @@ public class Registry {
         catch (BiomeMapException | FileNotFoundException exception) {
             GlobalWarmingPlugin.getInstance().getLogger().log(Level.WARNING, "Could not load biome map from plugins/GlobalWarming/biome-maps/, now using the default file internally.");
             exception.printStackTrace();
+        }
+        finally {
             try {
                 if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_18)) {
                     this.biomeMap = loadResourceBiomeMap("post-1.18.json");
                 } else {
                     this.biomeMap = loadResourceBiomeMap("pre-1.18.json");
                 }
+            }
             catch (BiomeMapException | FileNotFoundException exception2) {
                 GlobalWarmingPlugin.getInstance().getLogger().log(Level.WARNING, "Could not load internal biome map, please reinstall GlobalWarming.");
                 exception2.printStackTrace();
@@ -179,7 +182,7 @@ public class Registry {
     }
     
     public BiomeMap<BiomeTemperature> loadResourceBiomeMap(String path) throws BiomeMapException, FileNotFoundException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(GlobalWarmingPlugin.getClass()..getResourceAsStream("/biome-maps/" + path)), StandardCharsets.UTF_8));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(GlobalWarmingPlugin.getClass().getResourceAsStream("/biome-maps/" + path)), StandardCharsets.UTF_8));
         return BiomeMap.fromJson(new NamespacedKey(GlobalWarmingPlugin.getInstance(), "globalwarming_biome_map"), reader.lines().collect(Collectors.joining("")), new BiomeTemperatureDataConverter());
     }
 
