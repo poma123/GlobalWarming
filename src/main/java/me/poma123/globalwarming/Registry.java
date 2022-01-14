@@ -33,8 +33,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.utils.biomes.BiomeMap;
 
-import me.poma123.globalwarming.api.BiomeTemperature;
-import me.poma123.globalwarming.api.BiomeTemperatureDataConverter;
+import me.poma123.globalwarming.api.biomes.BiomeTemperature;
+import me.poma123.globalwarming.api.biomes.BiomeTemperatureDataConverter;
 import me.poma123.globalwarming.api.WorldFilterType;
 
 public class Registry {

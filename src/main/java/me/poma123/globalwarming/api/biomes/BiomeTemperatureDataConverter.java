@@ -1,4 +1,4 @@
-package me.poma123.globalwarming.api;
+package me.poma123.globalwarming.api.biomes;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

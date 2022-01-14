@@ -2,6 +2,8 @@ package me.poma123.globalwarming.api;
 
 import javax.annotation.Nonnull;
 
+import org.apache.commons.lang.Validate;
+
 /**
  * A very simple API that handles the conversion between
  * {@link TemperatureType} scales.
@@ -14,10 +16,15 @@ public class Temperature {
     private TemperatureType tempType = TemperatureType.CELSIUS;
 
     public Temperature(@Nonnull double value) {
+        Validate.notNull(value, "The Temperature value should not be null!");
+
         this.celsiusValue = value;
     }
 
     public Temperature(@Nonnull double value, @Nonnull TemperatureType type) {
+        Validate.notNull(value, "The Temperature value should not be null!");
+        Validate.notNull(type, "The TemperatureType should not be null!");
+
         celsiusValue = value;
         tempType = type;
     }
@@ -54,7 +61,9 @@ public class Temperature {
         return tempType;
     }
 
-    public void setTemperatureType(TemperatureType type) {
+    public void setTemperatureType(@Nonnull TemperatureType type) {
+        Validate.notNull(type, "The TemperatureType should not be null!");
+
         tempType = type;
     }
 }

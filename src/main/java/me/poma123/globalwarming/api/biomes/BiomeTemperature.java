@@ -1,6 +1,8 @@
-package me.poma123.globalwarming.api;
+package me.poma123.globalwarming.api.biomes;
 
 import javax.annotation.Nonnull;
+
+import org.apache.commons.lang.Validate;
 
 /**
  * This data type holds biome temperature data for our
@@ -16,6 +18,9 @@ public class BiomeTemperature {
 
     @Nonnull
     public BiomeTemperature(@Nonnull double temperature, @Nonnull double maxTemperatureDropAtNight) {
+        Validate.notNull(temperature, "The temperature value should not be null!");
+        Validate.notNull(maxTemperatureDropAtNight, "The maxTemperatureDropAtNight value should not be null!");
+
         this.temperature = temperature;
         this.maxTemperatureDropAtNight = maxTemperatureDropAtNight;
     }

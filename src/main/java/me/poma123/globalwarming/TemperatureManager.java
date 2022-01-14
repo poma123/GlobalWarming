@@ -4,7 +4,6 @@ import java.text.DecimalFormat;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.Nonnull;
 
@@ -14,7 +13,7 @@ import org.bukkit.World;
 import org.bukkit.block.Biome;
 
 import io.github.thebusybiscuit.slimefun4.utils.biomes.BiomeMap;
-import me.poma123.globalwarming.api.BiomeTemperature;
+import me.poma123.globalwarming.api.biomes.BiomeTemperature;
 import me.poma123.globalwarming.api.PollutionManager;
 import me.poma123.globalwarming.api.Temperature;
 import me.poma123.globalwarming.api.TemperatureType;
