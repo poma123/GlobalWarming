@@ -49,4 +49,3 @@ assignees: ''
  - Server Software (Spigot/Paper):
  - Minecraft Version:
  - Slimefun Version:
- - CS-CoreLib Version:
