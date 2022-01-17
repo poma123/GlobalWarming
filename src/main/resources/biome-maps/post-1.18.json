@@ -1,92 +1,29 @@
 [
   {
     "value": {
-      "temperature": 18,
+      "temperature": -13.5,
       "max-temp-drop-at-night": 12
     },
     "biomes": [
-      "minecraft:ocean"
+      "minecraft:ice_spikes"
     ]
   },
   {
     "value": {
-      "temperature": 24,
-      "max-temp-drop-at-night": 10
-    },
-    "biomes": [
-      "minecraft:plains"
-    ]
-  },
-  {
-    "value": {
-      "temperature": 37,
-      "max-temp-drop-at-night": 40
-    },
-    "biomes": [
-      "minecraft:desert"
-    ]
-  },
-  {
-    "value": {
-      "temperature": 5,
-      "max-temp-drop-at-night": 10
-    },
-    "biomes": [
-      "minecraft:windswept_hills"
-    ]
-  },
-  {
-    "value": {
-      "temperature": 18,
+      "temperature": -13,
       "max-temp-drop-at-night": 8
     },
     "biomes": [
-      "minecraft:forest"
+      "minecraft:frozen_peaks"
     ]
   },
   {
     "value": {
-      "temperature": 12,
-      "max-temp-drop-at-night": 14
-    },
-    "biomes": [
-      "minecraft:taiga"
-    ]
-  },
-  {
-    "value": {
-      "temperature": 15,
+      "temperature": -10,
       "max-temp-drop-at-night": 7
     },
     "biomes": [
-      "minecraft:swamp"
-    ]
-  },
-  {
-    "value": {
-      "temperature": 16,
-      "max-temp-drop-at-night": 7
-    },
-    "biomes": [
-      "minecraft:river"
-    ]
-  },
-  {
-    "value": {
-      "temperature": 40,
-      "max-temp-drop-at-night": 0
-    },
-    "biomes": [
-      "minecraft:nether_wastes"
-    ]
-  },
-  {
-    "value": {
-      "temperature": 0,
-      "max-temp-drop-at-night": 0
-    },
-    "biomes": [
-      "minecraft:the_end"
+      "minecraft:jagged_peaks"
     ]
   },
   {
@@ -109,6 +46,24 @@
   },
   {
     "value": {
+      "temperature": -10,
+      "max-temp-drop-at-night": 10
+    },
+    "biomes": [
+      "minecraft:deep_frozen_ocean"
+    ]
+  },
+  {
+    "value": {
+      "temperature": -8,
+      "max-temp-drop-at-night": 6
+    },
+    "biomes": [
+      "minecraft:snowy_slopes"
+    ]
+  },
+  {
+    "value": {
       "temperature": -6,
       "max-temp-drop-at-night": 5
     },
@@ -118,146 +73,11 @@
   },
   {
     "value": {
-      "temperature": 16,
-      "max-temp-drop-at-night": 6
-    },
-    "biomes": [
-      "minecraft:mushroom_fields"
-    ]
-  },
-  {
-    "value": {
-      "temperature": 23.5,
-      "max-temp-drop-at-night": 13
-    },
-    "biomes": [
-      "minecraft:beach"
-    ]
-  },
-  {
-    "value": {
-      "temperature": 35,
-      "max-temp-drop-at-night": 6
-    },
-    "biomes": [
-      "minecraft:jungle"
-    ]
-  },
-  {
-    "value": {
-      "temperature": 27,
-      "max-temp-drop-at-night": 6
-    },
-    "biomes": [
-      "minecraft:sparse_jungle"
-    ]
-  },
-  {
-    "value": {
-      "temperature": 10,
-      "max-temp-drop-at-night": 10
-    },
-    "biomes": [
-      "minecraft:deep_ocean"
-    ]
-  },
-  {
-    "value": {
-      "temperature": 14,
-      "max-temp-drop-at-night": 12
-    },
-    "biomes": [
-      "minecraft:stony_shore"
-    ]
-  },
-  {
-    "value": {
-      "temperature": 3,
-      "max-temp-drop-at-night": 12
-    },
-    "biomes": [
-      "minecraft:snowy_beach"
-    ]
-  },
-  {
-    "value": {
-      "temperature": 20,
-      "max-temp-drop-at-night": 11
-    },
-    "biomes": [
-      "minecraft:birch_forest"
-    ]
-  },
-  {
-    "value": {
-      "temperature": 14,
-      "max-temp-drop-at-night": 13
-    },
-    "biomes": [
-      "minecraft:dark_forest"
-    ]
-  },
-  {
-    "value": {
-      "temperature": 1,
-      "max-temp-drop-at-night": 15
-    },
-    "biomes": [
-      "minecraft:snowy_taiga"
-    ]
-  },
-  {
-    "value": {
-      "temperature": 17,
+      "temperature": 0,
       "max-temp-drop-at-night": 0
     },
     "biomes": [
-      "minecraft:old_growth_pine_taiga"
-    ]
-  },
-  {
-    "value": {
-      "temperature": 10,
-      "max-temp-drop-at-night": 14
-    },
-    "biomes": [
-      "minecraft:windswept_forest"
-    ]
-  },
-  {
-    "value": {
-      "temperature": 28,
-      "max-temp-drop-at-night": 20
-    },
-    "biomes": [
-      "minecraft:savanna"
-    ]
-  },
-  {
-    "value": {
-      "temperature": 27,
-      "max-temp-drop-at-night": 20
-    },
-    "biomes": [
-      "minecraft:savanna_plateau"
-    ]
-  },
-  {
-    "value": {
-      "temperature": 28,
-      "max-temp-drop-at-night": 20
-    },
-    "biomes": [
-      "minecraft:badlands"
-    ]
-  },
-  {
-    "value": {
-      "temperature": 26,
-      "max-temp-drop-at-night": 20
-    },
-    "biomes": [
-      "minecraft:wooded_badlands"
+      "minecraft:the_end"
     ]
   },
   {
@@ -298,20 +118,20 @@
   },
   {
     "value": {
-      "temperature": 25,
-      "max-temp-drop-at-night": 8
+      "temperature": 0,
+      "max-temp-drop-at-night": 0
     },
     "biomes": [
-      "minecraft:warm_ocean"
+      "minecraft:the_void"
     ]
   },
   {
     "value": {
-      "temperature": 20,
-      "max-temp-drop-at-night": 6
+      "temperature": 1,
+      "max-temp-drop-at-night": 15
     },
     "biomes": [
-      "minecraft:lukewarm_ocean"
+      "minecraft:snowy_taiga"
     ]
   },
   {
@@ -325,15 +145,6 @@
   },
   {
     "value": {
-      "temperature": 19.7,
-      "max-temp-drop-at-night": 6
-    },
-    "biomes": [
-      "minecraft:deep_lukewarm_ocean"
-    ]
-  },
-  {
-    "value": {
       "temperature": 2,
       "max-temp-drop-at-night": 7
     },
@@ -343,29 +154,101 @@
   },
   {
     "value": {
-      "temperature": -10,
-      "max-temp-drop-at-night": 10
+      "temperature": 3,
+      "max-temp-drop-at-night": 12
     },
     "biomes": [
-      "minecraft:deep_frozen_ocean"
+      "minecraft:snowy_beach"
     ]
   },
   {
     "value": {
-      "temperature": 0,
-      "max-temp-drop-at-night": 0
+      "temperature": 5,
+      "max-temp-drop-at-night": 10
     },
     "biomes": [
-      "minecraft:the_void"
+      "minecraft:windswept_hills"
     ]
   },
   {
     "value": {
-      "temperature": 24,
+      "temperature": 8,
+      "max-temp-drop-at-night": 15
+    },
+    "biomes": [
+      "minecraft:grove"
+    ]
+  },
+  {
+    "value": {
+      "temperature": 10,
       "max-temp-drop-at-night": 10
     },
     "biomes": [
-      "minecraft:sunflower_plains"
+      "minecraft:deep_ocean"
+    ]
+  },
+  {
+    "value": {
+      "temperature": 10,
+      "max-temp-drop-at-night": 14
+    },
+    "biomes": [
+      "minecraft:windswept_forest"
+    ]
+  },
+  {
+    "value": {
+      "temperature": 10,
+      "max-temp-drop-at-night": 14
+    },
+    "biomes": [
+      "minecraft:dripstone_caves"
+    ]
+  },
+  {
+    "value": {
+      "temperature": 12,
+      "max-temp-drop-at-night": 14
+    },
+    "biomes": [
+      "minecraft:taiga"
+    ]
+  },
+  {
+    "value": {
+      "temperature": 12,
+      "max-temp-drop-at-night": 14
+    },
+    "biomes": [
+      "minecraft:old_growth_spruce_taiga"
+    ]
+  },
+  {
+    "value": {
+      "temperature": 14,
+      "max-temp-drop-at-night": 12
+    },
+    "biomes": [
+      "minecraft:stony_shore"
+    ]
+  },
+  {
+    "value": {
+      "temperature": 14,
+      "max-temp-drop-at-night": 13
+    },
+    "biomes": [
+      "minecraft:dark_forest"
+    ]
+  },
+  {
+    "value": {
+      "temperature": 15,
+      "max-temp-drop-at-night": 7
+    },
+    "biomes": [
+      "minecraft:swamp"
     ]
   },
   {
@@ -379,20 +262,110 @@
   },
   {
     "value": {
-      "temperature": 24,
-      "max-temp-drop-at-night": 10
+      "temperature": 15,
+      "max-temp-drop-at-night": 0
     },
     "biomes": [
-      "minecraft:flower_forest"
+      "minecraft:custom"
     ]
   },
   {
     "value": {
-      "temperature": -13.5,
+      "temperature": 16,
+      "max-temp-drop-at-night": 7
+    },
+    "biomes": [
+      "minecraft:river"
+    ]
+  },
+  {
+    "value": {
+      "temperature": 16,
+      "max-temp-drop-at-night": 6
+    },
+    "biomes": [
+      "minecraft:mushroom_fields"
+    ]
+  },
+  {
+    "value": {
+      "temperature": 17,
+      "max-temp-drop-at-night": 0
+    },
+    "biomes": [
+      "minecraft:old_growth_pine_taiga"
+    ]
+  },
+  {
+    "value": {
+      "temperature": 18,
+      "max-temp-drop-at-night": 10
+    },
+    "biomes": [
+      "minecraft:stony_peaks"
+    ]
+  },
+  {
+    "value": {
+      "temperature": 18,
       "max-temp-drop-at-night": 12
     },
     "biomes": [
-      "minecraft:ice_spikes"
+      "minecraft:ocean"
+    ]
+  },
+  {
+    "value": {
+      "temperature": 18,
+      "max-temp-drop-at-night": 8
+    },
+    "biomes": [
+      "minecraft:forest"
+    ]
+  },
+  {
+    "value": {
+      "temperature": 19,
+      "max-temp-drop-at-night": 10
+    },
+    "biomes": [
+      "minecraft:meadow"
+    ]
+  },
+  {
+    "value": {
+      "temperature": 19,
+      "max-temp-drop-at-night": 10
+    },
+    "biomes": [
+      "minecraft:lush_caves"
+    ]
+  },
+  {
+    "value": {
+      "temperature": 19.7,
+      "max-temp-drop-at-night": 6
+    },
+    "biomes": [
+      "minecraft:deep_lukewarm_ocean"
+    ]
+  },
+  {
+    "value": {
+      "temperature": 20,
+      "max-temp-drop-at-night": 11
+    },
+    "biomes": [
+      "minecraft:birch_forest"
+    ]
+  },
+  {
+    "value": {
+      "temperature": 20,
+      "max-temp-drop-at-night": 6
+    },
+    "biomes": [
+      "minecraft:lukewarm_ocean"
     ]
   },
   {
@@ -402,15 +375,6 @@
     },
     "biomes": [
       "minecraft:old_growth_birch_forest"
-    ]
-  },
-  {
-    "value": {
-      "temperature": 12,
-      "max-temp-drop-at-night": 14
-    },
-    "biomes": [
-      "minecraft:old_growth_spruce_taiga"
     ]
   },
   {
@@ -433,6 +397,69 @@
   },
   {
     "value": {
+      "temperature": 23.5,
+      "max-temp-drop-at-night": 13
+    },
+    "biomes": [
+      "minecraft:beach"
+    ]
+  },
+  {
+    "value": {
+      "temperature": 24,
+      "max-temp-drop-at-night": 10
+    },
+    "biomes": [
+      "minecraft:plains"
+    ]
+  },
+  {
+    "value": {
+      "temperature": 24,
+      "max-temp-drop-at-night": 10
+    },
+    "biomes": [
+      "minecraft:sunflower_plains"
+    ]
+  },
+  {
+    "value": {
+      "temperature": 24,
+      "max-temp-drop-at-night": 10
+    },
+    "biomes": [
+      "minecraft:flower_forest"
+    ]
+  },
+  {
+    "value": {
+      "temperature": 25,
+      "max-temp-drop-at-night": 8
+    },
+    "biomes": [
+      "minecraft:warm_ocean"
+    ]
+  },
+  {
+    "value": {
+      "temperature": 25,
+      "max-temp-drop-at-night": 0
+    },
+    "biomes": [
+      "minecraft:basalt_deltas"
+    ]
+  },
+  {
+    "value": {
+      "temperature": 26,
+      "max-temp-drop-at-night": 20
+    },
+    "biomes": [
+      "minecraft:wooded_badlands"
+    ]
+  },
+  {
+    "value": {
       "temperature": 26,
       "max-temp-drop-at-night": 8
     },
@@ -443,10 +470,46 @@
   {
     "value": {
       "temperature": 27,
+      "max-temp-drop-at-night": 6
+    },
+    "biomes": [
+      "minecraft:sparse_jungle"
+    ]
+  },
+  {
+    "value": {
+      "temperature": 27,
+      "max-temp-drop-at-night": 20
+    },
+    "biomes": [
+      "minecraft:savanna_plateau"
+    ]
+  },
+  {
+    "value": {
+      "temperature": 27,
       "max-temp-drop-at-night": 0
     },
     "biomes": [
       "minecraft:soul_sand_valley"
+    ]
+  },
+  {
+    "value": {
+      "temperature": 28,
+      "max-temp-drop-at-night": 20
+    },
+    "biomes": [
+      "minecraft:savanna"
+    ]
+  },
+  {
+    "value": {
+      "temperature": 28,
+      "max-temp-drop-at-night": 20
+    },
+    "biomes": [
+      "minecraft:badlands"
     ]
   },
   {
@@ -469,38 +532,29 @@
   },
   {
     "value": {
-      "temperature": 25,
+      "temperature": 35,
+      "max-temp-drop-at-night": 6
+    },
+    "biomes": [
+      "minecraft:jungle"
+    ]
+  },
+  {
+    "value": {
+      "temperature": 37,
+      "max-temp-drop-at-night": 40
+    },
+    "biomes": [
+      "minecraft:desert"
+    ]
+  },
+  {
+    "value": {
+      "temperature": 40,
       "max-temp-drop-at-night": 0
     },
     "biomes": [
-      "minecraft:basalt_deltas"
-    ]
-  },
-  {
-    "value": {
-      "temperature": 10,
-      "max-temp-drop-at-night": 14
-    },
-    "biomes": [
-      "minecraft:dripstone_caves"
-    ]
-  },
-  {
-    "value": {
-      "temperature": 19,
-      "max-temp-drop-at-night": 10
-    },
-    "biomes": [
-      "minecraft:lush_caves"
-    ]
-  },
-  {
-    "value": {
-      "temperature": 15,
-      "max-temp-drop-at-night": 0
-    },
-    "biomes": [
-      "minecraft:custom"
+      "minecraft:nether_wastes"
     ]
   }
 ]
