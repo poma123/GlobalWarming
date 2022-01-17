@@ -77,6 +77,15 @@
       "max-temp-drop-at-night": 0
     },
     "biomes": [
+      "minecraft:nether"
+    ]
+  },
+  {
+    "value": {
+      "temperature": 40,
+      "max-temp-drop-at-night": 0
+    },
+    "biomes": [
       "minecraft:nether_wastes"
     ]
   },
