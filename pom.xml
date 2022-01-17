@@ -130,6 +130,14 @@
                     <include>biome-maps/*.json</include>
                 </includes>
             </resource>
+            <resource>
+                <directory>${basedir}</directory>
+                <filtering>false</filtering>
+
+                <includes>
+                    <include>LICENSE</include>
+                </includes>
+            </resource>
         </resources>
     </build>
 
