@@ -61,30 +61,30 @@ public class Registry {
         try {
             this.biomeMap = loadBiomeMap(false);
         }
-        catch (BiomeMapException | FileNotFoundException exception) {
-            GlobalWarmingPlugin.getInstance().getLogger().log(Level.WARNING, "Could not load biome map file from plugins/GlobalWarming/biome-maps/, now using the default file internally.");
-            exception.printStackTrace();
+        catch (BiomeMapException | FileNotFoundException x) {
+            GlobalWarmingPlugin.getInstance().getLogger().log(Level.WARNING, x, () -> "Could not load biome map file from /plugins/GlobalWarming/biome-maps/, now using the default file internally.");
         }
-        finally {
+
+        if (biomeMap == null) {
             try {
                 this.biomeMap = loadBiomeMap(true);
             }
-            catch (BiomeMapException | FileNotFoundException exception2) {
-                GlobalWarmingPlugin.getInstance().getLogger().log(Level.WARNING, "Could not load internal biome map file, please reinstall GlobalWarming.");
-                exception2.printStackTrace();
+            catch (BiomeMapException | FileNotFoundException x) {
+                GlobalWarmingPlugin.getInstance().getLogger().log(Level.WARNING, x, () -> "Could not load internal biome map file, please reinstall GlobalWarming.");
                 GlobalWarmingPlugin.getInstance().getServer().getPluginManager().disablePlugin(GlobalWarmingPlugin.getInstance());
             }
         }
 
         // Printing missing, unconfigured biomes
-        StringBuilder missingBiomes = new StringBuilder();
+        List<String> missingBiomes = new ArrayList<>();
         for (Biome biome : Biome.values()) {
             if (!biomeMap.containsKey(biome)) {
-                missingBiomes.append(", ").append(biome.toString());
+                missingBiomes.add(biome.toString());
             }
         }
-        if (missingBiomes.length() > 0) {
-            GlobalWarmingPlugin.getInstance().getLogger().log(Level.WARNING, "Some biomes are missing (unconfigured) from the biome maps file: \"{0}\". These will get the default temperature value.", new Object[] {missingBiomes.toString()});
+        if (!missingBiomes.isEmpty()) {
+            String path = biomeMap.getKey().getKey().replace("globalwarming_biomemap_", "");
+            GlobalWarmingPlugin.getInstance().getLogger().log(Level.WARNING, "Some biomes are missing (unconfigured) from the biome maps file (" + path + "): \"{0}\". These will be used with the default temperature value (temp=15, max-temp-drop-at-night=0).", new Object[] {String.join(", ", missingBiomes)});
         }
 
         // Whitelisting or blacklisting worlds
@@ -96,13 +96,14 @@ public class Registry {
             cfg.save();
         }
 
+        // Setting up worlds
         try {
             worldFilterType = WorldFilterType.valueOf((cfg.getOrSetDefault("world-filter-type", "blacklist")).toUpperCase(Locale.ROOT));
         } catch (IllegalArgumentException ex) {
             worldFilterType = WorldFilterType.BLACKLIST;
             GlobalWarmingPlugin.getInstance().getLogger().log(Level.WARNING, "\"{0}\" is not a valid world filter type. Now using default value (blacklist)", new Object[] { cfg.getString("world-filter-type") });
         }
-        
+
         worlds.addAll(cfg.getStringList("worlds"));
 
         for (World w : Bukkit.getWorlds()) {
@@ -194,7 +195,7 @@ public class Registry {
         } else {
             reader = new BufferedReader(new InputStreamReader(new FileInputStream(GlobalWarmingPlugin.getInstance().getDataFolder() + "/biome-maps/" + path), StandardCharsets.UTF_8));
         }
-        return BiomeMap.fromJson(new NamespacedKey(GlobalWarmingPlugin.getInstance(), "globalwarming_biome_map"), reader.lines().collect(Collectors.joining("")), new BiomeTemperatureDataConverter(), true);
+        return BiomeMap.fromJson(new NamespacedKey(GlobalWarmingPlugin.getInstance(), "globalwarming_biomemap_" + path), reader.lines().collect(Collectors.joining("")), new BiomeTemperatureDataConverter(), true);
     }
 
     public BiomeMap<BiomeTemperature> getBiomeMap() {
@@ -215,7 +216,8 @@ public class Registry {
                 enabledWorlds.add(worldName);
                 getWorldConfig(w);
             }
-        } else {
+        }
+        else {
             if (worlds.contains(worldName)) {
                 enabledWorlds.add(worldName);
                 getWorldConfig(w);

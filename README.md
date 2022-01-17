@@ -37,7 +37,7 @@ After editing a file, restart your server!
 
 ### Configuration of biomes
 After build #11 the configuration has been changed to BiomeMaps instead of `biomes.yml`.
-As MC 1.18 has brought and changed biomes, we now have two different biome map .json files located at `plugins/GlobalWarming/biome-maps/`.
+As MC 1.18 has brought and changed biomes, we now have two different biome map .json files located at `/plugins/GlobalWarming/biome-maps/`.
 The plugin itself decides which biome map should be used, also if an invalid biome has been accidentally configured the internal default biome map will be used.
 
 You can customize there the `temperature` and the `max-temp-drop-at-night` per biome:
