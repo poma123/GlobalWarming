@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.annotation.Nonnull;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -36,6 +37,8 @@ public class PollutionManager {
      * @return the pollution amount at the given {@link Location}
      */
     public static double getPollutionAtLocation(@Nonnull Location loc) {
+        Validate.notNull(loc, "The Location should not be null!");
+
         return getPollutionInWorld(loc.getWorld());
     }
 
@@ -48,6 +51,8 @@ public class PollutionManager {
      * @return the pollution amount in the given {@link World}
      */
     public static double getPollutionInWorld(@Nonnull World world) {
+        Validate.notNull(world, "The World should not be null!");
+
         if (GlobalWarmingPlugin.getRegistry().isWorldEnabled(world.getName())) {
             Config config = GlobalWarmingPlugin.getRegistry().getWorldConfig(world);
 
@@ -69,6 +74,9 @@ public class PollutionManager {
      * @return whether the change was successful
      */
     public static boolean risePollutionInWorld(@Nonnull World world, @Nonnull double value) {
+        Validate.notNull(world, "The World should not be null!");
+        Validate.notNull(world, "The pollution value should not be null!");
+
         if (GlobalWarmingPlugin.getRegistry().isWorldEnabled(world.getName())) {
             Config config = GlobalWarmingPlugin.getRegistry().getWorldConfig(world);
 
@@ -98,6 +106,9 @@ public class PollutionManager {
      * @return whether the change was successful
      */
     public static boolean descendPollutionInWorld(@Nonnull World world, @Nonnull double value) {
+        Validate.notNull(world, "The World should not be null!");
+        Validate.notNull(world, "The pollution value should not be null!");
+
         if (GlobalWarmingPlugin.getRegistry().isWorldEnabled(world.getName())) {
             Config config = GlobalWarmingPlugin.getRegistry().getWorldConfig(world);
 
@@ -127,6 +138,9 @@ public class PollutionManager {
      * @return whether the change was successful
      */
     public static boolean setPollutionInWorld(@Nonnull World world, @Nonnull double newValue) {
+        Validate.notNull(world, "The World should not be null!");
+        Validate.notNull(world, "The pollution value should not be null!");
+
         if (GlobalWarmingPlugin.getRegistry().isWorldEnabled(world.getName())) {
             Config config = GlobalWarmingPlugin.getRegistry().getWorldConfig(world);
 
@@ -153,6 +167,8 @@ public class PollutionManager {
      * @return the pollution production of the {@link ItemStack}
      */
     public static double isPollutedItem(@Nonnull ItemStack item) {
+        Validate.notNull(item, "The ItemStack should not be null!");
+
         SlimefunItem sfItem = SlimefunItem.getByItem(item);
         Map<String, Double> pollutedSlimefunItems = GlobalWarmingPlugin.getRegistry().getPollutedSlimefunItems();
         Map<Material, Double> pollutedVanillaItems = GlobalWarmingPlugin.getRegistry().getPollutedVanillaItems();
@@ -177,6 +193,8 @@ public class PollutionManager {
      * @return the pollution production of the {@link SlimefunItem} machine
      */
     public static double isPollutedMachine(@Nonnull String id) {
+        Validate.notNull(id, "The Id should not be null!");
+
         SlimefunItem sfItem = SlimefunItem.getById(id);
         Map<String, Double> pollutedSlimefunMachines = GlobalWarmingPlugin.getRegistry().getPollutedSlimefunMachines();
 
@@ -196,6 +214,8 @@ public class PollutionManager {
      * @return the pollution absorption of the {@link SlimefunItem} machine
      */
     public static double isAbsorbentMachine(@Nonnull String id) {
+        Validate.notNull(id, "The Id should not be null!");
+
         SlimefunItem sfItem = SlimefunItem.getById(id);
         Map<String, Double> absorbentSlimefunMachines = GlobalWarmingPlugin.getRegistry().getAbsorbentSlimefunMachines();
 

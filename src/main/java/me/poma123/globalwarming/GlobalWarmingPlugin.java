@@ -47,7 +47,6 @@ public class GlobalWarmingPlugin extends JavaPlugin implements SlimefunAddon {
     private final GlobalWarmingCommand command = new GlobalWarmingCommand(this);
     private final Config cfg = new Config(this);
     private Config messages;
-    private Config biomes;
 
     @Override
     public void onEnable() {
@@ -59,17 +58,6 @@ public class GlobalWarmingPlugin extends JavaPlugin implements SlimefunAddon {
 
         new Metrics(this, 9132);
 
-        // Create configuration files
-        final File biomesFile = new File(getDataFolder(), "biomes.yml");
-        if (!biomesFile.exists()) {
-            try {
-                Files.copy(this.getClass().getResourceAsStream("/biomes.yml"), biomesFile.toPath());
-            } catch (IOException e) {
-                getLogger().log(Level.SEVERE, "Failed to create default biomes.yml file", e);
-            }
-        }
-        biomes = new Config(this, "biomes.yml");
-
         final File messagesFile = new File(getDataFolder(), "messages.yml");
         if (!messagesFile.exists()) {
             try {
@@ -80,9 +68,33 @@ public class GlobalWarmingPlugin extends JavaPlugin implements SlimefunAddon {
         }
         messages = new Config(this, "messages.yml");
 
+        File biomeMapDirectory = new File(getDataFolder(), "biome-maps");
+        if (!biomeMapDirectory.exists()) {
+            biomeMapDirectory.mkdirs();
+        }
+
+        // Create biome map files
+        final File pre118BiomeMap = new File(biomeMapDirectory, "pre-1.18.json");
+        if (!pre118BiomeMap.exists()) {
+            try {
+                Files.copy(this.getClass().getResourceAsStream("/biome-maps/pre-1.18.json"), pre118BiomeMap.toPath());
+            } catch (IOException e) {
+                getLogger().log(Level.SEVERE, "Failed to create default biome-maps/pre-1.18.json file", e);
+            }
+        }
+        
+        final File post118BiomeMap = new File(biomeMapDirectory, "post-1.18.json");
+        if (!post118BiomeMap.exists()) {
+            try {
+                Files.copy(this.getClass().getResourceAsStream("/biome-maps/post-1.18.json"), post118BiomeMap.toPath());
+            } catch (IOException e) {
+                getLogger().log(Level.SEVERE, "Failed to create default biome-maps/post-1.18.json file", e);
+            }
+        }
+        
         registerItems();
         registerResearches();
-        registry.load(cfg, biomes, messages);
+        registry.load(cfg, messages);
         scheduleTasks();
 
         command.register();
@@ -254,7 +266,4 @@ public class GlobalWarmingPlugin extends JavaPlugin implements SlimefunAddon {
         return instance.messages;
     }
 
-    public static Config getBiomesConfig() {
-        return instance.biomes;
-    }
 }

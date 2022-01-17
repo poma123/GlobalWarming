@@ -4,7 +4,6 @@ import java.text.DecimalFormat;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.Nonnull;
 
@@ -13,6 +12,8 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
 
+import io.github.thebusybiscuit.slimefun4.utils.biomes.BiomeMap;
+import me.poma123.globalwarming.api.biomes.BiomeTemperature;
 import me.poma123.globalwarming.api.PollutionManager;
 import me.poma123.globalwarming.api.Temperature;
 import me.poma123.globalwarming.api.TemperatureType;
@@ -29,8 +30,6 @@ public class TemperatureManager {
     public static final String HOT = "☀";
     public static final String COLD = "❄";
 
-    private static final Set<Map.Entry<Biome, Double>> tempSet = GlobalWarmingPlugin.getRegistry().getDefaultBiomeTemperatures().entrySet();
-    private final Map<Biome, Double> nightDropMap = GlobalWarmingPlugin.getRegistry().getMaxTemperatureDropsAtNight();
     private final Map<String, EnumMap<Biome, Double>> worldTemperatureChangeFactorMap = new HashMap<>();
 
     protected void runCalculationTask(long delay, long interval) {
@@ -44,9 +43,10 @@ public class TemperatureManager {
                         EnumMap<Biome, Double> map = new EnumMap<>(Biome.class);
                         boolean isNormalEnvironment = world.getEnvironment() == World.Environment.NORMAL;
 
-                        for (Map.Entry<Biome, Double> entry : tempSet) {
-                            Biome biome = entry.getKey();
-                            Temperature defaultTemperature = new Temperature(entry.getValue());
+                        BiomeMap<BiomeTemperature> biomeMap = GlobalWarmingPlugin.getRegistry().getBiomeMap();
+                        for (Biome biome : Biome.values()) {
+                            BiomeTemperature biomeTemperature = biomeMap.getOrDefault(biome, new BiomeTemperature(15, 0));
+                            Temperature defaultTemperature = new Temperature(biomeTemperature.getTemperature());
                             Temperature newTemp = isNormalEnvironment ? addTemperatureChangeFactors(world, biome, defaultTemperature) : defaultTemperature;
 
                             map.put(biome, newTemp.getCelsiusValue());
@@ -137,12 +137,9 @@ public class TemperatureManager {
     }
 
     public Temperature addTemperatureChangeFactors(@Nonnull World world, @Nonnull Biome biome, @Nonnull Temperature temperature) {
+        BiomeMap<BiomeTemperature> biomeMap = GlobalWarmingPlugin.getRegistry().getBiomeMap();
         double celsiusValue = temperature.getCelsiusValue();
-        double nightDrop = 10;
-
-        if (nightDropMap.containsKey(biome)) {
-            nightDrop = nightDropMap.get(biome);
-        }
+        double nightDrop = biomeMap.getOrDefault(biome, new BiomeTemperature(15, 0)).getMaxTemperatureDropAtNight();
 
         if (world.getEnvironment() == World.Environment.NORMAL) {
             if (!isDaytime(world)) {
