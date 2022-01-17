@@ -42,9 +42,9 @@ The plugin itself decides which biome map should be used, also if an invalid bio
 
 You can customize there the `temperature` and the `max-temp-drop-at-night` per biome:
 <details>
-  <summary>Biome map .json file example</summary>
+  <summary>Biome map .json file example part</summary>
  
-  ```json
+  ```yaml
    ...
    {
      {
